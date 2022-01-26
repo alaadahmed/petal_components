@@ -18,6 +18,7 @@ defmodule PetalComponents.DropdownTest do
     assert html =~ "x-data"
     assert html =~ "x-show"
     assert html =~ "<svg class="
+    assert html =~ "dark:"
 
     # Test js_lib option
     html = rendered_to_string(
@@ -48,4 +49,46 @@ defmodule PetalComponents.DropdownTest do
     ) =~ "left-0"
   end
 
+  test "it works with a custom trigger" do
+    assigns = %{}
+    html = rendered_to_string(
+      ~H"""
+      <.dropdown>
+        <:trigger_element>
+          <div>Custom trigger</div>
+        </:trigger_element>
+
+        <.dropdown_menu_item label="Item 1" />
+        <.dropdown_menu_item label="Item 2" />
+      </.dropdown>
+      """
+    )
+
+    assert html =~ "<div>Custom trigger</div>"
+  end
+
+  test "it works without a label" do
+    assigns = %{}
+    html = rendered_to_string(
+      ~H"""
+      <.dropdown>
+        <.dropdown_menu_item>Option</.dropdown_menu_item>
+      </.dropdown>
+      """
+    )
+    assert html =~ "<svg"
+  end
+
+  test "extra_assigns works on buttons" do
+    assigns = %{}
+    html = rendered_to_string(
+      ~H"""
+      <.dropdown>
+        <.dropdown_menu_item link_type="button" phx-click="some_event">Option</.dropdown_menu_item>
+      </.dropdown>
+      """
+    )
+    assert html =~ "phx-click"
+    assert html =~ "some_event"
+  end
 end

@@ -1,4 +1,24 @@
 # Changelog
+### 0.10.1 - 2022-01-26 04:02:41
+- Buttons can now take custom classes
+### 0.10.0 - 2022-01-26 01:18:58
+- [BREAKING CHANGE] Rename alert property "state" to "color"
+- Add checkbox_group form field type
+- Fix z-index issue with dropdown
+- Update Alert colors
+- Add icons to badges
+### 0.9.3 - 2022-01-19 19:28:35
+- Fixed z-index issue with dropdowns
+### 0.9.2 - 2022-01-19 05:33:26
+- Fixed `<.dropdown_menu_item>` where extra_attributes weren't being passed to underlying button
+- Fixed z-index issue on dropdowns
+### 0.9.1 - 2022-01-19 02:55:17
+- New form component `<.date_select ...>`
+- New form component `<.date_input ...>`
+- Add dark mode to components
+- Fix dropdown failing when no label provided
+- Fix dropdown button not having type=button
+- Allow dropdown to have custom trigger buttons
 ### 0.9.0 - 2022-01-07 04:43:03
 - New component: Card
 - Button colored shadow option

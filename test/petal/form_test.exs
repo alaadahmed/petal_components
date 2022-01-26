@@ -114,6 +114,29 @@ defmodule PetalComponents.FormTest do
     assert html =~ "random-element"
   end
 
+  test "checkbox_group" do
+    assigns = %{}
+
+    html =
+      rendered_to_string(~H"""
+      <.form let={f} for={:user}>
+        <.checkbox_group
+          form={f}
+          field={:roles}
+          options={[{"Read", "read"}, {"Write", "write"}]}
+        />
+      </.form>
+      """)
+
+    assert html =~ "checkbox"
+    assert html =~ "user_roles"
+    assert html =~ "user_roles_read"
+    assert html =~ "user_roles_write"
+    assert html =~ "user[roles][]"
+    assert html =~ "Read"
+    assert html =~ "Write"
+  end
+
   test "radio" do
     assigns = %{}
 
@@ -198,6 +221,38 @@ defmodule PetalComponents.FormTest do
     assert html =~ "mt-1"
   end
 
+  test "form_field wrapper_classes" do
+    assigns = %{}
+
+    html =
+      rendered_to_string(~H"""
+      <.form let={f} as={:user} for={%Ecto.Changeset{
+        action: :update,
+        data: %{name: ""},
+        errors: [
+          name: {"can't be blank", [validation: :required]},
+          name: {"too long", [validation: :required]},
+        ]}
+      }>
+        <.form_field
+          type="text_input"
+          form={f}
+          field={:name}
+          placeholder="eg. John"
+          wrapper_classes="wrapper-test"
+        />
+      </.form>
+      """)
+
+    assert html =~ "label"
+    assert html =~ "<input"
+    assert html =~ "user[name]"
+    assert html =~ "John"
+    assert html =~ "too long"
+    assert html =~ "blank"
+    assert html =~ "<div class=\"wrapper-test\""
+  end
+
   test "form_field text_input" do
     assigns = %{}
 
@@ -226,6 +281,7 @@ defmodule PetalComponents.FormTest do
     assert html =~ "John"
     assert html =~ "too long"
     assert html =~ "blank"
+    assert html =~ "mb-6"
   end
 
   test "number_input" do
@@ -531,5 +587,29 @@ defmodule PetalComponents.FormTest do
     assert html =~ "user[name]"
     assert html =~ "random-element"
     assert html =~ "something"
+  end
+
+  test "text_input dark mode" do
+    assigns = %{}
+
+    html =
+      rendered_to_string(~H"""
+      <.form let={f} for={:user}>
+        <.text_input
+          form={f}
+          field={:name}
+          placeholder="eg. John"
+          random-element="something"
+        />
+      </.form>
+      """)
+
+    assert html =~ "input"
+    assert html =~ "John"
+    assert html =~ "user[name]"
+    assert html =~ "random-element"
+    assert html =~ "something"
+    assert html =~ "dark:"
+    refute html =~ " disabled "
   end
 end
