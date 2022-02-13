@@ -30,25 +30,26 @@ defmodule PetalComponents.Tabs do
   # prop is_active, :boolean, default: false
   # slot default
   def tab(assigns) do
-    assigns = assigns
-     |> assign_new(:label, fn -> nil end)
-     |> assign_new(:class, fn -> "" end)
-     |> assign_new(:inner_block, fn -> nil end)
-     |> assign_new(:number, fn -> nil end)
-     |> assign_new(:link_type, fn -> "a" end)
-     |> assign_new(:is_active, fn -> false end)
-     |> assign_new(:underline, fn -> false end)
-     |> assign_new(:extra_assigns, fn ->
-      assigns_to_attributes(assigns, [
-        :class,
-        :inner_block,
-        :number,
-        :link_type,
-        :is_active,
-        :underline,
-        :label,
-      ])
-    end)
+    assigns =
+      assigns
+      |> assign_new(:label, fn -> nil end)
+      |> assign_new(:class, fn -> "" end)
+      |> assign_new(:inner_block, fn -> nil end)
+      |> assign_new(:number, fn -> nil end)
+      |> assign_new(:link_type, fn -> "a" end)
+      |> assign_new(:is_active, fn -> false end)
+      |> assign_new(:underline, fn -> false end)
+      |> assign_new(:extra_assigns, fn ->
+        assigns_to_attributes(assigns, [
+          :class,
+          :inner_block,
+          :number,
+          :link_type,
+          :is_active,
+          :underline,
+          :label
+        ])
+      end)
 
     ~H"""
     <.link link_type={@link_type} label={@label} to={@to} class={get_tab_class(@is_active, @underline)} {@extra_assigns}>
@@ -81,8 +82,9 @@ defmodule PetalComponents.Tabs do
 
     active_classes =
       if is_active,
-      do: "bg-primary-100 dark:bg-gray-800 text-primary-600",
-      else: "text-gray-500 hover:text-gray-600 dark:hover:text-gray-400 dark:hover:bg-gray-800 hover:bg-gray-100"
+        do: "bg-primary-100 dark:bg-gray-800 text-primary-600",
+        else:
+          "text-gray-500 hover:text-gray-600 dark:hover:text-gray-400 dark:hover:bg-gray-800 hover:bg-gray-100"
 
     Enum.join([base_classes, active_classes], " ")
   end
@@ -93,8 +95,9 @@ defmodule PetalComponents.Tabs do
 
     active_classes =
       if is_active,
-      do: "border-primary-500 text-primary-600",
-      else: "border-transparent text-gray-500 dark:hover:text-gray-400 dark:hover:border-gray-400 hover:text-gray-600"
+        do: "border-primary-500 text-primary-600",
+        else:
+          "border-transparent text-gray-500 dark:hover:text-gray-400 dark:hover:border-gray-400 hover:text-gray-600"
 
     underline_classes =
       if is_active && underline,
@@ -115,8 +118,8 @@ defmodule PetalComponents.Tabs do
 
     underline_classes =
       if underline && is_active,
-      do: "bg-primary-100 dark:bg-primary-600 text-primary-600 dark:text-white",
-      else: "bg-gray-100 dark:bg-gray-600 dark:text-white text-gray-500"
+        do: "bg-primary-100 dark:bg-primary-600 text-primary-600 dark:text-white",
+        else: "bg-gray-100 dark:bg-gray-600 dark:text-white text-gray-500"
 
     Enum.join([base_classes, active_classes, underline_classes], " ")
   end
@@ -127,8 +130,8 @@ defmodule PetalComponents.Tabs do
 
     active_classes =
       if is_active,
-      do: "bg-primary-600 text-white",
-      else: "bg-gray-500 dark:bg-gray-600 text-white"
+        do: "bg-primary-600 text-white",
+        else: "bg-gray-500 dark:bg-gray-600 text-white"
 
     Enum.join([base_classes, active_classes], " ")
   end

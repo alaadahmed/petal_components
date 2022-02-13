@@ -2,7 +2,7 @@ defmodule PetalComponents.MixProject do
   use Mix.Project
 
   @source_url "https://github.com/petalframework/petal_components"
-  @version "0.10.4"
+  @version "0.10.5"
 
   def project do
     [
@@ -36,7 +36,7 @@ defmodule PetalComponents.MixProject do
       {:phoenix_live_view, "~> 0.17"},
       {:jason, "~> 1.0", only: [:dev, :test]},
       {:ex_doc, "~> 0.24", only: :dev, runtime: false},
-      {:phoenix_ecto, "~> 4.4", only: :test},
+      {:phoenix_ecto, "~> 4.4", only: :test}
     ]
   end
 
