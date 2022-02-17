@@ -31,7 +31,6 @@ defmodule PetalComponents.Form do
           :classes,
           :form,
           :field,
-          :inner_block,
           :label
         ])
       end)
@@ -363,7 +362,7 @@ defmodule PetalComponents.Form do
     assigns = assign_defaults(assigns, radio_classes(field_has_errors?(assigns)))
 
     ~H"""
-    <%= radio_button @form, @field, @value, [class: @classes] ++ @extra_assigns %>
+    <%= radio_button @form, @field, @value, [class: @classes, phx_feedback_for: input_name(@form, @field)] ++ @extra_assigns %>
     """
   end
 
@@ -444,7 +443,6 @@ defmodule PetalComponents.Form do
         :type,
         :options,
         :layout,
-        :inner_block
       ])
     end)
     |> assign_new(:classes, fn ->
