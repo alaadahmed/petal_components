@@ -33,7 +33,11 @@ Some components like Dropdowns require Javascript to work. We default to Alpine 
 
 ## Documentation
 
-For full documentation, visit [petal.build](https://petal.build).
+For full documentation, visit [petal.build](https://petal.build/docs).
+
+## Try it out
+
+We have a fresh [Phoenix boilerplate template](https://github.com/petalframework/petal_boilerplate) with Petal Components ready to go if you would like to get your hands dirty. 
 
 ## Roadmap
 
