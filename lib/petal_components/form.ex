@@ -93,6 +93,11 @@ defmodule PetalComponents.Form do
             <.checkbox form={@form} field={@field} {@input_opts} />
             <div class={label_classes(%{form: @form, field: @field, type: "checkbox"})}><%= @label %></div>
           </label>
+        <% "switch" -> %>
+          <label class="inline-flex items-center gap-3">
+            <.switch form={@form} field={@field} {@input_opts} />
+            <div class={label_classes(%{form: @form, field: @field, type: "checkbox"})}><%= @label %></div>
+          </label>
         <% "checkbox_group" -> %>
           <.form_label form={@form} field={@field} label={@label} />
           <.checkbox_group form={@form} field={@field} {@input_opts} />
@@ -358,6 +363,21 @@ defmodule PetalComponents.Form do
     """
   end
 
+  def switch(assigns) do
+    assigns = assign_defaults(assigns, switch_classes(field_has_errors?(assigns)))
+
+    ~H"""
+    <label class="relative inline-flex items-center justify-center flex-shrink-0 w-10 h-5 group">
+      <%= checkbox @form, @field, [
+        class: @classes,
+        phx_feedback_for: input_name(@form, @field)] ++ @extra_assigns
+      %>
+      <span class="absolute h-6 mx-auto transition-colors duration-200 ease-in-out bg-gray-200 border rounded-full pointer-events-none w-11 dark:bg-gray-700 dark:border-gray-600 peer-checked:bg-blue-500"></span>
+      <span class="absolute left-0 inline-block w-5 h-5 transition-transform duration-200 ease-in-out transform translate-x-0 bg-white rounded-full shadow pointer-events-none peer-checked:translate-x-5 ring-0 "></span>
+    </label>
+    """
+  end
+
   def radio(assigns) do
     assigns = assign_defaults(assigns, radio_classes(field_has_errors?(assigns)))
 
@@ -511,6 +531,10 @@ defmodule PetalComponents.Form do
       _col ->
         "inline-flex items-center block gap-3"
     end
+  end
+
+  defp switch_classes(has_error) do
+    "#{if has_error, do: "has-error", else: ""} absolute w-10 h-5 bg-white border-none rounded-full cursor-pointer peer checked:border-0 checked:bg-transparent checked:focus:bg-transparent checked:hover:bg-transparent dark:bg-gray-800"
   end
 
   defp radio_group_layout_classes(assigns) do
