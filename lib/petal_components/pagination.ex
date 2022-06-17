@@ -1,7 +1,10 @@
 defmodule PetalComponents.Pagination do
   use Phoenix.Component
+
   alias PetalComponents.Heroicons
-  import PetalComponents.Link
+  alias PetalComponents.Link
+
+  import PetalComponents.Class
 
   # prop path, :string
   # prop class, :string
@@ -40,9 +43,9 @@ defmodule PetalComponents.Pagination do
         <%= for item <- get_items(@total_pages, @current_page, @sibling_count, @boundary_count) do %>
           <%= if item.type == "previous" do %>
             <div>
-              <.link link_type={@link_type} to={get_path(@path, item.number, @current_page)} class="mr-2 inline-flex items-center justify-center rounded leading-5 px-2.5 py-2 bg-white hover:bg-gray-50 dark:bg-gray-900 dark:hover:bg-gray-800 border dark:border-gray-700 border-gray-200 text-gray-600 hover:text-gray-800">
+              <Link.link link_type={@link_type} to={get_path(@path, item.number, @current_page)} class="mr-2 inline-flex items-center justify-center rounded leading-5 px-2.5 py-2 bg-white hover:bg-gray-50 dark:bg-gray-900 dark:hover:bg-gray-800 border dark:border-gray-700 border-gray-200 text-gray-600 hover:text-gray-800">
                 <Heroicons.Solid.chevron_left class="w-5 h-5 text-gray-600 dark:text-gray-400" />
-              </.link>
+              </Link.link>
             </div>
           <% end %>
 
@@ -51,9 +54,9 @@ defmodule PetalComponents.Pagination do
               <%= if item.number == @current_page do %>
                 <span class={get_box_class(item, true)}><%= item.number %></span>
               <% else %>
-                <.link link_type={@link_type} to={get_path(@path, item.number, @current_page)} class={get_box_class(item)}>
+                <Link.link link_type={@link_type} to={get_path(@path, item.number, @current_page)} class={get_box_class(item)}>
                   <%= item.number %>
-                </.link>
+                </Link.link>
               <% end %>
             </li>
           <% end %>
@@ -66,9 +69,9 @@ defmodule PetalComponents.Pagination do
 
           <%= if item.type == "next" do %>
             <div>
-              <.link link_type={@link_type} to={get_path(@path, item.number, @current_page)} class="ml-2 inline-flex items-center justify-center rounded leading-5 px-2.5 py-2 bg-white hover:bg-gray-50 dark:bg-gray-900 dark:hover:bg-gray-800 dark:border-gray-700 border border-gray-200 text-gray-600 hover:text-gray-800">
+              <Link.link link_type={@link_type} to={get_path(@path, item.number, @current_page)} class="ml-2 inline-flex items-center justify-center rounded leading-5 px-2.5 py-2 bg-white hover:bg-gray-50 dark:bg-gray-900 dark:hover:bg-gray-800 dark:border-gray-700 border border-gray-200 text-gray-600 hover:text-gray-800">
                 <Heroicons.Solid.chevron_right class="w-5 h-5 text-gray-600 dark:text-gray-400" />
-              </.link>
+              </Link.link>
             </div>
           <% end %>
         <% end %>
@@ -150,9 +153,10 @@ defmodule PetalComponents.Pagination do
       end
 
     # Next button
-    items = if current_page < total_pages,
-      do: items ++ [%{type: "next", number: current_page + 1}],
-      else: items
+    items =
+      if current_page < total_pages,
+        do: items ++ [%{type: "next", number: current_page + 1}],
+        else: items
 
     items
   end
@@ -164,7 +168,8 @@ defmodule PetalComponents.Pagination do
     active_classes =
       if is_active,
         do: "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300",
-        else: "bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-800 dark:bg-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-400"
+        else:
+          "bg-white text-gray-600 hover:bg-gray-50 hover:text-gray-800 dark:bg-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-400"
 
     rounded_classes =
       cond do
@@ -181,7 +186,7 @@ defmodule PetalComponents.Pagination do
           ""
       end
 
-    Enum.join([base_classes, active_classes, rounded_classes], " ")
+    build_class([base_classes, active_classes, rounded_classes])
   end
 
   defp get_path(path, "previous", current_page) do

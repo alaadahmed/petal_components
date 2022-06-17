@@ -1,6 +1,9 @@
 defmodule PetalComponents.Modal do
   use Phoenix.Component
+
   alias Phoenix.LiveView.JS
+
+  import PetalComponents.Class
 
   # prop title, :string
   # prop size, :string
@@ -42,7 +45,7 @@ defmodule PetalComponents.Modal do
         >
 
           <!-- Header -->
-          <div class="px-5 py-3 border-b border-gray-100 dark:border-gray-600">
+          <div class="px-5 py-3 border-b border-gray-100 dark:border-gray-700">
             <div class="flex items-center justify-between">
               <div class="font-semibold text-gray-800 dark:text-gray-200">
                 <%= @title %>
@@ -136,7 +139,6 @@ defmodule PetalComponents.Modal do
 
     custom_classes = opts.class
 
-    [max_width_class, base_classes, custom_classes]
-    |> Enum.join(" ")
+    build_class([max_width_class, base_classes, custom_classes])
   end
 end
