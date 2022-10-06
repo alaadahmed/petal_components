@@ -123,7 +123,10 @@ defmodule PetalComponents.ButtonTest do
 
     html =
       rendered_to_string(~H"""
-      <.icon_button to="/" link_type="button" size="xs" color="primary" icon={:clock} />
+      <.icon_button to="/" link_type="button" size="xs" color="primary">
+        <Heroicons.clock solid />
+      </.icon_button>
+
       """)
 
     assert html =~ "<svg"

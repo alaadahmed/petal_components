@@ -1,6 +1,6 @@
 defmodule PetalComponents.Breadcrumbs do
   use Phoenix.Component
-  alias PetalComponents.Heroicons
+  import PetalComponents.Helpers
   alias PetalComponents.Link
 
   # Example:
@@ -16,29 +16,22 @@ defmodule PetalComponents.Breadcrumbs do
       |> assign_new(:separator, fn -> "slash" end)
       |> assign_new(:class, fn -> "" end)
       |> assign_new(:link_class, fn -> "" end)
-      |> assign_new(:extra_assigns, fn ->
-        assigns_to_attributes(assigns, ~w(
-          separator
-          class
-          link_class
-          links
-        )a)
-      end)
+      |> assign_rest(~w(separator class link_class links)a)
 
     ~H"""
-    <div {@extra_assigns} class={"#{@class} flex items-center"}>
+    <div {@rest} class={"#{@class} flex items-center"}>
       <%= for {link, counter} <- Enum.with_index(@links) do %>
         <%= if counter > 0 do %>
           <.separator type={@separator} />
         <% end %>
 
-        <Link.link
+        <Link.a
           link_type={link[:link_type] || "a"}
           to={link.to}
           class={get_breadcrumb_classes(@link_class)}
         >
           <%= link.label %>
-        </Link.link>
+        </Link.a>
       <% end %>
     </div>
     """
@@ -53,7 +46,7 @@ defmodule PetalComponents.Breadcrumbs do
   defp separator(%{type: "chevron"} = assigns) do
     ~H"""
     <div class="px-3 text-gray-300">
-      <Heroicons.Solid.chevron_right class="w-6 h-6" />
+      <Heroicons.chevron_right solid class="w-6 h-6" />
     </div>
     """
   end

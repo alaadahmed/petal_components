@@ -1,8 +1,6 @@
 defmodule PetalComponents do
   defmacro __using__(_) do
     quote do
-      alias PetalComponents.Heroicons
-
       import PetalComponents.{
         Alert,
         Badge,
@@ -24,6 +22,8 @@ defmodule PetalComponents do
         Table,
         Accordion
       }
+
+      alias PetalComponents.HeroiconsV1
     end
   end
 end

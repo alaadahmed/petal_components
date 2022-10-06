@@ -1,7 +1,7 @@
 defmodule PetalComponents.Form do
   use Phoenix.Component
 
-  import PetalComponents.Class
+  import PetalComponents.Helpers
   import Phoenix.HTML.Form
 
   @moduledoc """
@@ -28,18 +28,11 @@ defmodule PetalComponents.Form do
           nil
         end
       end)
-      |> assign_new(:extra_assigns, fn ->
-        assigns_to_attributes(assigns, [
-          :classes,
-          :form,
-          :field,
-          :label
-        ])
-      end)
+      |> assign_rest(~w(classes form field label)a)
 
     ~H"""
     <%= if @form && @field do %>
-      <%= label @form, @field, [class: @classes, phx_feedback_for: input_name(@form, @field)] ++ @extra_assigns do %>
+      <%= label @form, @field, [class: @classes, phx_feedback_for: input_name(@form, @field)] ++ @rest do %>
         <%= if @inner_block do %>
           <%= render_slot(@inner_block) %>
         <% else %>
@@ -47,7 +40,7 @@ defmodule PetalComponents.Form do
         <% end %>
       <% end %>
     <% else %>
-      <label class={@classes} {@extra_assigns}>
+      <label class={@classes} {@rest}>
         <%= if @inner_block do %>
           <%= render_slot(@inner_block) %>
         <% else %>
@@ -171,7 +164,7 @@ defmodule PetalComponents.Form do
     assigns = assign_defaults(assigns, text_input_classes(field_has_errors?(assigns)))
 
     ~H"""
-    <%= text_input @form, @field, [class: @classes, phx_feedback_for: input_name(@form, @field)] ++ @extra_assigns %>
+    <%= text_input @form, @field, [class: @classes, phx_feedback_for: input_name(@form, @field)] ++ @rest %>
     """
   end
 
@@ -179,7 +172,7 @@ defmodule PetalComponents.Form do
     assigns = assign_defaults(assigns, text_input_classes(field_has_errors?(assigns)))
 
     ~H"""
-    <%= email_input @form, @field, [class: @classes, phx_feedback_for: input_name(@form, @field)] ++ @extra_assigns %>
+    <%= email_input @form, @field, [class: @classes, phx_feedback_for: input_name(@form, @field)] ++ @rest %>
     """
   end
 
@@ -187,7 +180,7 @@ defmodule PetalComponents.Form do
     assigns = assign_defaults(assigns, text_input_classes(field_has_errors?(assigns)))
 
     ~H"""
-    <%= number_input @form, @field, [class: @classes, phx_feedback_for: input_name(@form, @field)] ++ @extra_assigns %>
+    <%= number_input @form, @field, [class: @classes, phx_feedback_for: input_name(@form, @field)] ++ @rest %>
     """
   end
 
@@ -195,7 +188,7 @@ defmodule PetalComponents.Form do
     assigns = assign_defaults(assigns, text_input_classes(field_has_errors?(assigns)))
 
     ~H"""
-    <%= password_input @form, @field, [class: @classes, phx_feedback_for: input_name(@form, @field)] ++ @extra_assigns %>
+    <%= password_input @form, @field, [class: @classes, phx_feedback_for: input_name(@form, @field)] ++ @rest %>
     """
   end
 
@@ -203,7 +196,7 @@ defmodule PetalComponents.Form do
     assigns = assign_defaults(assigns, text_input_classes(field_has_errors?(assigns)))
 
     ~H"""
-    <%= search_input @form, @field, [class: @classes, phx_feedback_for: input_name(@form, @field)] ++ @extra_assigns %>
+    <%= search_input @form, @field, [class: @classes, phx_feedback_for: input_name(@form, @field)] ++ @rest %>
     """
   end
 
@@ -211,7 +204,7 @@ defmodule PetalComponents.Form do
     assigns = assign_defaults(assigns, text_input_classes(field_has_errors?(assigns)))
 
     ~H"""
-    <%= telephone_input @form, @field, [class: @classes, phx_feedback_for: input_name(@form, @field)] ++ @extra_assigns %>
+    <%= telephone_input @form, @field, [class: @classes, phx_feedback_for: input_name(@form, @field)] ++ @rest %>
     """
   end
 
@@ -219,7 +212,7 @@ defmodule PetalComponents.Form do
     assigns = assign_defaults(assigns, text_input_classes(field_has_errors?(assigns)))
 
     ~H"""
-    <%= url_input @form, @field, [class: @classes, phx_feedback_for: input_name(@form, @field)] ++ @extra_assigns %>
+    <%= url_input @form, @field, [class: @classes, phx_feedback_for: input_name(@form, @field)] ++ @rest %>
     """
   end
 
@@ -227,7 +220,7 @@ defmodule PetalComponents.Form do
     assigns = assign_defaults(assigns, text_input_classes(field_has_errors?(assigns)))
 
     ~H"""
-    <%= time_input @form, @field, [class: @classes, phx_feedback_for: input_name(@form, @field)] ++ @extra_assigns %>
+    <%= time_input @form, @field, [class: @classes, phx_feedback_for: input_name(@form, @field)] ++ @rest %>
     """
   end
 
@@ -236,7 +229,7 @@ defmodule PetalComponents.Form do
 
     ~H"""
     <div class="select-wrapper dark:text-white">
-      <%= time_select @form, @field, [class: @classes, phx_feedback_for: input_name(@form, @field)] ++ @extra_assigns %>
+      <%= time_select @form, @field, [class: @classes, phx_feedback_for: input_name(@form, @field)] ++ @rest %>
     </div>
     """
   end
@@ -245,7 +238,7 @@ defmodule PetalComponents.Form do
     assigns = assign_defaults(assigns, text_input_classes(field_has_errors?(assigns)))
 
     ~H"""
-    <%= datetime_local_input @form, @field, [class: @classes, phx_feedback_for: input_name(@form, @field)] ++ @extra_assigns %>
+    <%= datetime_local_input @form, @field, [class: @classes, phx_feedback_for: input_name(@form, @field)] ++ @rest %>
     """
   end
 
@@ -254,7 +247,7 @@ defmodule PetalComponents.Form do
 
     ~H"""
     <div class="select-wrapper dark:text-white">
-      <%= datetime_select @form, @field, [class: @classes, phx_feedback_for: input_name(@form, @field)] ++ @extra_assigns %>
+      <%= datetime_select @form, @field, [class: @classes, phx_feedback_for: input_name(@form, @field)] ++ @rest %>
     </div>
     """
   end
@@ -264,7 +257,7 @@ defmodule PetalComponents.Form do
 
     ~H"""
     <div class="select-wrapper dark:text-white">
-      <%= date_select @form, @field, [class: @classes, phx_feedback_for: input_name(@form, @field)] ++ @extra_assigns %>
+      <%= date_select @form, @field, [class: @classes, phx_feedback_for: input_name(@form, @field)] ++ @rest %>
     </div>
     """
   end
@@ -273,7 +266,7 @@ defmodule PetalComponents.Form do
     assigns = assign_defaults(assigns, text_input_classes(field_has_errors?(assigns)))
 
     ~H"""
-    <%= date_input @form, @field, [class: @classes, phx_feedback_for: input_name(@form, @field)] ++ @extra_assigns %>
+    <%= date_input @form, @field, [class: @classes, phx_feedback_for: input_name(@form, @field)] ++ @rest %>
     """
   end
 
@@ -281,7 +274,7 @@ defmodule PetalComponents.Form do
     assigns = assign_defaults(assigns, color_input_classes(field_has_errors?(assigns)))
 
     ~H"""
-    <%= color_input @form, @field, [class: @classes, phx_feedback_for: input_name(@form, @field)] ++ @extra_assigns %>
+    <%= color_input @form, @field, [class: @classes, phx_feedback_for: input_name(@form, @field)] ++ @rest %>
     """
   end
 
@@ -289,7 +282,7 @@ defmodule PetalComponents.Form do
     assigns = assign_defaults(assigns, file_input_classes(field_has_errors?(assigns)))
 
     ~H"""
-    <%= file_input @form, @field, [class: @classes, phx_feedback_for: input_name(@form, @field)] ++ @extra_assigns %>
+    <%= file_input @form, @field, [class: @classes, phx_feedback_for: input_name(@form, @field)] ++ @rest %>
     """
   end
 
@@ -297,7 +290,7 @@ defmodule PetalComponents.Form do
     assigns = assign_defaults(assigns, range_input_classes(field_has_errors?(assigns)))
 
     ~H"""
-    <%= range_input @form, @field, [class: @classes, phx_feedback_for: input_name(@form, @field)] ++ @extra_assigns %>
+    <%= range_input @form, @field, [class: @classes, phx_feedback_for: input_name(@form, @field)] ++ @rest %>
     """
   end
 
@@ -305,7 +298,7 @@ defmodule PetalComponents.Form do
     assigns = assign_defaults(assigns, text_input_classes(field_has_errors?(assigns)))
 
     ~H"""
-    <%= textarea @form, @field, [class: @classes, rows: "4", phx_feedback_for: input_name(@form, @field)] ++ @extra_assigns %>
+    <%= textarea @form, @field, [class: @classes, rows: "4", phx_feedback_for: input_name(@form, @field)] ++ @rest %>
     """
   end
 
@@ -313,7 +306,7 @@ defmodule PetalComponents.Form do
     assigns = assign_defaults(assigns, select_classes(field_has_errors?(assigns)))
 
     ~H"""
-    <%= select @form, @field, @options, [class: @classes, phx_feedback_for: input_name(@form, @field)] ++ @extra_assigns %>
+    <%= select @form, @field, @options, [class: @classes, phx_feedback_for: input_name(@form, @field)] ++ @rest %>
     """
   end
 
@@ -321,7 +314,7 @@ defmodule PetalComponents.Form do
     assigns = assign_defaults(assigns, checkbox_classes(field_has_errors?(assigns)))
 
     ~H"""
-    <%= checkbox @form, @field, [class: @classes, phx_feedback_for: input_name(@form, @field)] ++ @extra_assigns %>
+    <%= checkbox @form, @field, [class: @classes, phx_feedback_for: input_name(@form, @field)] ++ @rest %>
     """
   end
 
@@ -357,7 +350,7 @@ defmodule PetalComponents.Form do
             value={value}
             checked={to_string(value) in @checked}
             hidden_input={false}
-            {@extra_assigns} />
+            {@rest} />
           <div class={label_classes(%{form: @form, field: @field, type: "checkbox"})}><%= label %></div>
         </label>
       <% end %>
@@ -372,7 +365,7 @@ defmodule PetalComponents.Form do
     <label class="relative inline-flex items-center justify-center flex-shrink-0 w-10 h-5 group">
       <%= checkbox @form, @field, [
         class: @classes,
-        phx_feedback_for: input_name(@form, @field)] ++ @extra_assigns
+        phx_feedback_for: input_name(@form, @field)] ++ @rest
       %>
       <span class="absolute h-6 mx-auto transition-colors duration-200 ease-in-out bg-gray-200 border rounded-full pointer-events-none w-11 dark:bg-gray-700 dark:border-gray-600 peer-checked:bg-primary-500"></span>
       <span class="absolute left-0 inline-block w-5 h-5 transition-transform duration-200 ease-in-out transform translate-x-0 bg-white rounded-full shadow pointer-events-none peer-checked:translate-x-5 ring-0 "></span>
@@ -384,7 +377,7 @@ defmodule PetalComponents.Form do
     assigns = assign_defaults(assigns, radio_classes(field_has_errors?(assigns)))
 
     ~H"""
-    <%= radio_button @form, @field, @value, [class: @classes, phx_feedback_for: input_name(@form, @field)] ++ @extra_assigns %>
+    <%= radio_button @form, @field, @value, [class: @classes, phx_feedback_for: input_name(@form, @field)] ++ @rest %>
     """
   end
 
@@ -398,7 +391,7 @@ defmodule PetalComponents.Form do
     <div class={radio_group_layout_classes(%{layout: @layout})}>
       <%= for {label, value} <- @options do %>
         <label class={radio_group_layout_item_classes(%{layout: @layout})}>
-          <.radio form={@form} field={@field} value={value} {@extra_assigns} />
+          <.radio form={@form} field={@field} value={value} {@rest} />
           <div class={label_classes(%{form: @form, field: @field, type: "radio"})}><%= label %></div>
         </label>
       <% end %>
@@ -408,18 +401,31 @@ defmodule PetalComponents.Form do
 
   # <.form_field_error form={f} field={:name} />
   def form_field_error(assigns) do
-    assigns = assign_new(assigns, :class, fn -> "" end)
-    translate_error = translator_from_config() || (&translate_error/1)
+    assigns =
+      assigns
+      |> assign_new(:class, fn -> "" end)
+      |> assign(:translated_errors, generated_translated_errors(assigns.form, assigns.field))
 
     ~H"""
-    <div class={@class}>
-      <%= for error <- Keyword.get_values(@form.errors, @field) do %>
-        <div class="text-xs italic text-red-500 invalid-feedback" phx-feedback-for={input_name(@form, @field)}>
-          <%= translate_error.(error) %>
-        </div>
-      <% end %>
-    </div>
+    <%= if field_has_errors?(assigns) do %>
+      <div class={@class}>
+        <%= for translated_error <- @translated_errors do %>
+          <div class="text-xs italic text-red-500 invalid-feedback" phx-feedback-for={input_name(@form, @field)}>
+            <%= translated_error %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
     """
+  end
+
+  defp generated_translated_errors(form, field) do
+    translate_error = translator_from_config() || (&translate_error/1)
+
+    Keyword.get_values(form.errors || [], field)
+    |> Enum.map(fn error ->
+      translate_error.(error)
+    end)
   end
 
   defp translate_error({msg, opts}) do
@@ -460,17 +466,7 @@ defmodule PetalComponents.Form do
   defp assign_defaults(assigns, base_classes) do
     assigns
     |> assign_new(:type, fn -> "text" end)
-    |> assign_new(:extra_assigns, fn ->
-      assigns_to_attributes(assigns, [
-        :class,
-        :label,
-        :form,
-        :field,
-        :type,
-        :options,
-        :layout
-      ])
-    end)
+    |> assign_rest(~w(class label form field type options layout)a)
     |> assign_new(:classes, fn ->
       build_class([
         base_classes,
@@ -491,11 +487,11 @@ defmodule PetalComponents.Form do
   end
 
   defp text_input_classes(has_error) do
-    "#{if has_error, do: "has-error", else: ""} border-gray-300 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:focus:border-primary-500 sm:text-sm block disabled:bg-gray-100 disabled:cursor-not-allowed shadow-sm w-full rounded-md dark:bg-gray-800 dark:text-gray-300 focus:outline-none focus:ring-primary-500 focus:border-primary-500"
+    "#{if has_error, do: "has-error", else: ""} border-gray-300 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:focus:border-primary-500 sm:text-sm block disabled:bg-gray-100 disabled:cursor-not-allowed shadow-sm w-full rounded-md dark:bg-gray-800 dark:text-gray-300 dark:disabled:bg-gray-700 focus:outline-none focus:ring-primary-500 focus:border-primary-500"
   end
 
   defp select_classes(has_error) do
-    "#{if has_error, do: "has-error", else: ""} border-gray-300 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:focus:border-primary-500 block w-full disabled:bg-gray-100 disabled:cursor-not-allowed pl-3 pr-10 py-2 text-base focus:outline-none sm:text-sm rounded-md dark:border-gray-600 dark:focus:border-primary-500 dark:text-gray-300 dark:bg-gray-800"
+    "#{if has_error, do: "has-error", else: ""} border-gray-300 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:focus:border-primary-500 block w-full disabled:bg-gray-100 disabled:cursor-not-allowed pl-3 pr-10 py-2 text-base focus:outline-none sm:text-sm rounded-md dark:disabled:bg-gray-700 dark:focus:border-primary-500 dark:text-gray-300 dark:bg-gray-800"
   end
 
   defp file_input_classes(has_error) do
@@ -511,7 +507,7 @@ defmodule PetalComponents.Form do
   end
 
   defp checkbox_classes(has_error) do
-    "#{if has_error, do: "has-error", else: ""} border-gray-300 text-primary-700 rounded w-5 h-5 ease-linear transition-all duration-150 dark:bg-gray-800 dark:border-gray-300"
+    "#{if has_error, do: "has-error", else: ""} border-gray-300 text-primary-700 rounded w-5 h-5 ease-linear transition-all duration-150 dark:bg-gray-800 dark:border-gray-600 disabled:bg-gray-300 dark:disabled:bg-gray-600 disabled:cursor-not-allowed"
   end
 
   defp checkbox_group_layout_classes(assigns) do
@@ -559,11 +555,14 @@ defmodule PetalComponents.Form do
   end
 
   defp radio_classes(has_error) do
-    "#{if has_error, do: "has-error", else: ""} border-gray-300 h-4 w-4 cursor-pointer text-primary-600 focus:ring-primary-500 dark:bg-gray-800 dark:border-gray-300"
+    "#{if has_error, do: "has-error", else: ""} border-gray-300 h-4 w-4 cursor-pointer text-primary-600 focus:ring-primary-500 dark:bg-gray-800 dark:border-gray-600"
   end
 
   defp field_has_errors?(%{form: form, field: field}) do
-    length(Keyword.get_values(form.errors, field)) > 0
+    case Keyword.get_values(form.errors || [], field) do
+      [] -> false
+      _ -> true
+    end
   end
 
   defp field_has_errors?(_), do: false

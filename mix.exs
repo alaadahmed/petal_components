@@ -2,7 +2,7 @@ defmodule PetalComponents.MixProject do
   use Mix.Project
 
   @source_url "https://github.com/petalframework/petal_components"
-  @version "0.16.0"
+  @version "0.18.5"
 
   def project do
     [
@@ -14,7 +14,17 @@ defmodule PetalComponents.MixProject do
       description: description(),
       package: package(),
       deps: deps(),
-      docs: docs()
+      docs: docs(),
+      aliases: [
+        audit: ["format", "credo", "coveralls"]
+      ],
+      test_coverage: [tool: ExCoveralls],
+      preferred_cli_env: [
+        coveralls: :test,
+        "coveralls.detail": :test,
+        "coveralls.post": :test,
+        "coveralls.html": :test
+      ]
     ]
   end
 
@@ -33,10 +43,13 @@ defmodule PetalComponents.MixProject do
   defp deps do
     [
       {:phoenix, "~> 1.6"},
-      {:phoenix_live_view, "~> 0.17"},
+      {:phoenix_live_view, "~> 0.18.0"},
       {:jason, "~> 1.0", only: [:dev, :test]},
       {:ex_doc, "~> 0.24", only: :dev, runtime: false},
-      {:phoenix_ecto, "~> 4.4"}
+      {:phoenix_ecto, "~> 4.4"},
+      {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
+      {:excoveralls, "~> 0.10", only: :test},
+      {:heroicons, "~> 0.5.0"}
     ]
   end
 

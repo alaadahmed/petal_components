@@ -1,8 +1,8 @@
 <p align="center">
   <img src="https://res.cloudinary.com/wickedsites/image/upload/v1635752721/petal/logo_rh2ras.png" height="128">
-  
+
   <h1 align="center">Petal Components</h1>
-  
+
   <p align="center">
     Petal is a set of HEEX components that makes it easy for Phoenix developers to build beautiful web apps. Think Bootstrap or MUI, but written in HEEX using Tailwind CSS classes.
   </p>
@@ -13,19 +13,22 @@
     <img alt="Hex Version" src="https://img.shields.io/hexpm/v/petal_components.svg">
   </a>
   <a href="https://hexdocs.pm/petal_components">
-    <img alt="Hex Docs" src="http://img.shields.io/badge/hex.pm-docs-green.svg?style=flat">
+    <img alt="Hex Docs" src="https://img.shields.io/hexpm/dt/petal_components.svg?style=flat">
   </a>
   <a href="https://opensource.org/licenses/MIT" alt="MIT">
     <img src="https://img.shields.io/badge/license-MIT-green" />
+  </a>
+  <a href="https://codecov.io/gh/petalframework/petal_components" >
+    <img src="https://codecov.io/gh/petalframework/petal_components/branch/main/graph/badge.svg?token=47KQGJOT1G"/>
   </a>
 </p>
 
 <p align="center">
   <a href="https://petal-components-demo.fly.dev">
-    <img src="https://res.cloudinary.com/wickedsites/image/upload/c_scale,h_621/v1646543077/petal/demo_nmw8eh.png" height="300" />
+    <img src="https://res.cloudinary.com/nhobes/image/upload/v1664493810/Petal_Components/Xnapper-2022-09-30-09.22.58_qufkq8.png" height="300" />
   </a>
   <a href="https://petal-components-demo.fly.dev">
-    <img src="https://res.cloudinary.com/wickedsites/image/upload/c_scale,h_621/v1646543453/petal/demo-light_sijqjy.png" height="300" />
+    <img src="https://res.cloudinary.com/nhobes/image/upload/v1664493101/Petal_Components/Xnapper-2022-09-30-09.02.10_q5hkri.png" height="300" />
   </a>
 </p>
 
@@ -51,11 +54,11 @@ For full documentation, visit [petal.build](https://petal.build/components).
 
 ## Try it out
 
-We have a fresh [Phoenix boilerplate template](https://github.com/petalframework/petal_boilerplate) with Petal Components ready to go if you would like to get your hands dirty. 
+We have a fresh [Phoenix boilerplate template](https://github.com/petalframework/petal_boilerplate) with Petal Components ready to go if you would like to get your hands dirty.
 
 ## VSCode Snippets Extension
 
-Install our [VSCode extension](https://marketplace.visualstudio.com/items?itemName=petalframework.vscode-petal-components-snippets&ssr=false#overview) to gain access to 65+ snippets for all of the components. 
+Install our [VSCode extension](https://marketplace.visualstudio.com/items?itemName=petalframework.vscode-petal-components-snippets&ssr=false#overview) to gain access to 65+ snippets for all of the components.
 
 ## Roadmap
 
@@ -76,7 +79,7 @@ Install our [VSCode extension](https://marketplace.visualstudio.com/items?itemNa
 - [x] range input
 - [x] time, datetime, & date input
 - [x] multiple select (see checkbox group)
-- [ ] switch
+- [x] switch
 - [ ] input help text
 - [ ] input prefix and postfix
 
@@ -97,9 +100,9 @@ Install our [VSCode extension](https://marketplace.visualstudio.com/items?itemNa
 - [x] cards
 - [x] breadcrumbs
 - [x] modal
-- [ ] slide over
+- [x] slide over
 - [x] spinners
-- [ ] accordian
+- [x] accordian
 - [x] pagination
 - [x] badges
 - [x] progress
@@ -108,10 +111,10 @@ Install our [VSCode extension](https://marketplace.visualstudio.com/items?itemNa
 ## FAQ
 
 **Q: Do I need Alpine JS?**
-A: No we have designed the components to use either Alpine JS or LiveView.JS. 
+A: No we have designed the components to use either Alpine JS or LiveView.JS.
 
 **Q: What if I want to use my own components too?**
-A: You can install this library and import only the components you need. 
+A: You can install this library and import only the components you need.
 
 ```elixir
 # The recommended option is to import every single component
@@ -140,11 +143,11 @@ module.exports = {
     // We need to include the Petal dependency so the classes get picked up by JIT.
     "../deps/petal_components/**/*.*ex"
   ],
-  
+
   ... rest of file omitted
 ```
 
-You might be worried that if you don't use every component you'll have unused CSS classes. But we believe it's so small it won't matter. Our petal.build site's CSS file totals just 25kb. 
+You might be worried that if you don't use every component you'll have unused CSS classes. But we believe it's so small it won't matter. Our petal.build site's CSS file totals just 25kb.
 
 If you really want to you can instruct Tailwind to just scan the components you use:
 
@@ -155,5 +158,5 @@ If you really want to you can instruct Tailwind to just scan the components you 
 
 ## Contributing
 
-If you'd like to help out we've got a [Phoenix umbrella app](https://github.com/petalframework/petal_development) that allows you to easily contribute to Petal Components (which is installed as a git submodule). If you create a new component then feel free to submit a PR. Ideally one from the roadmap but we're open to any new components that would benefit others! 
+If you'd like to help out we've got a [Phoenix umbrella app](https://github.com/petalframework/petal_development) that allows you to easily contribute to Petal Components (which is installed as a git submodule). If you create a new component then feel free to submit a PR. Ideally one from the roadmap but we're open to any new components that would benefit others!
 

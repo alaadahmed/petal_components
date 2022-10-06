@@ -1,4 +1,57 @@
 # Changelog
+### 0.18.5 - 2022-10-06 02:04:15
+- Fix compilation error on form.ex
+### 0.18.4 - 2022-10-06 01:43:08
+- Fixed compilation errors in accordion
+### 0.18.3 - 2022-09-28 03:54:34
+- Fix accordion icon not animating when opening
+### 0.18.2 - 2022-09-28 00:38:14
+- Add disabled classes for checkbox
+### 0.18.1 - 2022-09-27 03:29:44
+- HeroiconsV1 do not have default classes anymore
+- Fix issue where `.icon_button` svg icons were not the correct size
+### 0.18.0 - 2022-09-25 01:11:49
+- Sorry, the last release was meant to be minor, not patch
+### 0.17.8 - 2022-09-25 01:10:23
+- Updated to work with Live View 0.18 - see UPGRADE_GUIDE.md
+- Disabled fields fixed in dark mode - thanks @moogle19
+- Pagination component can receive a function as a parameter that will define the path of the page - thanks @Wigny
+
+Breaking changes
+- `<.link>` was renamed to `<.a>`.
+- Renamed `Heroicons` to `HeroiconsV1`
+### 0.17.7 - 2022-08-10 00:34:26
+- Fix 'modal' IDs used at SlideOver component
+- Make accordion items dynamic
+- Add coveralls + dependabot
+- Remove credo from ci
+- Add codecov token
+- Add mix audit alias
+- Add codecov badge
+- Use string.replace to allow "-"
+- Make borders for radio and checkbox consistent with other inputs
+- Fixed pagination control if users set sibling_count to less than 1 or boundary_count less than 1
+- Moved Pagination.get_items to PaginationInternal.get_pagination_items so we can get at it in the unit tests
+### 0.17.6 - 2022-07-20 03:59:09
+- Fixed issue where closing modal/slideover caused two events to be fired
+### 0.17.5 - 2022-07-15 05:01:55
+- Move card bg colors to the parent div
+### 0.17.4 - 2022-07-15 04:09:17
+- modified accordion aesthetic
+- differentiated white inverted button type
+### 0.17.2 - 2022-07-07 06:19:05
+- Added an inverted button type that fills the outlined button on hover
+- Added ring/border to card and table to add more distinction on white backgrounds
+- Added a bg color and shadow to accordion
+### 0.17.1 - 2022-07-06 01:05:09
+- Modals - only send close_modal event to target if provided
+### 0.17.0 - 2022-07-02 03:29:33
+- New components: <.prose>, <.ul>, <.ol>
+- Modals fade in (extra CSS required)
+- Improve readability of card content in dark mode
+- Extra assigns on <.p> are forwarded to the p tag
+- Fix extra_assigns in headings
+- Fix dropdown button not closing when clicked
 ### 0.16.0 - 2022-05-03 00:56:17
 - Generate prettier classes with build_class
 - Accordion
@@ -74,7 +127,7 @@ input[type=radio].has-error:not(.phx-no-feedback) {
 }
 ```
 ### 0.10.8 - 2022-02-15 01:11:32
-- Fixed <.link> emitting white spaces
+- Fixed <.a> emitting white spaces
 ### 0.10.7 - 2022-02-14 03:44:45
 - Fixed white button background
 ### 0.10.6 - 2022-02-14 03:31:50
@@ -130,11 +183,11 @@ input[type=radio].has-error:not(.phx-no-feedback) {
 - Fixed container not defaulting to full width when inside a flex
 - Add docs for `<.p>` and heading params
 ### 0.5.1 - 2021-11-26 00:54:25
-- `<.link>`, `<.button>` and `<.dropdown_menu_item>` all now take `method` as a parameter. eg. `<.link method={:delete} to="/logout" label="Logout" />`
+- `<.a>`, `<.button>` and `<.dropdown_menu_item>` all now take `method` as a parameter. eg. `<.a method={:delete} to="/logout" label="Logout" />`
 ### 0.5.0 - 2021-11-22 02:00:02
 - Added `<.pagination>`
 - Added `<.progress>`
-- Improved `<.link>` to work as a live_patch or live_rediect
+- Improved `<.a>` to work as a live_patch or live_rediect
 ### 0.4.0 - 2021-11-18 02:18:16
 - Added new form components ("email_input", "number_input", "password_input", "search_input", "telephone_input", "url_input", "time_input", "time_select", "datetime_local_input", "datetime_select", "color_input", "file_input", "range_input")
 - `<.spinner>` defaults to visible

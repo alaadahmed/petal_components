@@ -16,7 +16,7 @@ defmodule PetalComponents.AccordionTest do
 
     assert html =~ "x-data"
     assert html =~ "x-show"
-    assert html =~ "<svg class="
+    assert html =~ "<svg"
     assert html =~ "dark:"
 
     # Test js_lib option
@@ -33,7 +33,7 @@ defmodule PetalComponents.AccordionTest do
     assert html =~ "phx-click"
   end
 
-  test "extra_assigns works" do
+  test "rest works" do
     assigns = %{}
 
     html =
@@ -48,5 +48,60 @@ defmodule PetalComponents.AccordionTest do
     assert html =~ ~s{custom-attrs="123"}
     assert html =~ "phx-click"
     assert html =~ "some_event"
+  end
+
+  test "content through :item" do
+    assigns = %{}
+
+    html =
+      rendered_to_string(~H"""
+      <.accordion>
+        <:item heading="heading-a">Item A</:item>
+        <:item heading="heading-b">Item B</:item>
+      </.accordion>
+      """)
+
+    assert html =~ "heading-a"
+    assert html =~ "Item A"
+    assert html =~ "heading-b"
+    assert html =~ "Item B"
+  end
+
+  test "content through :entries" do
+    assigns = %{
+      entries: [
+        %{heading: "heading-a", content: "Item A"},
+        %{heading: "heading-b", content: "Item B"}
+      ]
+    }
+
+    html =
+      rendered_to_string(~H"""
+      <.accordion entries={@entries}>
+        <:item let={entry}><%= entry.content %></:item>
+      </.accordion>
+      """)
+
+    assert html =~ "heading-a"
+    assert html =~ "Item A"
+    assert html =~ "heading-b"
+    assert html =~ "Item B"
+  end
+
+  test "content with doubly defined heading" do
+    assigns = %{
+      entries: [%{heading: "nope"}]
+    }
+
+    exception =
+      assert_raise ArgumentError, fn ->
+        rendered_to_string(~H"""
+        <.accordion entries={@entries}>
+          <:item heading="nope"/>
+        </.accordion>
+        """)
+      end
+
+    assert Exception.message(exception) =~ "either :item or :entries"
   end
 end

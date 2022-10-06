@@ -1,7 +1,7 @@
 defmodule PetalComponents.Typography do
   use Phoenix.Component
 
-  import PetalComponents.Class
+  import PetalComponents.Helpers
 
   @moduledoc """
   Everything related to text. Headings, paragraphs and links
@@ -18,10 +18,10 @@ defmodule PetalComponents.Typography do
     assigns =
       assigns
       |> assign_new(:class, fn -> "" end)
-      |> assign_new(:extra_assigns, fn -> drop_heading_props(assigns) end)
+      |> assign_new(:rest, fn -> drop_heading_props(assigns) end)
 
     ~H"""
-    <h1 class={get_heading_classes("text-4xl font-extrabold leading-10 sm:text-5xl sm:tracking-tight lg:text-6xl", assigns)} {@extra_assigns}>
+    <h1 class={get_heading_classes("text-4xl font-extrabold leading-10 sm:text-5xl sm:tracking-tight lg:text-6xl", assigns)} {@rest}>
       <%= if assigns[:label] do %>
         <%= @label %>
       <% else %>
@@ -35,10 +35,10 @@ defmodule PetalComponents.Typography do
     assigns =
       assigns
       |> assign_new(:class, fn -> "" end)
-      |> assign_new(:extra_assigns, fn -> drop_heading_props(assigns) end)
+      |> assign_new(:rest, fn -> drop_heading_props(assigns) end)
 
     ~H"""
-    <h2 class={get_heading_classes("text-2xl sm:text-3xl font-extrabold leading-10", assigns)} {@extra_assigns}>
+    <h2 class={get_heading_classes("text-2xl sm:text-3xl font-extrabold leading-10", assigns)} {@rest}>
       <%= if assigns[:label] do %>
         <%= @label %>
       <% else %>
@@ -52,10 +52,10 @@ defmodule PetalComponents.Typography do
     assigns =
       assigns
       |> assign_new(:class, fn -> "" end)
-      |> assign_new(:extra_assigns, fn -> drop_heading_props(assigns) end)
+      |> assign_new(:rest, fn -> drop_heading_props(assigns) end)
 
     ~H"""
-    <h3 class={get_heading_classes("text-xl sm:text-2xl font-bold leading-7", assigns)} {@extra_assigns}>
+    <h3 class={get_heading_classes("text-xl sm:text-2xl font-bold leading-7", assigns)} {@rest}>
       <%= if assigns[:label] do %>
         <%= @label %>
       <% else %>
@@ -69,10 +69,10 @@ defmodule PetalComponents.Typography do
     assigns =
       assigns
       |> assign_new(:class, fn -> "" end)
-      |> assign_new(:extra_assigns, fn -> drop_heading_props(assigns) end)
+      |> assign_new(:rest, fn -> drop_heading_props(assigns) end)
 
     ~H"""
-    <h4 class={get_heading_classes("text-lg font-bold leading-6", assigns)} {@extra_assigns}>
+    <h4 class={get_heading_classes("text-lg font-bold leading-6", assigns)} {@rest}>
       <%= if assigns[:label] do %>
         <%= @label %>
       <% else %>
@@ -86,10 +86,10 @@ defmodule PetalComponents.Typography do
     assigns =
       assigns
       |> assign_new(:class, fn -> "" end)
-      |> assign_new(:extra_assigns, fn -> drop_heading_props(assigns) end)
+      |> assign_new(:rest, fn -> drop_heading_props(assigns) end)
 
     ~H"""
-    <h5 class={get_heading_classes("text-lg font-medium leading-6", assigns)} {@extra_assigns}>
+    <h5 class={get_heading_classes("text-lg font-medium leading-6", assigns)} {@rest}>
       <%= if assigns[:label] do %>
         <%= @label %>
       <% else %>
@@ -109,17 +109,79 @@ defmodule PetalComponents.Typography do
   end
 
   defp drop_heading_props(assigns) do
-    assigns_to_attributes(assigns, [
-      :class,
-      :label
-    ])
+    assigns_to_attributes(assigns, ~w(class label color_class underline no_margin)a)
   end
 
   def p(assigns) do
+    assigns =
+      assign_new(assigns, :class, fn -> "" end)
+      |> assign_new(:rest, fn ->
+        assigns_to_attributes(assigns, ~w(class)a)
+      end)
+
     ~H"""
-    <p class={"mb-2 leading-5 text-gray-600 dark:text-gray-400 #{if assigns[:class], do: @class, else: ""}"}>
+    <p class={build_class([text_base_class(), "mb-2", @class])} {@rest}>
       <%= render_slot(@inner_block) %>
     </p>
+    """
+  end
+
+  defp text_base_class(), do: "leading-5 text-gray-600 dark:text-gray-400"
+
+  def prose(assigns) do
+    assigns =
+      assigns
+      |> assign_new(:class, fn -> "" end)
+      |> assign_new(:rest, fn ->
+        assigns_to_attributes(assigns, ~w(class)a)
+      end)
+
+    ~H"""
+    <div class={build_class(["prose dark:prose-invert", @class])} {@rest}>
+      <%= render_slot(@inner_block) %>
+    </div>
+    """
+  end
+
+  @doc """
+  Usage:
+      <.ul>
+        <li>Item 1</li>
+        <li>Item 2</li>
+      </.ul>
+  """
+  def ul(assigns) do
+    assigns =
+      assigns
+      |> assign_new(:class, fn -> "" end)
+      |> assign_new(:rest, fn ->
+        assigns_to_attributes(assigns, ~w(class)a)
+      end)
+
+    ~H"""
+    <ul class={build_class([text_base_class(), "list-disc list-inside", @class])} {@rest}>
+      <%= render_slot(@inner_block) %>
+    </ul>
+    """
+  end
+
+  @doc """
+  Usage:
+      <.ol>
+        <li>Item 1</li>
+        <li>Item 2</li>
+      </.ol>
+  """
+  def ol(assigns) do
+    assigns =
+      assigns
+      |> assign_new(:class, fn -> "" end)
+      |> assign_rest(~w(class)a)
+
+    ~H"""
+    <ol class={build_class([text_base_class(), "list-decimal list-inside", @class])} {@rest}>
+      <%= render_slot(@inner_block) %>
+    </ol>
     """
   end
 end

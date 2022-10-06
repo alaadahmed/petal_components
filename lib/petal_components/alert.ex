@@ -1,8 +1,6 @@
 defmodule PetalComponents.Alert do
   use Phoenix.Component
-  import PetalComponents.Class
-
-  alias PetalComponents.Heroicons
+  import PetalComponents.Helpers
 
   # prop color, :string, options: ["info", "success", "warning", "danger"]
   # prop class, :string
@@ -14,29 +12,18 @@ defmodule PetalComponents.Alert do
       |> assign_new(:label, fn -> nil end)
       |> assign_new(:color, fn -> "info" end)
       |> assign_new(:heading, fn -> nil end)
-      |> assign_new(:with_icon, fn -> nil end)
+      |> assign_new(:with_icon, fn -> false end)
       |> assign_new(:inner_block, fn -> nil end)
       |> assign_new(:classes, fn -> alert_classes(assigns) end)
       |> assign_new(:close_button_properties, fn -> nil end)
-      |> assign_new(:extra_assigns, fn ->
-        assigns_to_attributes(assigns, ~w(
-          label
-          color
-          heading
-          with_icon
-          inner_block
-          classes
-          class
-          close_button_properties
-        )a)
-      end)
+      |> assign_rest(~w(label color heading with_icon classes class close_button_properties)a)
 
     ~H"""
     <%= unless label_blank?(@label, @inner_block) do %>
-      <div {@extra_assigns} class={@classes}>
+      <div {@rest} class={@classes}>
         <%= if @with_icon do %>
-          <div class="self-start flex-shrink-0 pt-1">
-            <Heroicons.Solid.render icon={get_icon(@color)} />
+          <div class="self-start flex-shrink-0 pt-0.5 w-6 h-6">
+            <.get_icon color={@color} />
           </div>
         <% end %>
 
@@ -60,7 +47,7 @@ defmodule PetalComponents.Alert do
 
             <%= if @close_button_properties do %>
               <button class={build_class(["p-2 mouse-hover flex hover:rounded", get_dismiss_icon_classes(@color)])} {@close_button_properties}>
-                <Heroicons.Solid.x class="self-start w-4 h-4" />
+                <Heroicons.x_mark solid class="self-start w-4 h-4" />
               </button>
             <% end %>
           </div>
@@ -111,10 +98,29 @@ defmodule PetalComponents.Alert do
     do:
       "bg-red-100 dark:bg-red-200 hover:bg-red-200 dark:hover:bg-red-300 hover:text-red-800 dark:hover:text-red-900"
 
-  defp get_icon("info"), do: :information_circle
-  defp get_icon("success"), do: :check_circle
-  defp get_icon("warning"), do: :exclamation_circle
-  defp get_icon("danger"), do: :x_circle
+  defp get_icon(%{color: "info"} = assigns) do
+    ~H"""
+    <Heroicons.information_circle/>
+    """
+  end
+
+  defp get_icon(%{color: "success"} = assigns) do
+    ~H"""
+    <Heroicons.check_circle/>
+    """
+  end
+
+  defp get_icon(%{color: "warning"} = assigns) do
+    ~H"""
+    <Heroicons.exclamation_circle/>
+    """
+  end
+
+  defp get_icon(%{color: "danger"} = assigns) do
+    ~H"""
+    <Heroicons.x_circle/>
+    """
+  end
 
   defp label_blank?(label, inner_block) do
     (!label || label == "") && !inner_block
