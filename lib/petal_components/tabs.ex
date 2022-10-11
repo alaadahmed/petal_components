@@ -117,7 +117,7 @@ defmodule PetalComponents.Tabs do
         else: "bg-gray-100 text-gray-500"
 
     underline_classes =
-      if underline && is_active,
+      if is_active && underline,
         do: "bg-primary-100 dark:bg-primary-600 text-primary-600 dark:text-white",
         else: "bg-gray-100 dark:bg-gray-600 dark:text-white text-gray-500"
 
