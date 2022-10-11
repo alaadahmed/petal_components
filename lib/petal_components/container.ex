@@ -1,8 +1,10 @@
 defmodule PetalComponents.Container do
   use Phoenix.Component
 
+  import PetalComponents.Helpers
+
   # prop max_width, :string, options: ["sm", "md", "lg", "xl", "full"]
-  # prop class, :css_class
+  # prop class, :string
   # prop no_padding_on_mobile, :boolean
   def container(assigns) do
     assigns =
@@ -10,14 +12,15 @@ defmodule PetalComponents.Container do
       |> assign_new(:max_width, fn -> "lg" end)
       |> assign_new(:class, fn -> "" end)
       |> assign_new(:no_padding_on_mobile, fn -> false end)
+      |> assign_rest(~w(max_width class no_padding_on_mobile)a)
 
     ~H"""
-    <div class={Enum.join([
+    <div {@rest} class={build_class([
       "mx-auto sm:px-6 lg:px-8 w-full",
       get_width_class(@max_width),
       get_padding_class(@no_padding_on_mobile),
       @class
-    ], " ")}>
+    ])}>
       <%= render_slot(@inner_block) %>
     </div>
     """

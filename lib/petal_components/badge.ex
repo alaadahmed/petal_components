@@ -1,11 +1,12 @@
 defmodule PetalComponents.Badge do
   use Phoenix.Component
+  import PetalComponents.Helpers
 
   # prop label, :string
   # prop size, :string, options: ["xs", "sm", "md", "lg", "xl"]
   # prop variant, :string
   # prop color, :string, options: ["primary", "secondary", "info", "success", "warning", "danger", "gray"]
-  # prop class, :css_class
+  # prop class, :string
   def badge(assigns) do
     assigns =
       assigns
@@ -15,15 +16,16 @@ defmodule PetalComponents.Badge do
       |> assign_new(:class, fn -> "" end)
       |> assign_new(:icon, fn -> false end)
       |> assign_new(:inner_block, fn -> nil end)
+      |> assign_rest(~w(size variant color class icon inner_block label)a)
 
     ~H"""
-    <badge class={Enum.join([
+    <badge {@rest} class={build_class([
       "rounded inline-flex items-center justify-center focus:outline-none border",
       size_classes(@size),
       icon_classes(@icon),
       get_color_classes(%{color: @color, variant: @variant}),
       @class
-    ], " ")}>
+    ])}>
       <%= if @inner_block do %>
         <%= render_slot(@inner_block) %>
       <% else %>

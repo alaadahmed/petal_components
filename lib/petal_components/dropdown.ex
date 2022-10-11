@@ -1,8 +1,8 @@
 defmodule PetalComponents.Dropdown do
   use Phoenix.Component
+  import PetalComponents.Helpers
   alias Phoenix.LiveView.JS
-  alias PetalComponents.Heroicons
-  import PetalComponents.Link
+  alias PetalComponents.Link
 
   @transition_in_base "transition transform ease-out duration-100"
   @transition_in_start "transform opacity-0 scale-95"
@@ -20,7 +20,7 @@ defmodule PetalComponents.Dropdown do
   @doc """
     <.dropdown label="Dropdown" js_lib="alpine_js|live_view_js">
       <.dropdown_menu_item link_type="button">
-        <Heroicons.Outline.home class="w-5 h-5 text-gray-500" />
+        <Heroicons.home class="w-5 h-5 text-gray-500" />
         Button item with icon
       </.dropdown_menu_item>
       <.dropdown_menu_item link_type="a" to="/" label="a item" />
@@ -31,14 +31,15 @@ defmodule PetalComponents.Dropdown do
   def dropdown(assigns) do
     assigns =
       assigns
-      |> assign_new(:options_container_id, fn -> "dropdown_#{Enum.random(1..100_000_000)}" end)
+      |> assign_new(:options_container_id, fn -> "dropdown_#{Ecto.UUID.generate()}" end)
       |> assign_new(:js_lib, fn -> "alpine_js" end)
       |> assign_new(:placement, fn -> "left" end)
       |> assign_new(:label, fn -> nil end)
       |> assign_new(:trigger_element, fn -> nil end)
+      |> assign_rest(~w(options_container_id js_lib placement label trigger_element class)a)
 
     ~H"""
-    <div {js_attributes("container", @js_lib, @options_container_id)} class="relative inline-block text-left">
+    <div {@rest} {js_attributes("container", @js_lib, @options_container_id)} class="relative inline-block text-left">
       <div>
         <button
           type="button"
@@ -50,7 +51,7 @@ defmodule PetalComponents.Dropdown do
 
           <%= if @label do %>
             <%= @label %>
-            <Heroicons.Solid.chevron_down class="w-5 h-5 ml-2 -mr-1 dark:text-gray-100" />
+            <Heroicons.chevron_down solid class="w-5 h-5 ml-2 -mr-1 dark:text-gray-100" />
           <% end %>
 
           <%= if @trigger_element do %>
@@ -58,7 +59,7 @@ defmodule PetalComponents.Dropdown do
           <% end %>
 
           <%= if !@label && !@trigger_element do %>
-            <Heroicons.Solid.dots_vertical class="w-5 h-5" />
+            <Heroicons.ellipsis_vertical solid class="w-5 h-5" />
           <% end %>
         </button>
       </div>
@@ -83,33 +84,18 @@ defmodule PetalComponents.Dropdown do
       assigns
       |> assign_new(:link_type, fn -> "button" end)
       |> assign_new(:inner_block, fn -> nil end)
+      |> assign_new(:to, fn -> nil end)
       |> assign_new(:classes, fn -> dropdown_menu_item_classes() end)
-      |> assign_new(:extra_assigns, fn ->
-        assigns_to_attributes(assigns, [
-          :inner_block,
-          :link_type,
-          :classes
-        ])
-      end)
+      |> assign_rest(~w(classes link_type)a)
 
     ~H"""
-    <%= if @link_type == "button" do %>
-      <button class={@classes} {@extra_assigns}>
-        <%= if @inner_block do %>
-          <%= render_slot(@inner_block) %>
-        <% else %>
-          <%= @label %>
-        <% end %>
-      </button>
-    <% else %>
-      <.link link_type={@link_type} to={@to} class={@classes} {@extra_assigns}>
-        <%= if @inner_block do %>
-          <%= render_slot(@inner_block) %>
-        <% else %>
-          <%= @label %>
-        <% end %>
-      </.link>
-    <% end %>
+    <Link.a link_type={@link_type} to={@to} class={@classes} {@rest}>
+      <%= if @inner_block do %>
+        <%= render_slot(@inner_block) %>
+      <% else %>
+        <%= @label %>
+      <% end %>
+    </Link.a>
     """
   end
 
@@ -138,6 +124,7 @@ defmodule PetalComponents.Dropdown do
   defp js_attributes("button", "alpine_js", _options_container_id) do
     %{
       "@click": "open = !open",
+      "@click.outside": "open = false",
       "x-bind:aria-expanded": "open.toString()"
     }
   end

@@ -1,6 +1,6 @@
 defmodule PetalComponents.Avatar do
   use Phoenix.Component
-  alias PetalComponents.Heroicons
+  import PetalComponents.Helpers
 
   # prop src, :string
   # prop size, :string
@@ -13,44 +13,50 @@ defmodule PetalComponents.Avatar do
       |> assign_new(:class, fn -> "" end)
       |> assign_new(:name, fn -> nil end)
       |> assign_new(:random_color, fn -> false end)
+      |> assign_rest(~w(src size class name random_color)a)
 
     ~H"""
     <%= if src_blank?(@src) && !@name do %>
-      <div class={Enum.join([
-        "inline-block overflow-hidden bg-gray-100 dark:bg-gray-700 rounded-full",
+      <div {@rest} class={build_class([
+        "inline-block relative overflow-hidden bg-gray-100 dark:bg-gray-700 rounded-full",
         get_size_classes(@size),
         @class
-        ], " ")}>
-        <Heroicons.Solid.user class="relative w-full h-full text-gray-300 dark:text-gray-300 dark:bg-gray-700 top-[12%] scale-[1.15] transform" />
+        ])}>
+        <Heroicons.user solid class="relative w-full h-full text-gray-300 dark:text-gray-300 dark:bg-gray-700 top-[12%] scale-[1.15] transform" />
       </div>
     <% else %>
-      <%= if !@src && @name do %>
-        <div
+      <%= if src_blank?(@src) && @name do %>
+        <div {@rest}
           style={maybe_generate_random_color(@random_color, @name)}
-          class={Enum.join([
+          class={build_class([
             "flex items-center justify-center bg-gray-100 dark:bg-gray-700 rounded-full font-semibold uppercase text-gray-500 dark:text-gray-300",
             get_size_classes(@size),
             @class,
-          ], " ")}
+          ])}
         >
           <%= generate_initials(@name) %>
         </div>
       <% else %>
-        <img src={@src} class={Enum.join([
+        <img  {@rest} src={@src} class={build_class([
           "rounded-full object-cover",
           get_size_classes(@size),
           @class
-        ], " ")} />
+        ])} />
       <% end %>
     <% end %>
     """
   end
 
   def avatar_group(assigns) do
-    assigns = assign_new(assigns, :classes, fn -> avatar_group_classes(assigns) end)
+    assigns =
+      assigns
+      |> assign_new(:classes, fn -> avatar_group_classes(assigns) end)
+      |> assign_new(:rest, fn ->
+        assigns_to_attributes(assigns, ~w(classes)a)
+      end)
 
     ~H"""
-    <div class={@classes}>
+    <div {@rest} class={@classes}>
       <%= for src <- @avatars do %>
         <.avatar src={src} size={@size} class="ring-white ring-2 dark:ring-gray-100" />
       <% end %>

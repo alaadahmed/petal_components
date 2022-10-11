@@ -10,6 +10,7 @@ defmodule PetalComponents.ButtonTest do
       <.button label="Press me" phx-click="click_event" />
       """)
 
+    assert html =~ "<button"
     assert html =~ "Press me"
   end
 
@@ -115,5 +116,32 @@ defmodule PetalComponents.ButtonTest do
       """)
 
     assert html =~ "some-special-class"
+  end
+
+  test "icon button" do
+    assigns = %{}
+
+    html =
+      rendered_to_string(~H"""
+      <.icon_button to="/" link_type="button" size="xs" color="primary">
+        <Heroicons.clock solid />
+      </.icon_button>
+
+      """)
+
+    assert html =~ "<svg"
+    assert html =~ "dark:hover:"
+  end
+
+  test "should include additional assigns" do
+    assigns = %{}
+
+    html =
+      rendered_to_string(~H"""
+      <.button custom-attr="123" type="button">Press me</.button>
+      """)
+
+    assert html =~ ~s{custom-attr="123"}
+    assert html =~ ~s{type="button"}
   end
 end

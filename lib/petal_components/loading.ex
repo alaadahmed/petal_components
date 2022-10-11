@@ -1,14 +1,20 @@
 defmodule PetalComponents.Loading do
   use Phoenix.Component
 
+  import PetalComponents.Helpers
+
   # prop size, :string, values: ["sm", "md", "lg"]
   # prop class, :string, default: ""
   # prop show, :boolean, default: true
   def spinner(assigns) do
-    assigns = assign_new(assigns, :classes, fn -> get_spinner_classes(assigns) end)
+    assigns =
+      assigns
+      |> assign_new(:classes, fn -> get_spinner_classes(assigns) end)
+      |> assign_rest(~w(classes size class show)a)
 
     ~H"""
     <svg
+      {@rest}
       class={get_spinner_classes(assigns)}
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
@@ -25,20 +31,12 @@ defmodule PetalComponents.Loading do
   end
 
   defp get_spinner_classes(assigns) do
-    base_classes = "animate-spin -ml-1"
-    custom_classes = assigns[:class] || ""
+    base_classes = "animate-spin"
+    custom_classes = assigns[:class]
     show_class = if assigns[:show] == false, do: "hidden", else: ""
     size_classes = assigns[:size_class] || get_size_classes(assigns[:size])
 
-    Enum.join(
-      [
-        base_classes,
-        custom_classes,
-        show_class,
-        size_classes
-      ],
-      " "
-    )
+    build_class([base_classes, custom_classes, show_class, size_classes])
   end
 
   defp get_size_classes("sm"), do: "h-5 w-5"

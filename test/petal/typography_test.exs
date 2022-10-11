@@ -66,4 +66,97 @@ defmodule PetalComponents.TypographyTest do
     assert html =~ "<h5 class="
     assert html =~ "text-lg font-medium"
   end
+
+  test ".h1 extra assigns" do
+    assigns = %{}
+
+    html =
+      rendered_to_string(~H"""
+      <.h1 color_class="text-blue-500" no_margin x-text="blah">Heading</.h1>
+      """)
+
+    assert html =~ "blah"
+    assert html =~ "x-text"
+    refute html =~ "no-margin"
+    refute html =~ "color-class"
+  end
+
+  test ".p" do
+    assigns = %{}
+
+    html =
+      rendered_to_string(~H"""
+      <.p>Paragraph</.p>
+      """)
+
+    assert html =~ "Paragraph"
+    assert html =~ "<p class="
+    assert html =~ "dark:text-gray-400"
+  end
+
+  test ".p taking extra assigns" do
+    assigns = %{}
+
+    html =
+      rendered_to_string(~H"""
+      <.p x-text="input">Paragraph</.p>
+      """)
+
+    assert html =~ "Paragraph"
+    assert html =~ "<p class="
+    assert html =~ "dark:text-gray-400"
+    assert html =~ "x-text="
+    assert html =~ "input"
+  end
+
+  test ".prose" do
+    assigns = %{}
+
+    html =
+      rendered_to_string(~H"""
+      <.prose class="md:prose-lg" random-attribute="lol"><p>A paragraph</p></.prose>
+      """)
+
+    assert html =~ "A paragraph"
+    assert html =~ "<p>"
+    assert html =~ "md:prose-lg"
+    assert html =~ "dark"
+    assert html =~ "random-attribute"
+  end
+
+  test ".ul" do
+    assigns = %{}
+
+    html =
+      rendered_to_string(~H"""
+      <.ul class="mb-5" random-attribute="lol">
+        <li>Item 1</li>
+        <li>Item 2</li>
+      </.ul>
+      """)
+
+    assert html =~ "<ul"
+    assert html =~ "Item 1"
+    assert html =~ "mb-5"
+    assert html =~ "dark"
+    assert html =~ "random-attribute"
+  end
+
+  test ".ol" do
+    assigns = %{}
+
+    html =
+      rendered_to_string(~H"""
+      <.ol class="mb-5" random-attribute="lol">
+        <li>Item 1</li>
+        <li>Item 2</li>
+      </.ol>
+      """)
+
+    assert html =~ "<ol"
+    assert html =~ "Item 1"
+    assert html =~ "mb-5"
+    assert html =~ "dark"
+    assert html =~ "random-attribute"
+  end
 end

@@ -1,6 +1,8 @@
 defmodule PetalComponents.Card do
   use Phoenix.Component
 
+  import PetalComponents.Helpers
+
   # prop class, :string
   # prop variant, :string
   # slot default
@@ -9,14 +11,15 @@ defmodule PetalComponents.Card do
       assigns
       |> assign_new(:class, fn -> "" end)
       |> assign_new(:variant, fn -> "basic" end)
+      |> assign_rest(~w(class variant)a)
 
     ~H"""
-    <div class={Enum.join([
-      "flex flex-wrap overflow-hidden",
+    <div {@rest} class={build_class([
+      "flex flex-wrap overflow-hidden bg-white dark:bg-gray-800",
       get_variant_classes(@variant),
       @class
-    ], " ")}>
-      <div class="flex flex-col w-full max-w-full bg-white dark:bg-gray-800">
+    ])}>
+      <div class="flex flex-col w-full max-w-full">
         <%= render_slot(@inner_block) %>
       </div>
     </div>
@@ -32,20 +35,21 @@ defmodule PetalComponents.Card do
       |> assign_new(:class, fn -> "" end)
       |> assign_new(:aspect_ratio_class, fn -> "aspect-video" end)
       |> assign_new(:src, fn -> nil end)
+      |> assign_rest(~w(class aspect_ratio_class src)a)
 
     ~H"""
     <%= if @src do %>
-      <img src={@src} class={Enum.join([
+      <img {@rest} src={@src} class={build_class([
         "flex-shrink-0 w-full object-cover",
         @aspect_ratio_class,
         @class
       ], " ")} />
     <% else %>
-      <div class={Enum.join([
+      <div {@rest} class={build_class([
         "flex-shrink-0 w-full bg-gray-300 dark:bg-gray-700",
         @aspect_ratio_class,
         @class
-      ], " ")}></div>
+      ])}></div>
     <% end %>
     """
   end
@@ -59,16 +63,17 @@ defmodule PetalComponents.Card do
     assigns =
       assigns
       |> assign_new(:class, fn -> "" end)
-      |> assign_new(:category_color_class, fn -> "text-primary-600" end)
+      |> assign_new(:category_color_class, fn -> "text-primary-600 dark:text-primary-400" end)
       |> assign_new(:inner_block, fn -> nil end)
       |> assign_new(:category, fn -> nil end)
       |> assign_new(:heading, fn -> nil end)
+      |> assign_rest(~w(class category_color_class inner_block category heading)a)
 
     ~H"""
-    <div class={Enum.join([
-      "p-6 flex-1 font-light text-gray-500 text-md",
+    <div {@rest} class={build_class([
+      "p-6 flex-1 font-light text-gray-500 dark:text-gray-400 text-md",
       @class
-    ], " ")}>
+    ])}>
       <%= if @category do %>
         <div class={"mb-3 text-sm font-medium #{@category_color_class}"}>
           <%= @category %>
@@ -89,8 +94,12 @@ defmodule PetalComponents.Card do
   end
 
   def card_footer(assigns) do
+    assigns =
+      assigns
+      |> assign_rest(~w(class)a)
+
     ~H"""
-    <div class="px-6 pb-6">
+    <div {@rest} class="px-6 pb-6">
       <%= render_slot(@inner_block) %>
     </div>
     """
@@ -99,7 +108,7 @@ defmodule PetalComponents.Card do
   defp get_variant_classes(variant) do
     case variant do
       "basic" ->
-        "rounded-lg shadow-lg dark:shadow-2xl"
+        "rounded-lg shadow-lg dark:shadow-2xl border border-gray-200 dark:border-none"
 
       "outline" ->
         "rounded-lg border border-gray-300 dark:border-gray-600"
