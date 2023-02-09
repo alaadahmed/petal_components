@@ -3,6 +3,7 @@ defmodule PetalComponents.Button do
 
   alias PetalComponents.Loading
   alias PetalComponents.Link
+  alias PetalComponents.Icon
 
   import PetalComponents.Helpers
   require Logger
@@ -34,6 +35,7 @@ defmodule PetalComponents.Button do
   attr(:to, :string, default: nil, doc: "link path")
   attr(:loading, :boolean, default: false, doc: "indicates a loading state")
   attr(:disabled, :boolean, default: false, doc: "indicates a disabled state")
+  attr(:icon, :atom, default: nil, doc: "name of a Heroicon at the front of the button")
   attr(:with_icon, :boolean, default: false, doc: "adds some icon base classes")
 
   attr(:link_type, :string,
@@ -43,7 +45,7 @@ defmodule PetalComponents.Button do
 
   attr(:class, :string, default: "", doc: "CSS class")
   attr(:label, :string, default: nil, doc: "labels your button")
-  attr(:rest, :global, include: ~w(method download hreflang ping referrerpolicy rel target type))
+  attr(:rest, :global, include: ~w(method download hreflang ping referrerpolicy rel target type value name))
   slot(:inner_block, required: false)
 
   def button(assigns) do
@@ -52,15 +54,13 @@ defmodule PetalComponents.Button do
       |> assign(:classes, button_classes(assigns))
 
     ~H"""
-    <Link.a
-      to={@to}
-      link_type={@link_type}
-      class={@classes}
-      disabled={@disabled}
-      {@rest}
-    >
+    <Link.a to={@to} link_type={@link_type} class={@classes} disabled={@disabled} {@rest}>
       <%= if @loading do %>
         <Loading.spinner show={true} size_class={get_spinner_size_classes(@size)} />
+      <% else %>
+        <%= if @icon do %>
+          <Icon.icon name={@icon} mini class={get_spinner_size_classes(@size)} />
+        <% end %>
       <% end %>
 
       <%= render_slot(@inner_block) || @label %>
@@ -95,21 +95,21 @@ defmodule PetalComponents.Button do
     <Link.a
       to={@to}
       link_type={@link_type}
-      class={build_class(
-        [
+      class={
+        build_class([
           "rounded-full p-2 inline-block",
           get_disabled_classes(@disabled),
           get_icon_button_background_color_classes(@color),
           get_icon_button_color_classes(@color),
           get_icon_button_size_classes(@size),
           @class
-        ])}
+        ])
+      }
       disabled={@disabled}
       {@rest}
     >
       <%= if @loading do %>
         <Loading.spinner show={true} size_class={get_icon_button_spinner_size_classes(@size)} />
-
       <% else %>
         <%= render_slot(@inner_block) %>
       <% end %>
@@ -124,7 +124,7 @@ defmodule PetalComponents.Button do
       color: opts[:color] || "primary",
       loading: opts[:loading] || false,
       disabled: opts[:disabled] || false,
-      with_icon: opts[:with_icon] || false,
+      with_icon: opts[:with_icon] || opts[:icon] || false,
       user_added_classes: opts[:class] || ""
     }
 

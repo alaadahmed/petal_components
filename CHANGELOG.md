@@ -1,4 +1,39 @@
 # Changelog
+### 0.19.10 - 2023-01-14 09:24:34
+- Fixed: support button attrs: 'value', 'name'
+- Fixed: support form element attr: 'accept'
+- Fixed: support link attr: 'download'
+### 0.19.9 - 2023-01-12 22:41:06
+- Fix: <.th> can now accept colspan and rowspan
+### 0.19.8 - 2023-01-12 00:37:24
+- New: Button now can take an icon name as an attribute. eg `<.button icon={:home} label="Home" />`
+### 0.19.7 - 2023-01-11 21:20:15
+- Fixed disabled buttons
+### 0.19.6 - 2023-01-01 22:18:07
+- New: `<.hidden_input>` form element
+- Added "list" attr warning for inputs
+- Added "for" attr warning for label
+### 0.19.5 - 2022-12-30 06:00:52
+- Changed: form_help_text colours
+### 0.19.4 - 2022-12-29 00:10:21
+- New <.icon> functional component that renders a dynamic Heroicon (v2)
+- Added label_class attr to all form inputs so you can change the look of labels
+- Fixed "checked" attr for checkbox_group use with form_field
+### 0.19.3 - 2022-12-22 02:42:17
+- Added: help text for form fields
+- Enhancement: <.td> can now accept colspan and rowspan attributes
+- Enhancement: Added some optional textarea attributes: cols, rows and wrap
+- Fixed: checkbox_group "checked" attr wasn't getting passed through
+- Fixed: checkbox label wasn't working when no label attr was passed
+### 0.19.2 - 2022-12-18 20:22:40
+- Enhancement: Dropdowns are more customisable with classes
+- Chore: Cleaned up form field attrs
+- Fix: Changed the heading attr :no_margin to be a :boolean
+### 0.19.1 - 2022-12-14 00:56:52
+- Fixed form_field class attribute - it wasn't getting appended to the input classes properly
+### 0.19.0 - 2022-12-13 05:11:47
+- Added declarative assigns for all components
+- Fix default green button having the wrong background
 ### 0.18.5 - 2022-10-06 02:04:15
 - Fix compilation error on form.ex
 ### 0.18.4 - 2022-10-06 01:43:08

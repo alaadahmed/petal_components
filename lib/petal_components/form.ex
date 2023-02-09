@@ -4,6 +4,9 @@ defmodule PetalComponents.Form do
   import PetalComponents.Helpers
   alias Phoenix.HTML.Form
 
+  @form_attrs ~w(autocomplete disabled form max maxlength min minlength list
+  pattern placeholder readonly required size step value name multiple prompt selected default year month day hour minute second builder options layout cols rows wrap checked accept)
+
   @moduledoc """
   Everything related to forms: inputs, labels etc
   """
@@ -12,8 +15,9 @@ defmodule PetalComponents.Form do
   attr(:field, :atom, default: nil, doc: "")
   attr(:has_error, :boolean, default: false, doc: "")
   attr(:label, :string, default: nil, doc: "labels your field")
+  attr(:class, :string, doc: "CSS classes to add to your label")
   slot(:inner_block, required: false)
-  attr(:rest, :global)
+  attr(:rest, :global, include: ~w(for))
 
   def form_label(assigns) do
     assigns =
@@ -59,14 +63,9 @@ defmodule PetalComponents.Form do
   ]
   attr(:form, :any, doc: "the form object", required: true)
   attr(:field, :atom, doc: "field in changeset / form", required: true)
-  attr(:label, :string, default: nil, doc: "labels your field")
-  attr(:options, :list, default: [], doc: "options for the select/radio_group/checkbox_group")
-
-  attr(:layout, :atom,
-    default: :col,
-    values: [:row, :col],
-    doc: "layout for the radio_group or checkbox_group only"
-  )
+  attr(:label, :string, doc: "labels your field")
+  attr(:label_class, :string, default: nil, doc: "extra CSS for your label")
+  attr(:help_text, :string, default: nil, doc: "context/help for your field")
 
   attr(:type, :string,
     default: "text_input",
@@ -75,22 +74,12 @@ defmodule PetalComponents.Form do
   )
 
   attr(:wrapper_classes, :string, default: "mb-6", doc: "CSS class for wrapper")
-  attr(:disabled, :boolean, default: false, doc: "disables the input")
-  attr :rest, :global, include: ~w(autocomplete disabled form max maxlength min minlength
-                                   pattern placeholder readonly required size step)
+  attr :rest, :global, include: @form_attrs
 
   @doc "Use this when you want to include the label and some margin."
   def form_field(assigns) do
     assigns =
       assigns
-      |> assign_new(:input_opts, fn ->
-        assigns_to_attributes(assigns, [
-          :form,
-          :field,
-          :label,
-          :wrapper_classes
-        ])
-      end)
       |> assign_new(:label, fn ->
         if assigns[:field] do
           Form.humanize(assigns[:field])
@@ -98,88 +87,90 @@ defmodule PetalComponents.Form do
           nil
         end
       end)
-      |> assign_new(:wrapper_classes, fn -> "mb-6" end)
 
     ~H"""
     <div class={@wrapper_classes}>
       <%= case @type do %>
         <% "checkbox" -> %>
           <label class="inline-flex items-center gap-3">
-            <.checkbox form={@form} field={@field} {@input_opts} />
-            <div class={label_classes(%{form: @form, field: @field, type: "checkbox"})}>
+            <.checkbox form={@form} field={@field} {@rest} />
+            <div class={label_classes(%{form: @form, field: @field, type: "checkbox", class: @label_class})}>
               <%= @label %>
             </div>
           </label>
         <% "switch" -> %>
           <label class="inline-flex items-center gap-3">
-            <.switch form={@form} field={@field} {@input_opts} />
-            <div class={label_classes(%{form: @form, field: @field, type: "checkbox"})}>
+            <.switch form={@form} field={@field} {@rest} />
+            <div class={label_classes(%{form: @form, field: @field, type: "checkbox", class: @label_class})}>
               <%= @label %>
             </div>
           </label>
         <% "checkbox_group" -> %>
-          <.form_label form={@form} field={@field} label={@label} />
-          <.checkbox_group form={@form} field={@field} {@input_opts} />
+          <.form_label form={@form} field={@field} label={@label} class={@label_class} />
+          <.checkbox_group form={@form} field={@field} {@rest} />
         <% "radio_group" -> %>
-          <.form_label form={@form} field={@field} label={@label} />
-          <.radio_group form={@form} field={@field} {@input_opts} />
+          <.form_label form={@form} field={@field} label={@label} class={@label_class} />
+          <.radio_group form={@form} field={@field} {@rest} />
         <% "text_input" -> %>
-          <.form_label form={@form} field={@field} label={@label} />
-          <.text_input form={@form} field={@field} {@input_opts} />
+          <.form_label form={@form} field={@field} label={@label} class={@label_class} />
+          <.text_input form={@form} field={@field} {@rest} />
+        <% "hidden_input" -> %>
+          <.hidden_input form={@form} field={@field} {@rest} />
         <% "email_input" -> %>
-          <.form_label form={@form} field={@field} label={@label} />
-          <.email_input form={@form} field={@field} {@input_opts} />
+          <.form_label form={@form} field={@field} label={@label} class={@label_class} />
+          <.email_input form={@form} field={@field} {@rest} />
         <% "number_input" -> %>
-          <.form_label form={@form} field={@field} label={@label} />
-          <.number_input form={@form} field={@field} {@input_opts} />
+          <.form_label form={@form} field={@field} label={@label} class={@label_class} />
+          <.number_input form={@form} field={@field} {@rest} />
         <% "password_input" -> %>
-          <.form_label form={@form} field={@field} label={@label} />
-          <.password_input form={@form} field={@field} {@input_opts} />
+          <.form_label form={@form} field={@field} label={@label} class={@label_class} />
+          <.password_input form={@form} field={@field} {@rest} />
         <% "search_input" -> %>
-          <.form_label form={@form} field={@field} label={@label} />
-          <.search_input form={@form} field={@field} {@input_opts} />
+          <.form_label form={@form} field={@field} label={@label} class={@label_class} />
+          <.search_input form={@form} field={@field} {@rest} />
         <% "telephone_input" -> %>
-          <.form_label form={@form} field={@field} label={@label} />
-          <.telephone_input form={@form} field={@field} {@input_opts} />
+          <.form_label form={@form} field={@field} label={@label} class={@label_class} />
+          <.telephone_input form={@form} field={@field} {@rest} />
         <% "url_input" -> %>
-          <.form_label form={@form} field={@field} label={@label} />
-          <.url_input form={@form} field={@field} {@input_opts} />
+          <.form_label form={@form} field={@field} label={@label} class={@label_class} />
+          <.url_input form={@form} field={@field} {@rest} />
         <% "time_input" -> %>
-          <.form_label form={@form} field={@field} label={@label} />
-          <.time_input form={@form} field={@field} {@input_opts} />
+          <.form_label form={@form} field={@field} label={@label} class={@label_class} />
+          <.time_input form={@form} field={@field} {@rest} />
         <% "time_select" -> %>
-          <.form_label form={@form} field={@field} label={@label} />
-          <.time_select form={@form} field={@field} {@input_opts} />
+          <.form_label form={@form} field={@field} label={@label} class={@label_class} />
+          <.time_select form={@form} field={@field} {@rest} />
         <% "datetime_select" -> %>
-          <.form_label form={@form} field={@field} label={@label} />
-          <.datetime_select form={@form} field={@field} {@input_opts} />
+          <.form_label form={@form} field={@field} label={@label} class={@label_class} />
+          <.datetime_select form={@form} field={@field} {@rest} />
         <% "datetime_local_input" -> %>
-          <.form_label form={@form} field={@field} label={@label} />
-          <.datetime_local_input form={@form} field={@field} {@input_opts} />
+          <.form_label form={@form} field={@field} label={@label} class={@label_class} />
+          <.datetime_local_input form={@form} field={@field} {@rest} />
         <% "date_select" -> %>
-          <.form_label form={@form} field={@field} label={@label} />
-          <.date_select form={@form} field={@field} {@input_opts} />
+          <.form_label form={@form} field={@field} label={@label} class={@label_class} />
+          <.date_select form={@form} field={@field} {@rest} />
         <% "date_input" -> %>
-          <.form_label form={@form} field={@field} label={@label} />
-          <.date_input form={@form} field={@field} {@input_opts} />
+          <.form_label form={@form} field={@field} label={@label} class={@label_class} />
+          <.date_input form={@form} field={@field} {@rest} />
         <% "color_input" -> %>
-          <.form_label form={@form} field={@field} label={@label} />
-          <.color_input form={@form} field={@field} {@input_opts} />
+          <.form_label form={@form} field={@field} label={@label} class={@label_class} />
+          <.color_input form={@form} field={@field} {@rest} />
         <% "file_input" -> %>
-          <.form_label form={@form} field={@field} label={@label} />
-          <.file_input form={@form} field={@field} {@input_opts} />
+          <.form_label form={@form} field={@field} label={@label} class={@label_class} />
+          <.file_input form={@form} field={@field} {@rest} />
         <% "range_input" -> %>
-          <.form_label form={@form} field={@field} label={@label} />
-          <.range_input form={@form} field={@field} {@input_opts} />
+          <.form_label form={@form} field={@field} label={@label} class={@label_class} />
+          <.range_input form={@form} field={@field} {@rest} />
         <% "textarea" -> %>
-          <.form_label form={@form} field={@field} label={@label} />
-          <.textarea form={@form} field={@field} {@input_opts} />
+          <.form_label form={@form} field={@field} label={@label} class={@label_class} />
+          <.textarea form={@form} field={@field} {@rest} />
         <% "select" -> %>
-          <.form_label form={@form} field={@field} label={@label} />
-          <.select form={@form} field={@field} {@input_opts} />
+          <.form_label form={@form} field={@field} label={@label} class={@label_class} />
+          <.select form={@form} field={@field} {@rest} />
       <% end %>
 
       <.form_field_error class="mt-1" form={@form} field={@field} />
+      <.form_help_text class="mt-2" help_text={@help_text} />
     </div>
     """
   end
@@ -188,7 +179,7 @@ defmodule PetalComponents.Form do
   attr(:field, :atom, default: nil, doc: "")
   attr(:label, :string, default: nil, doc: "labels your field")
   attr(:class, :string, default: "", doc: "extra classes for the text input")
-  attr(:rest, :global)
+  attr(:rest, :global, include: @form_attrs)
 
   def text_input(assigns) do
     assigns = assign_defaults(assigns, text_input_classes(field_has_errors?(assigns)))
@@ -206,7 +197,7 @@ defmodule PetalComponents.Form do
   attr(:field, :atom, default: nil, doc: "")
   attr(:label, :string, default: nil, doc: "labels your field")
   attr(:class, :string, default: "", doc: "extra classes for the text input")
-  attr(:rest, :global)
+  attr(:rest, :global, include: @form_attrs)
 
   def email_input(assigns) do
     assigns = assign_defaults(assigns, text_input_classes(field_has_errors?(assigns)))
@@ -224,7 +215,7 @@ defmodule PetalComponents.Form do
   attr(:field, :atom, default: nil, doc: "")
   attr(:label, :string, default: nil, doc: "labels your field")
   attr(:class, :string, default: "", doc: "extra classes for the text input")
-  attr(:rest, :global)
+  attr(:rest, :global, include: @form_attrs)
 
   def number_input(assigns) do
     assigns = assign_defaults(assigns, text_input_classes(field_has_errors?(assigns)))
@@ -242,7 +233,7 @@ defmodule PetalComponents.Form do
   attr(:field, :atom, default: nil, doc: "")
   attr(:label, :string, default: nil, doc: "labels your field")
   attr(:class, :string, default: "", doc: "extra classes for the text input")
-  attr(:rest, :global)
+  attr(:rest, :global, include: @form_attrs)
 
   def password_input(assigns) do
     assigns = assign_defaults(assigns, text_input_classes(field_has_errors?(assigns)))
@@ -260,7 +251,7 @@ defmodule PetalComponents.Form do
   attr(:field, :atom, default: nil, doc: "")
   attr(:label, :string, default: nil, doc: "labels your field")
   attr(:class, :string, default: "", doc: "extra classes for the text input")
-  attr(:rest, :global)
+  attr(:rest, :global, include: @form_attrs)
 
   def search_input(assigns) do
     assigns = assign_defaults(assigns, text_input_classes(field_has_errors?(assigns)))
@@ -278,7 +269,7 @@ defmodule PetalComponents.Form do
   attr(:field, :atom, default: nil, doc: "")
   attr(:label, :string, default: nil, doc: "labels your field")
   attr(:class, :string, default: "", doc: "extra classes for the text input")
-  attr(:rest, :global)
+  attr(:rest, :global, include: @form_attrs)
 
   def telephone_input(assigns) do
     assigns = assign_defaults(assigns, text_input_classes(field_has_errors?(assigns)))
@@ -296,7 +287,7 @@ defmodule PetalComponents.Form do
   attr(:field, :atom, default: nil, doc: "")
   attr(:label, :string, default: nil, doc: "labels your field")
   attr(:class, :string, default: "", doc: "extra classes for the text input")
-  attr(:rest, :global)
+  attr(:rest, :global, include: @form_attrs)
 
   def url_input(assigns) do
     assigns = assign_defaults(assigns, text_input_classes(field_has_errors?(assigns)))
@@ -313,8 +304,8 @@ defmodule PetalComponents.Form do
   attr(:form, :any, default: nil, doc: "")
   attr(:field, :atom, default: nil, doc: "")
   attr(:label, :string, default: nil, doc: "labels your field")
-  attr(:rest, :global)
   attr(:class, :string, default: "", doc: "extra classes for the text input")
+  attr(:rest, :global, include: @form_attrs)
 
   def time_input(assigns) do
     assigns = assign_defaults(assigns, text_input_classes(field_has_errors?(assigns)))
@@ -331,8 +322,8 @@ defmodule PetalComponents.Form do
   attr(:form, :any, default: nil, doc: "")
   attr(:field, :atom, default: nil, doc: "")
   attr(:label, :string, default: nil, doc: "labels your field")
-  attr(:rest, :global)
   attr(:class, :string, default: "", doc: "extra classes for the text input")
+  attr(:rest, :global, include: @form_attrs)
 
   def time_select(assigns) do
     assigns = assign_defaults(assigns, text_input_classes(field_has_errors?(assigns)))
@@ -351,8 +342,8 @@ defmodule PetalComponents.Form do
   attr(:form, :any, default: nil, doc: "")
   attr(:field, :atom, default: nil, doc: "")
   attr(:label, :string, default: nil, doc: "labels your field")
-  attr(:rest, :global)
   attr(:class, :string, default: "", doc: "extra classes for the text input")
+  attr(:rest, :global, include: @form_attrs)
 
   def datetime_local_input(assigns) do
     assigns = assign_defaults(assigns, text_input_classes(field_has_errors?(assigns)))
@@ -369,8 +360,8 @@ defmodule PetalComponents.Form do
   attr(:form, :any, default: nil, doc: "")
   attr(:field, :atom, default: nil, doc: "")
   attr(:label, :string, default: nil, doc: "labels your field")
-  attr(:rest, :global)
   attr(:class, :string, default: "", doc: "extra classes for the text input")
+  attr(:rest, :global, include: @form_attrs)
 
   def datetime_select(assigns) do
     assigns = assign_defaults(assigns, text_input_classes(field_has_errors?(assigns)))
@@ -389,8 +380,8 @@ defmodule PetalComponents.Form do
   attr(:form, :any, default: nil, doc: "")
   attr(:field, :atom, default: nil, doc: "")
   attr(:label, :string, default: nil, doc: "labels your field")
-  attr(:rest, :global)
   attr(:class, :string, default: "", doc: "extra classes for the text input")
+  attr(:rest, :global, include: @form_attrs)
 
   def date_select(assigns) do
     assigns = assign_defaults(assigns, text_input_classes(field_has_errors?(assigns)))
@@ -409,8 +400,8 @@ defmodule PetalComponents.Form do
   attr(:form, :any, default: nil, doc: "")
   attr(:field, :atom, default: nil, doc: "")
   attr(:label, :string, default: nil, doc: "labels your field")
-  attr(:rest, :global)
   attr(:class, :string, default: "", doc: "extra classes for the text input")
+  attr(:rest, :global, include: @form_attrs)
 
   def date_input(assigns) do
     assigns = assign_defaults(assigns, text_input_classes(field_has_errors?(assigns)))
@@ -427,8 +418,8 @@ defmodule PetalComponents.Form do
   attr(:form, :any, default: nil, doc: "")
   attr(:field, :atom, default: nil, doc: "")
   attr(:label, :string, default: nil, doc: "labels your field")
-  attr(:rest, :global)
   attr(:class, :string, default: "", doc: "extra classes for the text input")
+  attr(:rest, :global, include: @form_attrs)
 
   def color_input(assigns) do
     assigns = assign_defaults(assigns, color_input_classes(field_has_errors?(assigns)))
@@ -446,7 +437,7 @@ defmodule PetalComponents.Form do
   attr(:field, :atom, default: nil, doc: "")
   attr(:label, :string, default: nil, doc: "labels your field")
   attr(:class, :string, default: "", doc: "extra classes for the text input")
-  attr(:rest, :global)
+  attr(:rest, :global, include: @form_attrs)
 
   def file_input(assigns) do
     assigns = assign_defaults(assigns, file_input_classes(field_has_errors?(assigns)))
@@ -464,7 +455,7 @@ defmodule PetalComponents.Form do
   attr(:field, :atom, default: nil, doc: "")
   attr(:label, :string, default: nil, doc: "labels your field")
   attr(:class, :string, default: "", doc: "extra classes for the text input")
-  attr(:rest, :global)
+  attr(:rest, :global, include: @form_attrs)
 
   def range_input(assigns) do
     assigns = assign_defaults(assigns, range_input_classes(field_has_errors?(assigns)))
@@ -482,7 +473,7 @@ defmodule PetalComponents.Form do
   attr(:field, :atom, default: nil, doc: "")
   attr(:label, :string, default: nil, doc: "labels your field")
   attr(:class, :string, default: "", doc: "extra classes for the text input")
-  attr(:rest, :global)
+  attr(:rest, :global, include: @form_attrs)
 
   def textarea(assigns) do
     assigns = assign_defaults(assigns, text_input_classes(field_has_errors?(assigns)))
@@ -502,7 +493,7 @@ defmodule PetalComponents.Form do
   attr(:label, :string, default: nil, doc: "labels your field")
   attr(:class, :string, default: "", doc: "extra classes for the text input")
   attr(:options, :list, default: [], doc: "options for the select")
-  attr(:rest, :global)
+  attr(:rest, :global, include: @form_attrs)
 
   def select(assigns) do
     assigns = assign_defaults(assigns, select_classes(field_has_errors?(assigns)))
@@ -521,7 +512,10 @@ defmodule PetalComponents.Form do
   attr(:field, :atom, default: nil, doc: "")
   attr(:label, :string, default: nil, doc: "labels your field")
   attr(:class, :string, default: "", doc: "extra classes for the text input")
-  attr(:rest, :global, include: ~w(name checked_value unchecked_value value checked hidden_input))
+
+  attr(:rest, :global,
+    include: ~w(checked_value unchecked_value checked hidden_input) ++ @form_attrs
+  )
 
   def checkbox(assigns) do
     assigns = assign_defaults(assigns, checkbox_classes(field_has_errors?(assigns)))
@@ -541,7 +535,8 @@ defmodule PetalComponents.Form do
   attr(:class, :string, default: "", doc: "extra classes for the text input")
   attr(:options, :list, default: [], doc: "options for the select")
   attr(:layout, :atom, default: :col, values: [:row, :col], doc: "layout for the checkboxes")
-  attr(:rest, :global)
+  attr(:checked, :list, doc: "a list of checked values")
+  attr(:rest, :global, include: @form_attrs)
 
   def checkbox_group(assigns) do
     assigns =
@@ -564,7 +559,6 @@ defmodule PetalComponents.Form do
       <%= Form.hidden_input(@form, @field, name: Form.input_name(@form, @field), value: "") %>
       <%= for {label, value} <- @options do %>
         <label class={checkbox_group_layout_item_classes(%{layout: @layout})}>
-
           <.checkbox
             form={@form}
             field={@field}
@@ -590,7 +584,7 @@ defmodule PetalComponents.Form do
   attr(:field, :atom, default: nil, doc: "")
   attr(:label, :string, default: nil, doc: "labels your field")
   attr(:class, :string, default: "", doc: "extra classes for the text input")
-  attr(:rest, :global)
+  attr(:rest, :global, include: @form_attrs)
 
   def switch(assigns) do
     assigns = assign_defaults(assigns, switch_classes(field_has_errors?(assigns)))
@@ -618,7 +612,7 @@ defmodule PetalComponents.Form do
   attr(:label, :string, default: nil, doc: "labels your field")
   attr(:class, :string, default: "", doc: "extra classes for the text input")
   attr(:value, :any, default: nil, doc: "the radio value")
-  attr(:rest, :global)
+  attr(:rest, :global, include: @form_attrs)
 
   def radio(assigns) do
     assigns = assign_defaults(assigns, radio_classes(field_has_errors?(assigns)))
@@ -639,7 +633,7 @@ defmodule PetalComponents.Form do
   attr(:class, :string, default: "", doc: "extra classes for the text input")
   attr(:options, :list, default: [], doc: "options for the select")
   attr(:layout, :atom, default: :col, values: [:row, :col], doc: "layout for the radio options")
-  attr(:rest, :global)
+  attr(:rest, :global, include: @form_attrs)
 
   def radio_group(assigns) do
     assigns =
@@ -660,8 +654,24 @@ defmodule PetalComponents.Form do
 
   attr(:form, :any, default: nil, doc: "")
   attr(:field, :atom, default: nil, doc: "")
+  attr(:rest, :global, include: @form_attrs)
+
+  def hidden_input(assigns) do
+    assigns = assign_defaults(assigns, text_input_classes(field_has_errors?(assigns)))
+
+    ~H"""
+    <%= Form.hidden_input(
+      @form,
+      @field,
+      [phx_feedback_for: Form.input_name(@form, @field)] ++ Map.to_list(@rest)
+    ) %>
+    """
+  end
+
+  attr(:form, :any, default: nil, doc: "")
+  attr(:field, :atom, default: nil, doc: "")
   attr(:class, :string, default: "", doc: "extra classes for the text input")
-  # <.form_field_error form={f} field={:name} />
+
   def form_field_error(assigns) do
     assigns =
       assigns
@@ -679,6 +689,21 @@ defmodule PetalComponents.Form do
           </div>
         <% end %>
       </div>
+    <% end %>
+    """
+  end
+
+  attr(:class, :string, default: "", doc: "extra classes for the help text")
+  attr(:help_text, :string, default: nil, doc: "context/help for your field")
+  slot(:inner_block, required: false)
+  attr(:rest, :global)
+
+  def form_help_text(assigns) do
+    ~H"""
+    <%= if @inner_block || @help_text do %>
+      <p class={["text-sm text-gray-500 dark:text-gray-400", @class]} {@rest}>
+        <%= render_slot(@inner_block) || @help_text %>
+      </p>
     <% end %>
     """
   end
@@ -743,7 +768,7 @@ defmodule PetalComponents.Form do
         "mb-2 font-medium"
       end
 
-    "#{if field_has_errors?(assigns), do: "has-error", else: ""} #{type_classes} text-sm block text-gray-900 dark:text-gray-200"
+    "#{if field_has_errors?(assigns), do: "has-error", else: ""} #{type_classes} #{assigns[:class] || ""} text-sm block text-gray-900 dark:text-gray-200"
   end
 
   defp text_input_classes(has_error) do

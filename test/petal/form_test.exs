@@ -8,12 +8,7 @@ defmodule PetalComponents.FormTest do
     html =
       rendered_to_string(~H"""
       <.form :let={f} for={:user}>
-        <.text_input
-          form={f}
-          field={:name}
-          placeholder="eg. John"
-          itemid="something"
-        />
+        <.text_input form={f} field={:name} placeholder="eg. John" class="!w-max" itemid="something" />
       </.form>
       """)
 
@@ -25,6 +20,7 @@ defmodule PetalComponents.FormTest do
     assert html =~ "phx-feedback-for"
     refute html =~ " disabled "
     assert html =~ "dark:"
+    assert html =~ "!w-max"
   end
 
   test "text_input disabled" do
@@ -32,15 +28,9 @@ defmodule PetalComponents.FormTest do
 
     html =
       rendered_to_string(~H"""
-        <.form :let={f} for={:user}>
-          <.text_input
-            disabled
-            form={f}
-            field={:name}
-            placeholder="eg. John"
-            itemid="something"
-          />
-        </.form>
+      <.form :let={f} for={:user}>
+        <.text_input disabled form={f} field={:name} placeholder="eg. John" itemid="something" />
+      </.form>
       """)
 
     assert html =~ "input"
@@ -58,12 +48,7 @@ defmodule PetalComponents.FormTest do
     html =
       rendered_to_string(~H"""
       <.form :let={f} for={:user}>
-        <.textarea
-          form={f}
-          field={:description}
-          itemid="something"
-          placeholder="dummy text"
-        />
+        <.textarea form={f} field={:description} itemid="something" placeholder="dummy text" />
       </.form>
       """)
 
@@ -81,12 +66,7 @@ defmodule PetalComponents.FormTest do
     html =
       rendered_to_string(~H"""
       <.form :let={f} for={:user}>
-        <.select
-          form={f}
-          field={:role}
-          options={["Admin": "admin", "User": "user"]}
-          itemid="something"
-        />
+        <.select form={f} field={:role} options={[Admin: "admin", User: "user"]} itemid="something" />
       </.form>
       """)
 
@@ -105,11 +85,7 @@ defmodule PetalComponents.FormTest do
     html =
       rendered_to_string(~H"""
       <.form :let={f} for={:user}>
-        <.checkbox
-          form={f}
-          field={:read_terms}
-          itemid="something"
-        />
+        <.checkbox form={f} field={:read_terms} itemid="something" />
       </.form>
       """)
 
@@ -125,11 +101,7 @@ defmodule PetalComponents.FormTest do
     html =
       rendered_to_string(~H"""
       <.form :let={f} for={:user}>
-        <.checkbox_group
-          form={f}
-          field={:roles}
-          options={[{"Read", "read"}, {"Write", "write"}]}
-        />
+        <.checkbox_group form={f} field={:roles} options={[{"Read", "read"}, {"Write", "write"}]} />
       </.form>
       """)
 
@@ -141,6 +113,17 @@ defmodule PetalComponents.FormTest do
     assert html =~ "Read"
     assert html =~ "phx-feedback-for"
     assert html =~ "Write"
+    refute html =~ "checked"
+
+    # Test "checked" attribute
+    html =
+      rendered_to_string(~H"""
+      <.form :let={f} for={:user}>
+        <.checkbox_group checked={["read"]} form={f} field={:roles} options={[{"Read", "read"}, {"Write", "write"}]} />
+      </.form>
+      """)
+
+    assert html =~ "checked"
   end
 
   test "switch" do
@@ -149,11 +132,7 @@ defmodule PetalComponents.FormTest do
     html =
       rendered_to_string(~H"""
       <.form :let={f} for={:user}>
-        <.switch
-          form={f}
-          field={:read_terms}
-          itemid="something"
-        />
+        <.switch form={f} field={:read_terms} itemid="something" />
       </.form>
       """)
 
@@ -169,12 +148,7 @@ defmodule PetalComponents.FormTest do
     html =
       rendered_to_string(~H"""
       <.form :let={f} for={:user}>
-        <.radio
-          form={f}
-          field={:eye_color}
-          value="green"
-          itemid="something"
-        />
+        <.radio form={f} field={:eye_color} value="green" itemid="something" />
       </.form>
       """)
 
@@ -191,13 +165,14 @@ defmodule PetalComponents.FormTest do
     html =
       rendered_to_string(~H"""
       <.form :let={f} for={:user}>
-        <.form_label form={f} field={:name} />
+        <.form_label form={f} field={:name} class="text-pink-500" />
       </.form>
       """)
 
     assert html =~ "label"
     assert html =~ "Name"
     assert html =~ "phx-feedback-for"
+    assert html =~ "text-pink-500"
 
     html =
       rendered_to_string(~H"""
@@ -230,14 +205,20 @@ defmodule PetalComponents.FormTest do
 
     html =
       rendered_to_string(~H"""
-      <.form :let={f} as={:user} for={%Ecto.Changeset{
-        action: :update,
-        data: %{name: ""},
-        errors: [
-          name: {"can't be blank", [validation: :required]},
-          name: {"too long", [validation: :required]},
-        ]}
-      }>
+      <.form
+        :let={f}
+        as={:user}
+        for={
+          %Ecto.Changeset{
+            action: :update,
+            data: %{name: ""},
+            errors: [
+              name: {"can't be blank", [validation: :required]},
+              name: {"too long", [validation: :required]}
+            ]
+          }
+        }
+      >
         <.form_field_error form={f} field={:name} class="mt-1" />
       </.form>
       """)
@@ -249,25 +230,58 @@ defmodule PetalComponents.FormTest do
     assert html =~ "mt-1"
   end
 
+  test "form_help_text" do
+    assigns = %{}
+
+    html =
+      rendered_to_string(~H"""
+      <.form_help_text help_text="Inline" />
+      """)
+
+    assert html =~ "Inline"
+
+    html =
+      rendered_to_string(~H"""
+      <.form_help_text>Utilising slot</.form_help_text>
+      """)
+
+    assert html =~ "Utilising slot"
+
+    html =
+      rendered_to_string(~H"""
+      <.form_help_text class="mt-1" help_text="Test class" />
+      """)
+
+    assert html =~ "Test class"
+    assert html =~ "mt-1"
+  end
+
   test "form_field wrapper_classes" do
     assigns = %{}
 
     html =
       rendered_to_string(~H"""
-      <.form :let={f} as={:user} for={%Ecto.Changeset{
-        action: :update,
-        data: %{name: ""},
-        errors: [
-          name: {"can't be blank", [validation: :required]},
-          name: {"too long", [validation: :required]},
-        ]}
-      }>
+      <.form
+        :let={f}
+        as={:user}
+        for={
+          %Ecto.Changeset{
+            action: :update,
+            data: %{name: ""},
+            errors: [
+              name: {"can't be blank", [validation: :required]},
+              name: {"too long", [validation: :required]}
+            ]
+          }
+        }
+      >
         <.form_field
           type="text_input"
           form={f}
           field={:name}
           placeholder="eg. John"
           wrapper_classes="wrapper-test"
+          help_text="Help!"
         />
       </.form>
       """)
@@ -279,6 +293,31 @@ defmodule PetalComponents.FormTest do
     assert html =~ "too long"
     assert html =~ "blank"
     assert html =~ "<div class=\"wrapper-test\""
+    assert html =~ "Help!"
+  end
+
+  test "form_field label_class" do
+    assigns = %{}
+
+    html =
+      rendered_to_string(~H"""
+      <.form
+        :let={f}
+        as={:user}
+        for={%Ecto.Changeset{action: :update, data: %{name: ""}}}
+      >
+        <.form_field
+          type="text_input"
+          form={f}
+          field={:name}
+          placeholder="eg. John"
+          label_class="label-class-test"
+          help_text="Help!"
+        />
+      </.form>
+      """)
+
+    assert html =~ "label-class-test"
   end
 
   test "form_field text_input" do
@@ -286,20 +325,21 @@ defmodule PetalComponents.FormTest do
 
     html =
       rendered_to_string(~H"""
-      <.form :let={f} as={:user} for={%Ecto.Changeset{
-        action: :update,
-        data: %{name: ""},
-        errors: [
-          name: {"can't be blank", [validation: :required]},
-          name: {"too long", [validation: :required]},
-        ]}
-      }>
-        <.form_field
-          type="text_input"
-          form={f}
-          field={:name}
-          placeholder="eg. John"
-        />
+      <.form
+        :let={f}
+        as={:user}
+        for={
+          %Ecto.Changeset{
+            action: :update,
+            data: %{name: ""},
+            errors: [
+              name: {"can't be blank", [validation: :required]},
+              name: {"too long", [validation: :required]}
+            ]
+          }
+        }
+      >
+        <.form_field type="text_input" form={f} field={:name} class="w-max" placeholder="eg. John" />
       </.form>
       """)
 
@@ -310,6 +350,38 @@ defmodule PetalComponents.FormTest do
     assert html =~ "too long"
     assert html =~ "blank"
     assert html =~ "mb-6"
+    assert html =~ "border-gray-300"
+    assert html =~ "w-max"
+  end
+
+  test "form_field checkbox label" do
+    assigns = %{}
+
+    html =
+      rendered_to_string(~H"""
+      <.form
+        :let={f}
+        as={:user}
+        for={%Ecto.Changeset{action: :update, data: %{name: ""}}}
+      >
+        <.form_field type="checkbox" form={f} field={:name} />
+      </.form>
+      """)
+
+    assert html =~ "Name"
+
+    html =
+      rendered_to_string(~H"""
+      <.form
+        :let={f}
+        as={:user}
+        for={%Ecto.Changeset{action: :update, data: %{name: ""}}}
+      >
+        <.form_field type="checkbox" form={f} field={:name} label="Something else" />
+      </.form>
+      """)
+
+    assert html =~ "Something else"
   end
 
   test "number_input" do
@@ -318,11 +390,7 @@ defmodule PetalComponents.FormTest do
     html =
       rendered_to_string(~H"""
       <.form :let={f} for={:user}>
-        <.number_input
-          form={f}
-          field={:name}
-          itemid="something"
-        />
+        <.number_input form={f} field={:name} itemid="something" />
       </.form>
       """)
 
@@ -340,11 +408,7 @@ defmodule PetalComponents.FormTest do
     html =
       rendered_to_string(~H"""
       <.form :let={f} for={:user}>
-        <.email_input
-          form={f}
-          field={:name}
-          itemid="something"
-        />
+        <.email_input form={f} field={:name} itemid="something" />
       </.form>
       """)
 
@@ -362,11 +426,7 @@ defmodule PetalComponents.FormTest do
     html =
       rendered_to_string(~H"""
       <.form :let={f} for={:user}>
-        <.password_input
-          form={f}
-          field={:name}
-          itemid="something"
-        />
+        <.password_input form={f} field={:name} itemid="something" />
       </.form>
       """)
 
@@ -384,11 +444,7 @@ defmodule PetalComponents.FormTest do
     html =
       rendered_to_string(~H"""
       <.form :let={f} for={:user}>
-        <.search_input
-          form={f}
-          field={:name}
-          itemid="something"
-        />
+        <.search_input form={f} field={:name} itemid="something" />
       </.form>
       """)
 
@@ -406,11 +462,7 @@ defmodule PetalComponents.FormTest do
     html =
       rendered_to_string(~H"""
       <.form :let={f} for={:user}>
-        <.telephone_input
-          form={f}
-          field={:name}
-          itemid="something"
-        />
+        <.telephone_input form={f} field={:name} itemid="something" />
       </.form>
       """)
 
@@ -428,11 +480,7 @@ defmodule PetalComponents.FormTest do
     html =
       rendered_to_string(~H"""
       <.form :let={f} for={:user}>
-        <.url_input
-          form={f}
-          field={:name}
-          itemid="something"
-        />
+        <.url_input form={f} field={:name} itemid="something" />
       </.form>
       """)
 
@@ -450,11 +498,7 @@ defmodule PetalComponents.FormTest do
     html =
       rendered_to_string(~H"""
       <.form :let={f} for={:user}>
-        <.time_input
-          form={f}
-          field={:name}
-          itemid="something"
-        />
+        <.time_input form={f} field={:name} itemid="something" />
       </.form>
       """)
 
@@ -472,10 +516,7 @@ defmodule PetalComponents.FormTest do
     html =
       rendered_to_string(~H"""
       <.form :let={f} for={:user}>
-        <.time_select
-          form={f}
-          field={:name}
-        />
+        <.time_select form={f} field={:name} />
       </.form>
       """)
 
@@ -489,11 +530,7 @@ defmodule PetalComponents.FormTest do
     html =
       rendered_to_string(~H"""
       <.form :let={f} for={:user}>
-        <.datetime_local_input
-          form={f}
-          field={:name}
-          itemid="something"
-        />
+        <.datetime_local_input form={f} field={:name} itemid="something" />
       </.form>
       """)
 
@@ -511,10 +548,7 @@ defmodule PetalComponents.FormTest do
     html =
       rendered_to_string(~H"""
       <.form :let={f} for={:user}>
-        <.datetime_select
-          form={f}
-          field={:name}
-        />
+        <.datetime_select form={f} field={:name} />
       </.form>
       """)
 
@@ -528,10 +562,7 @@ defmodule PetalComponents.FormTest do
     html =
       rendered_to_string(~H"""
       <.form :let={f} for={:user}>
-        <.date_select
-          form={f}
-          field={:name}
-        />
+        <.date_select form={f} field={:name} />
       </.form>
       """)
 
@@ -545,11 +576,7 @@ defmodule PetalComponents.FormTest do
     html =
       rendered_to_string(~H"""
       <.form :let={f} for={:user}>
-        <.date_input
-          form={f}
-          field={:name}
-          itemid="something"
-        />
+        <.date_input form={f} field={:name} itemid="something" />
       </.form>
       """)
 
@@ -567,11 +594,7 @@ defmodule PetalComponents.FormTest do
     html =
       rendered_to_string(~H"""
       <.form :let={f} for={:user}>
-        <.color_input
-          form={f}
-          field={:name}
-          itemid="something"
-        />
+        <.color_input form={f} field={:name} itemid="something" />
       </.form>
       """)
 
@@ -589,11 +612,7 @@ defmodule PetalComponents.FormTest do
     html =
       rendered_to_string(~H"""
       <.form :let={f} for={:user} multipart>
-        <.file_input
-          form={f}
-          field={:name}
-          itemid="something"
-        />
+        <.file_input form={f} field={:name} itemid="something" />
       </.form>
       """)
 
@@ -612,11 +631,7 @@ defmodule PetalComponents.FormTest do
     html =
       rendered_to_string(~H"""
       <.form :let={f} for={:user}>
-        <.range_input
-          form={f}
-          field={:name}
-          itemid="something"
-        />
+        <.range_input form={f} field={:name} itemid="something" />
       </.form>
       """)
 
@@ -626,5 +641,23 @@ defmodule PetalComponents.FormTest do
     assert html =~ "itemid"
     assert html =~ "something"
     assert html =~ "phx-feedback-for"
+  end
+
+  test "hidden_input" do
+    assigns = %{}
+
+    html =
+      rendered_to_string(~H"""
+      <.form :let={f} for={:user}>
+        <.hidden_input form={f} field={:token} itemid="something" />
+      </.form>
+      """)
+
+    assert html =~ "input"
+    assert html =~ "hidden"
+    assert html =~ "token"
+    assert html =~ "user[token]"
+    assert html =~ "itemid"
+    assert html =~ "something"
   end
 end
