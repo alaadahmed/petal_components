@@ -2,7 +2,7 @@ defmodule PetalComponents.MixProject do
   use Mix.Project
 
   @source_url "https://github.com/petalframework/petal_components"
-  @version "0.19.10"
+  @version "1.0.1"
 
   def project do
     [
@@ -63,7 +63,8 @@ defmodule PetalComponents.MixProject do
     [
       maintainers: ["Matt Platts", "Nic Hoban"],
       licenses: ["MIT"],
-      links: %{"GitHub" => @source_url}
+      links: %{"GitHub" => @source_url},
+      files: ~w(mix.exs priv lib assets README.md LICENSE.md CHANGELOG.md)
     ]
   end
 
