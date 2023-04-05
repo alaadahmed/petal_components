@@ -81,7 +81,7 @@ defmodule PetalComponents.Form do
   @doc "Use this when you want to include the label and some margin."
   def form_field(%{type: "hidden_input"} = assigns) do
     ~H"""
-      <.hidden_input form={@form} field={@field} {@rest} />
+    <.hidden_input form={@form} field={@field} {@rest} />
     """
   end
 
