@@ -1,8 +1,5 @@
 defmodule PetalComponents.SlideOver do
   use Phoenix.Component
-
-  import PetalComponents.Helpers
-
   alias Phoenix.LiveView.JS
 
   attr(:origin, :string,
@@ -17,6 +14,16 @@ defmodule PetalComponents.SlideOver do
       "close_slide_over_target allows you to target a specific live component for the close event to go to. eg: close_slide_over_target={@myself}"
   )
 
+  attr(:close_on_click_away, :boolean,
+    default: true,
+    doc: "whether the slideover should close when a user clicks away"
+  )
+
+  attr(:close_on_escape, :boolean,
+    default: true,
+    doc: "whether the slideover should close when a user hits escape"
+  )
+
   attr(:title, :string, default: nil, doc: "slideover title")
 
   attr(:max_width, :string,
@@ -26,30 +33,31 @@ defmodule PetalComponents.SlideOver do
   )
 
   attr(:class, :string, default: "", doc: "CSS class")
+  attr(:hide, :boolean, default: false, doc: "slideover is hidden")
   attr(:rest, :global)
   slot(:inner_block, required: false)
 
   def slide_over(assigns) do
     ~H"""
-    <div {@rest} id="slide-over">
+    <div
+      {@rest}
+      phx-mounted={!@hide && show_slide_over()}
+      phx-remove={hide_slide_over(@origin, @close_slide_over_target)}
+      class="hidden pc-slide-over"
+      id="slide-over"
+    >
       <div id="slide-over-overlay" class="pc-slideover__overlay" aria-hidden="true"></div>
 
       <div
-        class={
-          build_class([
-            "pc-slideover__wrapper",
-            get_margin_classes(@origin),
-            @class
-          ])
-        }
+        class={["pc-slideover__wrapper", get_margin_classes(@origin), @class]}
         role="dialog"
         aria-modal="true"
       >
         <div
           id="slide-over-content"
           class={get_classes(@max_width, @origin, @class)}
-          phx-click-away={hide_slide_over(@origin, @close_slide_over_target)}
-          phx-window-keydown={hide_slide_over(@origin, @close_slide_over_target)}
+          phx-click-away={@close_on_click_away && hide_slide_over(@origin, @close_slide_over_target)}
+          phx-window-keydown={@close_on_escape && hide_slide_over(@origin, @close_slide_over_target)}
           phx-key="escape"
         >
           <!-- Header -->
@@ -60,6 +68,7 @@ defmodule PetalComponents.SlideOver do
               </div>
 
               <button
+                type="button"
                 phx-click={hide_slide_over(@origin, @close_slide_over_target)}
                 class="pc-slideover__header__button"
               >
@@ -78,6 +87,24 @@ defmodule PetalComponents.SlideOver do
       </div>
     </div>
     """
+  end
+
+  def show_slide_over() do
+    %JS{}
+    |> JS.show(to: "#slide-over")
+    |> JS.show(
+      to: "#slide-over-overlay",
+      transition: {"transition-all transform ease-out duration-300", "opacity-0", "opacity-100"}
+    )
+    |> JS.show(
+      to: "#slide-over-content",
+      transition:
+        {"transition-all transform ease-out duration-300",
+         "opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95",
+         "opacity-100 translate-y-0 sm:scale-100"}
+    )
+    |> JS.add_class("overflow-hidden", to: "body")
+    |> JS.focus_first(to: "#slide-over-content")
   end
 
   # The live view that calls <.slide_over> will need to handle the "close_slide_over" event. eg:
@@ -139,14 +166,7 @@ defmodule PetalComponents.SlideOver do
     max_width_class =
       case origin do
         x when x in ["left", "right"] ->
-          case max_width do
-            "sm" -> "pc-slideover__box--sm"
-            "md" -> "pc-slideover__box--md"
-            "lg" -> "pc-slideover__box--lg"
-            "xl" -> "pc-slideover__box--xl"
-            "2xl" -> "pc-slideover__box--2xl"
-            "full" -> "pc-slideover__box--full"
-          end
+          "pc-slideover__box--#{max_width}"
 
         x when x in ["top", "bottom"] ->
           ""
@@ -154,7 +174,7 @@ defmodule PetalComponents.SlideOver do
 
     custom_classes = class
 
-    build_class([slide_over_classes, max_width_class, base_classes, custom_classes])
+    [slide_over_classes, max_width_class, base_classes, custom_classes]
   end
 
   defp get_margin_classes(margin) do

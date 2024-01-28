@@ -55,6 +55,19 @@ defmodule PetalComponents.TabsTest do
     assert html =~ "phx-click"
   end
 
+  test "Test tabs custom css class" do
+    assigns = %{}
+
+    html =
+      rendered_to_string(~H"""
+      <.tabs class="flex-col sm:flex-row space-x">
+        <.tab class="hello" is_active to="/">Home</.tab>
+      </.tabs>
+      """)
+
+    assert html =~ " hello"
+  end
+
   test "patch" do
     assigns = %{}
 
@@ -168,5 +181,18 @@ defmodule PetalComponents.TabsTest do
     for i <- 1..3 do
       assert html =~ ~s{custom-attrs="#{i}"}
     end
+  end
+
+  test "disabled tab" do
+    assigns = %{}
+
+    html =
+      rendered_to_string(~H"""
+      <.tabs custom-attrs="1" underline>
+        <.tab disabled to="/">Home</.tab>
+      </.tabs>
+      """)
+
+    assert html =~ "disabled"
   end
 end

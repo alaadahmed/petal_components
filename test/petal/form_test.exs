@@ -145,6 +145,8 @@ defmodule PetalComponents.FormTest do
     assert html =~ "user[read_terms]"
     assert html =~ "phx-feedback-for"
     assert html =~ "itemid"
+    assert html =~ "sr-only"
+    assert html =~ "peer"
   end
 
   test "radio" do
@@ -258,6 +260,13 @@ defmodule PetalComponents.FormTest do
 
     assert html =~ "Test class"
     assert html =~ "mt-1"
+
+    html =
+      rendered_to_string(~H"""
+      <.form_help_text />
+      """)
+
+    refute html =~ "pc-form-help-text"
   end
 
   test "form_field wrapper_classes" do

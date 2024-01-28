@@ -52,7 +52,7 @@
   @apply text-white border-transparent bg-primary-600 hover:bg-primary-700 focus:bg-primary-700 active:bg-primary-800 focus:shadow-primary-500/50;
 }
 .pc-button--primary-outline {
-  @apply border-primary-400 dark:border-primary-400 dark:hover:border-primary-300 dark:hover:text-primary-300 dark:hover:bg-transparent dark:text-primary-400 hover:border-primary-600 text-primary-600 hover:text-primary-700 active:bg-primary-200 hover:bg-primary-50 focus:border-primary-700 focus:shadow-primary-500/50;
+  @apply border-primary-400 dark:border-primary-400 dark:active:border-primary-400 dark:hover:border-primary-300 dark:hover:text-primary-300 dark:hover:bg-transparent dark:text-primary-400 hover:border-primary-600 text-primary-600 hover:text-primary-700 active:bg-primary-200 hover:bg-primary-50 focus:border-primary-700 focus:shadow-primary-500/50;
 }
 .pc-button--primary-inverted {
   @apply border-primary-400 dark:border-primary-400 dark:hover:border-primary-700 dark:hover:text-white dark:hover:bg-primary-700 dark:text-primary-400 hover:border-primary-600 text-primary-600 hover:text-white active:bg-primary-700 hover:bg-primary-600 focus:border-primary-700 focus:shadow-primary-500/50;
@@ -64,7 +64,7 @@
   @apply text-white border-transparent bg-secondary-600 hover:bg-secondary-700 focus:bg-secondary-700 active:bg-secondary-800 focus:shadow-secondary-500/50;
 }
 .pc-button--secondary-outline {
-  @apply border-secondary-400 dark:border-secondary-400 dark:hover:border-secondary-300 dark:hover:text-secondary-300 dark:hover:bg-transparent dark:text-secondary-400 hover:border-secondary-600 text-secondary-600 hover:text-secondary-700 active:bg-secondary-200 hover:bg-secondary-50 focus:border-secondary-700 focus:shadow-secondary-500/50;
+  @apply border-secondary-400 dark:border-secondary-400 dark:active:border-secondary-400 dark:hover:border-secondary-300 dark:hover:text-secondary-300 dark:hover:bg-transparent dark:text-secondary-400 hover:border-secondary-600 text-secondary-600 hover:text-secondary-700 active:bg-secondary-200 hover:bg-secondary-50 focus:border-secondary-700 focus:shadow-secondary-500/50;
 }
 .pc-button--secondary-inverted {
   @apply border-secondary-400 dark:border-secondary-400 dark:hover:border-secondary-700 dark:hover:text-white dark:hover:bg-secondary-700 dark:text-secondary-400 hover:border-secondary-600 text-secondary-600 hover:text-white active:bg-secondary-700 hover:bg-secondary-600 focus:border-secondary-700 focus:shadow-secondary-500/50;
@@ -76,7 +76,7 @@
   @apply text-gray-700 bg-white border-gray-300 hover:text-gray-900 hover:border-gray-400 hover:bg-gray-50 focus:outline-none focus:border-gray-400 focus:bg-gray-100 focus:text-gray-900 active:border-gray-400 active:bg-gray-200 active:text-black dark:bg-white dark:hover:bg-gray-200 dark:hover:border-transparent dark:border-transparent;
 }
 .pc-button--white-outline {
-  @apply text-gray-600 border-gray-400 dark:border-gray-300 dark:hover:border-gray-200 dark:hover:text-gray-200 dark:hover:bg-transparent dark:text-gray-300 hover:border-gray-600 hover:text-gray-700 active:bg-gray-100 hover:bg-gray-50 focus:bg-gray-50 focus:border-gray-500 active:border-gray-600;
+  @apply text-gray-600 border-gray-400 dark:border-gray-300 dark:active:border-gray-400 dark:active:bg-transparent dark:focus:bg-transparent dark:bg-transparent dark:hover:border-gray-200 dark:hover:text-gray-200 dark:hover:bg-transparent dark:text-gray-300 hover:border-gray-600 hover:text-gray-700 active:bg-gray-100 hover:bg-gray-50 focus:bg-gray-50 focus:border-gray-500 active:border-gray-600;
 }
 .pc-button--white-inverted {
   @apply text-gray-600 border-gray-400 dark:border-white dark:hover:border-gray-700 dark:hover:text-black dark:hover:bg-white dark:text-gray-300 hover:border-gray-600 hover:text-black active:bg-gray-700 hover:bg-white focus:border-gray-700 focus:shadow-gray-500/50;
@@ -91,7 +91,7 @@
   @apply text-white border-transparent bg-info-600 hover:bg-info-700 active:bg-info-800 focus:bg-info-700;
 }
 .pc-button--info-outline {
-  @apply text-info-600 border-info-400 dark:border-info-400 dark:hover:border-info-300 dark:hover:text-info-300 dark:hover:bg-transparent dark:text-info-400 hover:border-info-600 hover:text-info-700 active:border-info-600 focus:text-info-600 active:text-info-700 active:bg-info-100 hover:bg-info-50 focus:border-info-700;
+  @apply text-info-600 border-info-400 dark:border-info-400 dark:active:border-info-400 dark:hover:border-info-300 dark:hover:text-info-300 dark:hover:bg-transparent dark:text-info-400 hover:border-info-600 hover:text-info-700 active:border-info-600 focus:text-info-600 active:text-info-700 active:bg-info-100 hover:bg-info-50 focus:border-info-700;
 }
 .pc-button--info-inverted {
   @apply text-info-600 border-info-400 dark:border-info-400 dark:hover:border-info-700 dark:hover:text-white dark:hover:bg-info-700 dark:text-info-400 hover:border-info-600 hover:text-white active:bg-info-800 hover:bg-info-600 focus:border-info-700 focus:shadow-info-500/50;
@@ -100,52 +100,76 @@
   @apply text-white border-transparent shadow-xl bg-info-600 hover:bg-info-700 focus:bg-info-700 active:bg-info-800 focus:shadow-info-500/50 shadow-info-500/30 dark:hover:shadow-info-600/30 dark:focus:shadow-info-600/30 dark:active:shadow-info-700/30;
 }
 .pc-button--success {
-  @apply text-white bg-green-600 border-transparent hover:bg-green-700 active:bg-green-800 focus:bg-green-700;
+  @apply text-white border-transparent bg-success-600 hover:bg-success-700 active:bg-success-800 focus:bg-success-700;
 }
 .pc-button--success-outline {
-  @apply text-green-600 border-green-400 dark:border-green-400 dark:hover:border-green-300 dark:hover:text-green-300 dark:hover:bg-transparent dark:text-green-400 hover:border-green-600 hover:text-green-700 active:border-green-600 focus:text-green-600 active:text-green-700 active:bg-green-100 hover:bg-green-50 focus:border-green-700;
+  @apply text-success-600 border-success-400 dark:border-success-400 dark:active:border-success-500 dark:hover:border-success-300 dark:hover:text-success-300 dark:hover:bg-transparent dark:text-success-400 hover:border-success-600 hover:text-success-700 active:border-success-600 focus:text-success-600 active:text-success-700 active:bg-success-100 hover:bg-success-50 focus:border-success-700;
 }
 .pc-button--success-inverted {
-  @apply text-green-600 border-green-400 dark:border-green-400 dark:hover:border-green-700 dark:hover:text-white dark:hover:bg-green-700 dark:text-green-400 hover:border-green-600 hover:text-white active:bg-green-800 hover:bg-green-600 focus:border-green-700 focus:shadow-green-500/50;
+  @apply text-success-600 border-success-400 dark:border-success-400 dark:hover:border-success-700 dark:hover:text-white dark:hover:bg-success-700 dark:text-success-400 hover:border-success-600 hover:text-white active:bg-success-800 hover:bg-success-600 focus:border-success-700 focus:shadow-success-500/50;
 }
 .pc-button--success-shadow {
-  @apply text-white bg-green-600 border-transparent shadow-xl hover:bg-green-700 active:bg-green-800 focus:bg-green-700 focus:shadow-green-500/50 shadow-green-500/30 dark:hover:shadow-green-600/30 dark:focus:shadow-green-600/30 dark:active:shadow-green-700/30;
+  @apply text-white border-transparent shadow-xl bg-success-600 hover:bg-success-700 active:bg-success-800 focus:bg-success-700 focus:shadow-success-500/50 shadow-success-500/30 dark:hover:shadow-success-600/30 dark:focus:shadow-success-600/30 dark:active:shadow-success-700/30;
 }
 .pc-button--warning {
-  @apply text-white bg-yellow-600 border-transparent hover:bg-yellow-700 active:bg-yellow-800 focus:bg-yellow-700;
+  @apply text-white border-transparent bg-warning-600 hover:bg-warning-700 active:bg-warning-800 focus:bg-warning-700;
 }
 .pc-button--warning-outline {
-  @apply text-yellow-600 border-yellow-400 dark:border-yellow-400 dark:hover:border-yellow-300 dark:hover:text-yellow-300 dark:hover:bg-transparent dark:text-yellow-400 hover:border-yellow-600 hover:text-yellow-700 active:border-yellow-600 focus:text-yellow-600 active:text-yellow-700 active:bg-yellow-100 hover:bg-yellow-50 focus:border-yellow-700;
+  @apply text-warning-600 border-warning-400 dark:border-warning-400 dark:active:border-warning-500 dark:hover:border-warning-300 dark:hover:text-warning-300 dark:hover:bg-transparent dark:text-warning-400 hover:border-warning-600 hover:text-warning-700 active:border-warning-600 focus:text-warning-600 active:text-warning-700 active:bg-warning-100 hover:bg-warning-50 focus:border-warning-700;
 }
 .pc-button--warning-inverted {
-  @apply text-yellow-600 border-yellow-400 dark:border-yellow-400 dark:hover:border-yellow-700 dark:hover:text-white dark:hover:bg-yellow-700 dark:text-yellow-400 hover:border-yellow-600 hover:text-white active:bg-yellow-800 hover:bg-yellow-600 focus:border-yellow-700 focus:shadow-yellow-500/50;
+  @apply text-warning-600 border-warning-400 dark:border-warning-400 dark:hover:border-warning-700 dark:hover:text-white dark:hover:bg-warning-700 dark:text-warning-400 hover:border-warning-600 hover:text-white active:bg-warning-800 hover:bg-warning-600 focus:border-warning-700 focus:shadow-warning-500/50;
 }
 .pc-button--warning-shadow {
-  @apply text-white bg-yellow-600 border-transparent shadow-xl hover:bg-yellow-700 focus:bg-yellow-700 active:bg-yellow-800 focus:shadow-yellow-500/50 shadow-yellow-500/30 dark:hover:shadow-yellow-600/30 dark:focus:shadow-yellow-600/30 dark:active:shadow-yellow-700/30;
+  @apply text-white border-transparent shadow-xl bg-warning-600 hover:bg-warning-700 focus:bg-warning-700 active:bg-warning-800 focus:shadow-warning-500/50 shadow-warning-500/30 dark:hover:shadow-warning-600/30 dark:focus:shadow-warning-600/30 dark:active:shadow-warning-700/30;
 }
 .pc-button--danger {
-  @apply text-white bg-red-600 border-transparent hover:bg-red-700 active:bg-red-800 focus:bg-red-700;
+  @apply text-white border-transparent bg-danger-600 hover:bg-danger-700 active:bg-danger-800 focus:bg-danger-700;
 }
 .pc-button--danger-outline {
-  @apply text-red-600 border-red-400 dark:border-red-400 dark:hover:border-red-300 dark:hover:text-red-300 dark:hover:bg-transparent dark:text-red-400 hover:border-red-600 hover:text-red-700 active:bg-red-200 active:border-red-700 hover:bg-red-50 focus:border-red-700;
+  @apply text-danger-600 border-danger-400 dark:active:border-danger-400 dark:border-danger-400 dark:hover:border-danger-300 dark:hover:text-danger-300 dark:hover:bg-transparent dark:text-danger-400 hover:border-danger-600 hover:text-danger-700 active:bg-danger-200 active:border-danger-700 hover:bg-danger-50 focus:border-danger-700;
 }
 .pc-button--danger-inverted {
-  @apply text-red-600 border-red-400 dark:border-red-400 dark:hover:border-red-700 dark:hover:text-white dark:hover:bg-red-700 dark:text-red-400 hover:border-red-600 hover:text-white active:bg-red-800 hover:bg-red-600 focus:border-red-700 focus:shadow-red-500/50;
+  @apply text-danger-600 border-danger-400 dark:border-danger-400 dark:hover:border-danger-700 dark:hover:text-white dark:hover:bg-danger-700 dark:text-danger-400 hover:border-danger-600 hover:text-white active:bg-danger-800 hover:bg-danger-600 focus:border-danger-700 focus:shadow-danger-500/50;
 }
 .pc-button--danger-shadow {
-  @apply text-white bg-red-600 border-transparent shadow-xl hover:bg-red-700 focus:bg-red-700 active:bg-red-800 focus:shadow-red-500/50 shadow-red-500/30 dark:hover:shadow-red-600/30 dark:focus:shadow-red-600/30 dark:active:shadow-red-700/30;
+  @apply text-white border-transparent shadow-xl bg-danger-600 hover:bg-danger-700 focus:bg-danger-700 active:bg-danger-800 focus:shadow-danger-500/50 shadow-danger-500/30 dark:hover:shadow-danger-600/30 dark:focus:shadow-danger-600/30 dark:active:shadow-danger-700/30;
 }
 .pc-button--gray {
   @apply text-white bg-gray-600 border-transparent active:bg-gray-800 hover:bg-gray-700 focus:bg-gray-700;
 }
 .pc-button--gray-outline {
-  @apply text-gray-600 border-gray-400 dark:border-gray-400 dark:hover:border-gray-300 dark:hover:text-gray-300 dark:hover:bg-transparent dark:text-gray-400 hover:border-gray-600 hover:text-gray-700 active:bg-gray-200 active:border-gray-700 hover:bg-gray-50 focus:border-gray-700;
+  @apply text-gray-600 border-gray-400 dark:border-gray-400 dark:hover:border-gray-300 dark:active:border-gray-400 dark:hover:text-gray-300 dark:hover:bg-transparent dark:text-gray-400 hover:border-gray-600 hover:text-gray-700 active:bg-gray-200 active:border-gray-700 hover:bg-gray-50 focus:border-gray-700;
 }
 .pc-button--gray-inverted {
   @apply text-gray-600 border-gray-400 dark:border-gray-400 dark:hover:border-gray-700 dark:hover:text-white dark:hover:bg-gray-700 dark:text-gray-400 hover:border-gray-600 hover:text-white active:bg-gray-700 hover:bg-gray-600 focus:border-gray-700 focus:shadow-gray-500/50;
 }
 .pc-button--gray-shadow {
   @apply text-white bg-gray-600 border-transparent shadow-xl active:bg-gray-800 hover:bg-gray-700 focus:bg-gray-700 focus:shadow-gray-500/50 shadow-gray-500/30 dark:hover:shadow-gray-600/30 dark:focus:shadow-gray-600/30 dark:active:shadow-gray-700/30;
+}
+.pc-button--light {
+  @apply text-gray-900 bg-white border-gray-300 hover:text-gray-900 hover:border-gray-400 hover:bg-gray-50 focus:outline-none focus:border-gray-400 focus:bg-gray-100 focus:text-gray-900 active:border-gray-400 active:bg-gray-200 active:text-black dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:active:border-gray-700 dark:active:bg-gray-800;
+}
+.pc-button--light-outline {
+  @apply text-gray-900 border-gray-300 dark:hover:bg-transparent hover:border-gray-400 active:bg-gray-100 hover:bg-gray-50 focus:bg-gray-50 focus:border-gray-500 active:border-gray-600 dark:text-white dark:border-gray-600 dark:active:border-gray-600 dark:hover:border-gray-500 dark:active:bg-transparent dark:focus:bg-transparent dark:bg-transparent;
+}
+.pc-button--light-inverted {
+  @apply text-gray-900 border-gray-300 hover:border-gray-600 hover:text-white active:bg-gray-700 hover:bg-gray-600 focus:border-gray-700 focus:shadow-gray-500/50 dark:hover:text-black dark:hover:bg-white dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:border-white dark:active:bg-gray-300 dark:active:border-gray-300 dark:focus:shadow-gray-600/50;
+}
+.pc-button--light-shadow {
+  @apply text-gray-700 bg-white border-gray-300 shadow-xl hover:text-gray-900 hover:border-gray-400 hover:bg-gray-50 focus:outline-none focus:border-gray-400 focus:bg-gray-100 focus:text-gray-900 active:border-gray-400 active:bg-gray-200 dark:hover:border-transparent dark:border-transparent active:text-black dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:active:border-gray-700 dark:active:bg-gray-800 shadow-gray-500/30 dark:shadow-gray-600/30 dark:hover:shadow-gray-500/30 dark:focus:shadow-gray-500/30 dark:active:shadow-gray-600/30;
+}
+.pc-button--dark {
+  @apply text-white border-transparent bg-gray-950 dark:text-gray-950 dark:bg-white dark:hover:text-gray-900 dark:hover:bg-gray-100 dark:focus:outline-none dark:focus:bg-gray-200 dark:focus:text-gray-900 dark:active:bg-gray-300 dark:active:text-black hover:bg-gray-800 active:bg-gray-900;
+}
+.pc-button--dark-outline {
+  @apply bg-white dark:bg-gray-950 dark:border-white text-gray-950 border-gray-950 dark:hover:bg-gray-950 dark:hover:border-gray-300 dark:active:bg-gray-950 hover:bg-gray-50 dark:focus:bg-gray-950 dark:active:border-gray-400 dark:text-white active:border-gray-600 hover:border-gray-500 active:bg-gray-100 focus:bg-transparent;
+}
+.pc-button--dark-inverted {
+  @apply border-gray-950 text-gray-950 hover:border-transparent hover:text-white active:bg-gray-800 hover:bg-gray-950 focus:shadow-gray-500/50 dark:hover:bg-white dark:hover:text-black dark:bg-gray-950 dark:text-white dark:active:bg-gray-200 dark:active:border-gray-200 dark:border-white;
+}
+.pc-button--dark-shadow {
+  @apply text-white border-transparent shadow-xl dark:text-gray-950 bg-gray-950 active:bg-gray-900 hover:bg-gray-800 focus:bg-gray-800 focus:shadow-gray-500/50 dark:bg-white dark:hover:bg-gray-200 dark:hover:border-transparent dark:border-transparent active:text-white shadow-gray-500/30 dark:shadow-gray-200/30 dark:hover:shadow-gray-300/30 dark:focus:shadow-gray-300/30 dark:active:shadow-gray-400/30;
 }
 
 /* Buttons - loading */
@@ -186,6 +210,18 @@
   @apply inline-block p-2 rounded-full;
 }
 
+.pc-icon-button__tooltip {
+  @apply absolute flex-col items-center invisible mb-6 transition-opacity duration-300 -translate-y-full opacity-0 -top-1 group-hover/pc-icon-button:flex group-hover/pc-icon-button:visible group-hover/pc-icon-button:opacity-100;
+}
+
+.pc-icon-button__tooltip__text {
+  @apply relative z-10 p-2 text-xs leading-none text-white bg-gray-900 rounded-sm shadow-lg whitespace-nowrap dark:bg-gray-700;
+}
+
+.pc-icon-button__tooltip__arrow {
+  @apply w-3 h-3 -mt-2 rotate-45 bg-gray-900 dark:bg-gray-700;
+}
+
 /* Icon Buttons - colors */
 
 .pc-icon-button--primary {
@@ -201,13 +237,13 @@
   @apply text-info-600 dark:text-info-500;
 }
 .pc-icon-button--success {
-  @apply text-green-600 dark:text-green-500;
+  @apply text-success-600 dark:text-success-500;
 }
 .pc-icon-button--warning {
-  @apply text-yellow-600 dark:text-yellow-500;
+  @apply text-warning-600 dark:text-warning-500;
 }
 .pc-icon-button--danger {
-  @apply text-red-600 dark:text-red-500;
+  @apply text-danger-600 dark:text-danger-500;
 }
 
 /* Icon Buttons - background colors */
@@ -225,13 +261,13 @@
   @apply hover:bg-info-50 dark:hover:bg-gray-800;
 }
 .pc-icon-button-bg--success {
-  @apply hover:bg-green-50 dark:hover:bg-gray-800;
+  @apply hover:bg-success-50 dark:hover:bg-gray-800;
 }
 .pc-icon-button-bg--warning {
-  @apply hover:bg-yellow-50 dark:hover:bg-gray-800;
+  @apply hover:bg-warning-50 dark:hover:bg-gray-800;
 }
 .pc-icon-button-bg--danger {
-  @apply hover:bg-red-50 dark:hover:bg-gray-800;
+  @apply hover:bg-danger-50 dark:hover:bg-gray-800;
 }
 
 /* Icon Button - sizes */
@@ -273,7 +309,7 @@
 /* Button - disabled */
 
 .pc-button--disabled {
-  @apply opacity-50 disabled:cursor-not-allowed;
+  @apply opacity-50 cursor-not-allowed;
 }
 
 /* Typography */
@@ -366,31 +402,31 @@
   @apply border text-info-600 border-info-600 dark:text-info-400 dark:border-info-400;
 }
 .pc-badge--success-light {
-  @apply text-green-800 bg-green-100 border-green-100 dark:bg-green-200 dark:border-green-200;
+  @apply text-success-800 bg-success-100 border-success-100 dark:bg-success-200 dark:border-success-200;
 }
 .pc-badge--success-dark {
-  @apply text-white bg-green-600 border-green-600;
+  @apply text-white bg-success-600 border-success-600;
 }
 .pc-badge--success-outline {
-  @apply text-green-600 border border-green-600 dark:text-green-400 dark:border-green-400;
+  @apply border text-success-600 border-success-600 dark:text-success-400 dark:border-success-400;
 }
 .pc-badge--warning-light {
-  @apply text-yellow-800 bg-yellow-100 border-yellow-100 dark:bg-yellow-200 dark:border-yellow-200;
+  @apply text-warning-800 bg-warning-100 border-warning-100 dark:bg-warning-200 dark:border-warning-200;
 }
 .pc-badge--warning-dark {
-  @apply text-white bg-yellow-600 border-yellow-600;
+  @apply text-white bg-warning-600 border-warning-600;
 }
 .pc-badge--warning-outline {
-  @apply text-yellow-600 border border-yellow-600 dark:text-yellow-400 dark:border-yellow-400;
+  @apply border text-warning-600 border-warning-600 dark:text-warning-400 dark:border-warning-400;
 }
 .pc-badge--danger-light {
-  @apply text-red-800 bg-red-100 border-red-100 dark:bg-red-200 dark:border-red-200;
+  @apply text-danger-800 bg-danger-100 border-danger-100 dark:bg-danger-200 dark:border-danger-200;
 }
 .pc-badge--danger-dark {
-  @apply text-white bg-red-600 border-red-600;
+  @apply text-white bg-danger-600 border-danger-600;
 }
 .pc-badge--danger-outline {
-  @apply text-red-600 border border-red-600 dark:text-red-400 dark:border-red-400;
+  @apply border text-danger-600 border-danger-600 dark:text-danger-400 dark:border-danger-400;
 }
 .pc-badge--gray-light {
   @apply text-gray-800 bg-gray-100 border-gray-100 dark:bg-gray-200 dark:border-gray-200;
@@ -426,13 +462,13 @@
   @apply bg-info-100 dark:bg-info-200 hover:bg-info-200 dark:hover:bg-info-300 hover:text-info-800 dark:hover:text-info-900;
 }
 .pc-alert__dismiss-button--success {
-  @apply bg-green-100 dark:bg-green-200 hover:bg-green-200 dark:hover:bg-green-300 hover:text-green-800 dark:hover:text-green-900;
+  @apply bg-success-100 dark:bg-success-200 hover:bg-success-200 dark:hover:bg-success-300 hover:text-success-800 dark:hover:text-success-900;
 }
 .pc-alert__dismiss-button--warning {
-  @apply bg-yellow-100 dark:bg-yellow-200 hover:bg-yellow-200 dark:hover:bg-yellow-300 hover:text-yellow-800 dark:hover:text-yellow-900;
+  @apply bg-warning-100 dark:bg-warning-200 hover:bg-warning-200 dark:hover:bg-warning-300 hover:text-warning-800 dark:hover:text-warning-900;
 }
 .pc-alert__dismiss-button--danger {
-  @apply bg-red-100 dark:bg-red-200 hover:bg-red-200 dark:hover:bg-red-300 hover:text-red-800 dark:hover:text-red-900;
+  @apply bg-danger-100 dark:bg-danger-200 hover:bg-danger-200 dark:hover:bg-danger-300 hover:text-danger-800 dark:hover:text-danger-900;
 }
 
 /* Alerts - colors */
@@ -441,13 +477,13 @@
   @apply text-info-800 bg-info-100 dark:bg-info-200 dark:text-info-800;
 }
 .pc-alert--success {
-  @apply text-green-800 bg-green-100 dark:bg-green-200 dark:text-green-800;
+  @apply text-success-800 bg-success-100 dark:bg-success-200 dark:text-success-800;
 }
 .pc-alert--warning {
-  @apply text-yellow-800 bg-yellow-100 dark:bg-yellow-200 dark:text-yellow-800;
+  @apply text-warning-800 bg-warning-100 dark:bg-warning-200 dark:text-warning-800;
 }
 .pc-alert--danger {
-  @apply text-red-800 bg-red-100 dark:bg-red-200 dark:text-red-800;
+  @apply text-danger-800 bg-danger-100 dark:bg-danger-200 dark:text-danger-800;
 }
 
 /* Alerts - with icon */
@@ -467,8 +503,25 @@
 .pc-form-field-wrapper {
   @apply mb-6;
 }
+:not(.phx-no-feedback).pc-form-field-wrapper--error input,
+:not(.phx-no-feedback).pc-form-field-wrapper--error select,
+:not(.phx-no-feedback).pc-form-field-wrapper--error textarea {
+  @apply border-danger-500 focus:border-danger-500 text-danger-900 placeholder-danger-700 bg-danger-50 dark:text-danger-100 dark:placeholder-danger-300 dark:bg-danger-900 focus:ring-danger-500;
+}
+:not(.phx-no-feedback).pc-form-field-wrapper--error input[type="checkbox"] {
+  @apply bg-danger-700;
+}
+:not(.phx-no-feedback).pc-form-field-wrapper--error
+  .pc-switch
+  .pc-switch__fake-input {
+  @apply bg-danger-200 border-danger-500;
+}
+:not(.phx-no-feedback).pc-form-field-wrapper--error .pc-label,
+:not(.phx-no-feedback).pc-form-field-wrapper--error .pc-checkbox-label {
+  @apply !text-danger-600 dark:!text-danger-200;
+}
 .pc-checkbox-label {
-  @apply inline-flex items-center gap-3 cursor-pointer;
+  @apply inline-flex items-center gap-3 text-sm font-normal text-gray-900 cursor-pointer dark:text-gray-200;
 }
 .pc-label {
   @apply block mb-2 text-sm font-medium text-gray-900 dark:text-gray-200;
@@ -476,8 +529,17 @@
 .pc-label--for-checkbox {
   @apply !mb-0 font-normal;
 }
+.pc-label--required:after {
+  color: #e32;
+  content: " *";
+  display: inline;
+}
+.phx-no-feedback.pc-error,
+.phx-no-feedback .pc-error {
+  @apply hidden;
+}
 .pc-form-field-error {
-  @apply mt-1 text-xs italic text-red-500;
+  @apply mt-1 text-xs italic text-danger-500;
 }
 .phx-no-feedback.pc-form-field-error {
   @apply hidden;
@@ -498,7 +560,7 @@
   @apply select-wrapper dark:text-white;
 }
 .pc-switch {
-  @apply relative inline-flex items-center justify-center flex-shrink-0 w-10 h-5;
+  @apply relative inline-flex items-center justify-center flex-shrink-0 w-10 h-5 cursor-pointer;
 }
 .pc-switch__input {
   @apply absolute w-10 h-5 bg-white border-none rounded-full cursor-pointer peer-checked:border-0 checked:bg-transparent checked:focus:bg-transparent checked:hover:bg-transparent dark:bg-gray-800;
@@ -516,7 +578,7 @@
   @apply block w-full py-2 pl-3 pr-10 text-base border-gray-300 rounded-md cursor-pointer focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:focus:border-primary-500 disabled:bg-gray-100 disabled:cursor-not-allowed focus:outline-none sm:text-sm dark:disabled:bg-gray-700 dark:text-gray-300 dark:bg-gray-800;
 }
 .pc-file-input {
-  @apply text-sm rounded-md cursor-pointer focus:outline-none file:border-0 text-slate-500 file:text-primary-700 file:font-semibold file:px-4 file:py-2 file:mr-6 file:rounded-md hover:file:bg-primary-100 file:bg-primary-200 dark:file:bg-gray-800 dark:file:text-primary-500;
+  @apply text-sm rounded-md cursor-pointer focus:outline-none file:border-0 text-slate-500 file:text-primary-700 file:font-semibold file:px-4 file:py-2 file:mr-6 file:rounded-md hover:file:bg-primary-100 file:bg-primary-200 dark:file:bg-primary-300 hover:dark:file:bg-primary-200;
 }
 .pc-color-input {
   @apply border-gray-300 cursor-pointer focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:focus:border-primary-500;
@@ -525,13 +587,16 @@
   @apply w-full border-gray-300 cursor-pointer focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:focus:border-primary-500;
 }
 .pc-checkbox {
-  @apply w-5 h-5 transition-all duration-150 ease-linear border-gray-300 rounded text-primary-700 dark:bg-gray-800 dark:border-gray-600 disabled:bg-gray-300 dark:disabled:bg-gray-600 disabled:cursor-not-allowed;
+  @apply w-5 h-5 transition-all duration-150 ease-linear border-gray-300 rounded cursor-pointer text-primary-700 dark:bg-gray-800 dark:border-gray-600 disabled:bg-gray-300 dark:disabled:bg-gray-600 disabled:cursor-not-allowed;
+}
+.pc-checkbox-group {
+  @apply pt-2;
 }
 .pc-checkbox-group--row {
-  @apply flex flex-row gap-4;
+  @apply flex flex-row gap-4 mb-3;
 }
 .pc-checkbox-group--col {
-  @apply flex flex-col gap-3;
+  @apply flex flex-col gap-4 mb-3;
 }
 .pc-checkbox-group__item--row {
   @apply inline-flex items-center gap-2 cursor-pointer;
@@ -542,17 +607,24 @@
 .pc-radio {
   @apply w-4 h-4 border-gray-300 cursor-pointer text-primary-600 focus:ring-primary-500 dark:bg-gray-800 dark:border-gray-600;
 }
-.pc-radio-group-layout--row {
-  @apply flex flex-row gap-4;
+.pc-radio-group {
+  @apply pt-2;
 }
-.pc-radio-group-layout--col {
-  @apply flex flex-col gap-1;
+.pc-radio-group--row {
+  @apply flex flex-row gap-4 mb-3;
 }
-.pc-radio-group-layout__item--row {
+.pc-radio-group--col {
+  @apply flex flex-col gap-4 mb-3;
+}
+.pc-radio-group__item--row {
   @apply inline-flex items-center gap-2 cursor-pointer;
 }
-.pc-radio-group-layout__item--col {
+.pc-radio-group__item--col {
   @apply inline-flex items-center gap-3 cursor-pointer;
+}
+.pc-checkbox-group--empty-message,
+.pc-radio-group--empty-message {
+  @apply text-sm;
 }
 
 /* Dropdown */
@@ -584,6 +656,9 @@
 .pc-dropdown__trigger-button--with-label-and-trigger-element {
   @apply align-middle;
 }
+.pc-dropdown__menu-item--disabled {
+  @apply text-gray-500 hover:bg-transparent;
+}
 .pc-dropdown__ellipsis {
   @apply w-5 h-5;
 }
@@ -591,13 +666,13 @@
 /* Loading */
 
 .pc-spinner--sm {
-  @apply w-5 h-5;
+  @apply w-5 h-5 shrink-0;
 }
 .pc-spinner--md {
-  @apply w-8 h-8;
+  @apply w-8 h-8 shrink-0;
 }
 .pc-spinner--lg {
-  @apply w-16 h-16;
+  @apply w-16 h-16 shrink-0;
 }
 
 /* Breadcrumbs */
@@ -616,6 +691,9 @@
 }
 .pc-breadcrumbs__separator-chevron__icon {
   @apply w-6 h-6;
+}
+.pc-breadcrumb-icon {
+  @apply w-6 h-6 shrink-0;
 }
 
 /* Avatars */
@@ -705,25 +783,25 @@
 /* Progress - colors */
 
 .pc-progress--primary {
-  @apply bg-primary-100;
+  @apply bg-primary-100 dark:bg-primary-900;
 }
 .pc-progress--secondary {
-  @apply bg-secondary-100;
+  @apply bg-secondary-100 dark:bg-secondary-900;
 }
 .pc-progress--info {
-  @apply bg-info-100;
+  @apply bg-info-100 dark:bg-info-900;
 }
 .pc-progress--success {
-  @apply bg-green-100;
+  @apply bg-success-100 dark:bg-success-900;
 }
 .pc-progress--warning {
-  @apply bg-yellow-100;
+  @apply bg-warning-100 dark:bg-warning-900;
 }
 .pc-progress--danger {
-  @apply bg-red-100;
+  @apply bg-danger-100 dark:bg-danger-900;
 }
 .pc-progress--gray {
-  @apply bg-gray-100;
+  @apply bg-gray-100 dark:bg-gray-900;
 }
 .pc-progress__inner--primary {
   @apply bg-primary-500;
@@ -735,13 +813,13 @@
   @apply bg-info-500;
 }
 .pc-progress__inner--success {
-  @apply bg-green-500;
+  @apply bg-success-500;
 }
 .pc-progress__inner--warning {
-  @apply bg-yellow-500;
+  @apply bg-warning-500;
 }
 .pc-progress__inner--danger {
-  @apply bg-red-500;
+  @apply bg-danger-500;
 }
 .pc-progress__inner--gray {
   @apply bg-gray-500;
@@ -768,13 +846,13 @@
   @apply inline-flex items-center justify-center leading-5 px-3.5 py-2 border border-gray-200 dark:border-gray-700;
 }
 .pc-pagination__item__previous {
-  @apply mr-2 inline-flex items-center justify-center rounded leading-5 px-2.5 py-2 bg-white hover:bg-gray-50 dark:bg-gray-900 dark:hover:bg-gray-800 border dark:border-gray-700 border-gray-200 text-gray-600 hover:text-gray-800;
+  @apply mr-2 inline-flex items-center justify-center rounded leading-5 px-2.5 py-2 bg-white enabled:hover:bg-gray-50 dark:bg-gray-900 enabled:dark:hover:bg-gray-800 border dark:border-gray-700 border-gray-200 text-gray-600 enabled:hover:text-gray-800 disabled:opacity-50;
 }
 .pc-pagination__item__previous__chevron {
   @apply w-5 h-5 text-gray-600 dark:text-gray-400;
 }
 .pc-pagination__item__next {
-  @apply ml-2 inline-flex items-center justify-center rounded leading-5 px-2.5 py-2 bg-white hover:bg-gray-50 dark:bg-gray-900 dark:hover:bg-gray-800 dark:border-gray-700 border border-gray-200 text-gray-600 hover:text-gray-800;
+  @apply ml-2 inline-flex items-center justify-center rounded leading-5 px-2.5 py-2 bg-white enabled:hover:bg-gray-50 dark:bg-gray-900 enabled:dark:hover:bg-gray-800 dark:border-gray-700 border border-gray-200 text-gray-600 enabled:hover:text-gray-800 disabled:opacity-50;
 }
 .pc-pagination__item__next__chevron {
   @apply w-5 h-5 text-gray-600 dark:text-gray-400;
@@ -914,16 +992,28 @@
 /* Table */
 
 .pc-table {
-  @apply min-w-full overflow-hidden divide-y divide-gray-200 rounded-sm table-auto ring-1 ring-gray-200 dark:ring-0 dark:divide-y-0 dark:divide-gray-800 sm:rounded;
+  @apply min-w-full overflow-hidden rounded-sm table-auto ring-1 ring-gray-200 dark:ring-gray-800 sm:rounded shadow;
 }
 .pc-table__th {
-  @apply px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-300;
+  @apply px-6 py-3 text-sm font-semibold tracking-wider text-left text-gray-900 bg-gray-50 dark:bg-gray-800 dark:text-gray-300;
+}
+.pc-table thead {
+  @apply border-b dark:border-gray-800 dark:bg-gray-900;
 }
 .pc-table__tr {
-  @apply bg-white border-b dark:border-gray-700 dark:bg-gray-800 last:border-none;
+  @apply bg-white border-b dark:border-gray-800 dark:bg-gray-900 last:border-none;
+}
+.pc-table__tr--row-click {
+  @apply hover:bg-gray-50 dark:hover:bg-gray-800;
 }
 .pc-table__td {
   @apply px-6 py-4 text-sm text-gray-500 dark:text-gray-400;
+}
+.pc-table__td--first-col {
+  @apply font-semibold;
+}
+.pc-table__td--row-click {
+  @apply hover:cursor-pointer;
 }
 .pc-table__user-inner-td {
   @apply flex items-center gap-3;
@@ -946,7 +1036,7 @@
 .pc-accordion-item--first {
   @apply rounded-t-xl;
 }
-.pc-accordion-item--last {
+.pc-accordion-item--all-except-last {
   @apply border-b-0;
 }
 .pc-accordion-item__heading {
@@ -969,15 +1059,17 @@
 }
 
 /* Modal */
-
+.pc-modal {
+  @apply relative z-50;
+}
 .pc-modal__overlay {
-  @apply fixed inset-0 z-50 transition-opacity bg-gray-900 animate-fade-in dark:bg-gray-900 bg-opacity-30 dark:bg-opacity-70;
+  @apply fixed inset-0 z-50 transition-opacity bg-gray-50/90 dark:bg-gray-900/90;
 }
 .pc-modal__wrapper {
   @apply fixed inset-0 z-50 flex items-center justify-center px-4 my-4 overflow-hidden transform sm:px-6;
 }
 .pc-modal__box {
-  @apply w-full max-h-full overflow-auto bg-white rounded shadow-lg animate-fade-in-scale dark:bg-gray-800;
+  @apply w-full max-h-full overflow-auto bg-white shadow-lg rounded-xl dark:bg-gray-800;
 }
 .pc-modal__box--sm {
   @apply max-w-sm;
@@ -1010,7 +1102,7 @@
   @apply text-gray-400 hover:text-gray-500;
 }
 .pc-modal__header__close-svg {
-  @apply w-4 h-4 fill-current;
+  @apply w-5 h-5 fill-current;
 }
 .pc-modal__content {
   @apply p-5;
@@ -1073,13 +1165,75 @@
   @apply ml-1 text-base font-bold text-gray-700 dark:text-gray-300;
 }
 .pc-rating__star--filled {
-  @apply w-5 h-5 fill-yellow-500;
+  @apply w-5 h-5 fill-warning-500;
 }
 .pc-rating__star--half {
-  @apply w-5 h-5 fill-yellow-500;
+  @apply w-5 h-5 fill-warning-500;
 }
 .pc-rating__star--empty {
   @apply w-5 h-5 fill-gray-400 dark:fill-gray-500;
+}
+
+/* Menu */
+
+.pc-vertical-menu {
+  @apply flex flex-col gap-5;
+}
+
+.pc-vertical-menu-item__icon {
+  @apply flex-shrink-0 w-5 h-5;
+}
+
+.pc-vertical-menu-item {
+  @apply flex items-center w-full gap-3 px-3 py-2 text-sm font-semibold leading-none transition duration-200 rounded-md;
+}
+
+.pc-vertical-menu-item--active {
+  @apply text-primary-700 dark:text-primary-400 bg-gray-50 dark:bg-gray-800;
+}
+
+.pc-vertical-menu-item--inactive {
+  @apply text-gray-700 hover:bg-gray-50 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white dark:hover:bg-gray-700;
+}
+
+.pc-vertical-menu__menu-group__wrapper {
+  @apply divide-y divide-gray-300;
+}
+
+.pc-vertical-menu__menu-group {
+  @apply space-y-1;
+}
+
+.pc-vertical-menu__menu-group__title {
+  @apply pl-3 mb-3 text-xs font-semibold leading-6 text-gray-400 uppercase;
+}
+
+.pc-vertical-menu-item__label {
+  @apply flex-1;
+}
+
+.pc-vertical-menu-item__toggle-label {
+  @apply flex-1 text-left;
+}
+
+.pc-vertical-menu-item__toggle-chevron__icon {
+  @apply w-3 h-3 ml-2 transition duration-200 transform;
+}
+
+.pc-vertical-menu-item__toggle-chevron__wrapper {
+  @apply relative inline-block;
+}
+
+.pc-vertical-menu-item__submenu-wrapper {
+  @apply mt-1 ml-3 space-y-1;
+}
+
+.pc-vertical-menu-item__icon--active {
+  @apply flex-shrink-0 w-5 h-5;
+}
+
+.pc-vertical-menu-item__icon--inactive {
+  @apply flex-shrink-0 w-5 h-5;
 }
 
 /* Other */
@@ -1090,60 +1244,22 @@
 }
 
 label.has-error:not(.phx-no-feedback) {
-  @apply !text-red-900 dark:!text-red-200;
+  @apply !text-danger-900 dark:!text-danger-200;
 }
 
 textarea.has-error:not(.phx-no-feedback),
-input.has-error:not(.phx-no-feedback),
+input.has-error:not(.phx-no-feedback):not(:checked),
 select.has-error:not(.phx-no-feedback) {
-  @apply !border-red-500 focus:!border-red-500 !text-red-900 !placeholder-red-700 !bg-red-50 dark:!text-red-100 dark:!placeholder-red-300 dark:!bg-red-900 focus:!ring-red-500;
+  @apply !border-danger-500 focus:!border-danger-500 !text-danger-900 !placeholder-danger-700 !bg-danger-50 dark:!text-danger-100 dark:!placeholder-danger-300 dark:!bg-danger-900 focus:!ring-danger-500;
 }
 
 input[type="file_input"].has-error:not(.phx-no-feedback) {
-  @apply !border-red-500 !rounded-md focus:!border-red-500 !text-red-900 !placeholder-red-700 !bg-red-50 file:!border-none dark:!border-none dark:!bg-[#160B0B] dark:text-red-400;
-}
-
-input[type="checkbox"].has-error:not(.phx-no-feedback) {
-  @apply !border-red-500 !bg-red-500 dark:!bg-red-800 !text-red-900 dark:!text-red-200;
-}
-
-input[type="radio"].has-error:not(.phx-no-feedback) {
-  @apply !border-red-500 !bg-red-500 dark:!bg-red-800 !text-red-900 dark:!text-red-200;
+  @apply !border-danger-500 !rounded-md focus:!border-danger-500 !text-danger-900 !placeholder-danger-700 !bg-danger-50 file:!border-none dark:!border-none dark:!bg-gray-950 dark:text-danger-400;
 }
 
 /* If in tailwind.config.json, darkMode: 'class', use this: */
 .dark ::-webkit-calendar-picker-indicator {
   filter: invert(1);
-}
-
-/* Modal animation */
-
-.animate-fade-in-scale {
-  animation: 0.2s ease-in 0s normal forwards 1 fade-in-scale-keys;
-}
-
-.animate-fade-in {
-  animation: 0.2s ease-out 0s normal forwards 1 fade-in-keys;
-}
-
-@keyframes fade-in-scale-keys {
-  0% {
-    scale: 0.95;
-    opacity: 0;
-  }
-  100% {
-    scale: 1;
-    opacity: 1;
-  }
-}
-
-@keyframes fade-in-keys {
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-  }
 }
 
 /* Needed for Alpine JS */

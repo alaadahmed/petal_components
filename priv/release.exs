@@ -28,6 +28,14 @@ defmodule Releaser.VersionUtils do
 
         git push origin main
         git push --tags
+
+  5. Create release on Github https://github.com/petalframework/petal_components/releases/new
+
+  6. Announce (optional):
+
+  - Tweet
+  - Elixir forum post: https://elixirforum.com/t/petal-components-package-a-set-of-tailwind-styled-components-written-in-heex/43633/63
+  - Reddit: https://reddit.com/r/elixir
   """
   @version_line_regex ~r/(\n\s*@version\s+")([^\n]+)("\n)/
 
@@ -126,7 +134,9 @@ defmodule Releaser.Changelog do
 
     """
     #{header_prefix} #{version_string} - #{date_time_string}
+
     #{text}
+
     """
   end
 
@@ -155,7 +165,7 @@ defmodule Releaser.Git do
   def add_commit_and_tag(version) do
     version_string = VersionUtils.version_to_string(version)
     Mix.Shell.IO.cmd("git add .", [])
-    Mix.Shell.IO.cmd(~s'git commit -m "Bumped version number"')
+    Mix.Shell.IO.cmd(~s'git commit -m "v#{version_string}"')
     Mix.Shell.IO.cmd(~s'git tag -a v#{version_string} -m "Version #{version_string}"')
   end
 end

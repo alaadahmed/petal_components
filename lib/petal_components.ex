@@ -2,27 +2,31 @@ defmodule PetalComponents do
   defmacro __using__(_) do
     quote do
       import PetalComponents.{
+        Accordion,
         Alert,
+        Avatar,
         Badge,
+        Breadcrumbs,
         Button,
+        Card,
         Container,
         Dropdown,
+        Field,
         Form,
-        Loading,
-        Typography,
-        Avatar,
-        Progress,
-        Breadcrumbs,
-        Pagination,
+        Icon,
+        Input,
         Link,
+        Loading,
         Modal,
-        SlideOver,
-        Tabs,
-        Card,
-        Table,
-        Accordion,
+        Pagination,
+        Progress,
         Rating,
-        Icon
+        SlideOver,
+        Table,
+        Tabs,
+        Typography,
+        UserDropdownMenu,
+        Menu
       }
 
       alias PetalComponents.HeroiconsV1

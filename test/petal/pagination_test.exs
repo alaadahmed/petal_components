@@ -344,6 +344,17 @@ defmodule PetalComponents.PaginationTest do
     refute html =~ "/page/0"
   end
 
+  test "previous shows on page 1 as disabled if show boundary chevrons true" do
+    assigns = %{}
+
+    html =
+      rendered_to_string(~H"""
+      <.pagination path="/page/:page" total_pages={10} current_page={1} show_boundary_chevrons={true} />
+      """)
+
+    assert html =~ "button class=\"pc-pagination__item__previous\" disabled"
+  end
+
   test "next doesn't show on last page" do
     assigns = %{}
 
@@ -353,6 +364,17 @@ defmodule PetalComponents.PaginationTest do
       """)
 
     refute html =~ "/page/11"
+  end
+
+  test "next shows on last page as disabled if show boundary chevrons true" do
+    assigns = %{}
+
+    html =
+      rendered_to_string(~H"""
+      <.pagination path="/page/:page" total_pages={10} current_page={10} show_boundary_chevrons={true} />
+      """)
+
+    assert html =~ "button class=\"pc-pagination__item__next\" disabled"
   end
 
   test "show front ellipsis if current page is greater than the boundary count" do
@@ -479,5 +501,58 @@ defmodule PetalComponents.PaginationTest do
 
     assert html =~ "/page/2"
     assert html =~ "/page/3"
+  end
+
+  test "event option will generate 'phx-' attributes" do
+    assigns = %{}
+
+    html =
+      rendered_to_string(~H"""
+      <.pagination event={true} total_pages={3} current_page={1} />
+      """)
+
+    refute html =~ "/page/2"
+    refute html =~ "/page/3"
+
+    assert html =~ "goto-page"
+    assert html =~ "phx-value-page=\"2\""
+    assert html =~ "phx-value-page=\"3\""
+    refute html =~ "phx-target"
+  end
+
+  test "target option with event option will generate 'phx-target' attribute" do
+    assigns = %{}
+
+    html =
+      rendered_to_string(~H"""
+      <.pagination event={true} target="some-component-id" total_pages={3} current_page={1} />
+      """)
+
+    assert html =~ "phx-target"
+  end
+
+  test "target option without event option won't generate 'phx-target' attribute" do
+    assigns = %{}
+
+    html =
+      rendered_to_string(~H"""
+      <.pagination target="some-component-id" total_pages={3} current_page={1} />
+      """)
+
+    refute html =~ "phx-target"
+  end
+
+  test "accept an encoded path URI to work with phoenix sigil_p and path with dynamics params" do
+    assigns = %{
+      params: %{"filter" => "test", "page" => ":page"}
+    }
+
+    html =
+      rendered_to_string(~H"""
+      <.pagination path={"/page?#{URI.encode_query(@params)}"} total_pages={2} current_page={1} />
+      """)
+
+    assert html =~ "filter=test"
+    assert html =~ "page=2"
   end
 end
