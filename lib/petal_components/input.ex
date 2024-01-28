@@ -13,7 +13,7 @@ defmodule PetalComponents.Input do
   attr :type, :string,
     default: "text",
     values: ~w(checkbox color date datetime-local email file hidden month number password
-               range radio radio_group search select switch tel text textarea time url week)
+               range radio search select switch tel text textarea time url week)
 
   attr :field, Phoenix.HTML.FormField,
     doc: "a form field struct retrieved from the form, for example: @form[:email]"
@@ -26,7 +26,7 @@ defmodule PetalComponents.Input do
 
   attr :rest, :global,
     include:
-      ~w(autocomplete disabled form max maxlength min minlength list
+      ~w(autocomplete autocorrect autocapitalize disabled form max maxlength min minlength list
     pattern placeholder readonly required size step value name multiple prompt selected default year month day hour minute second builder options layout cols rows wrap checked accept)
 
   def input(%{field: %Phoenix.HTML.FormField{} = field} = assigns) do
@@ -36,14 +36,14 @@ defmodule PetalComponents.Input do
       if assigns.multiple, do: field.name <> "[]", else: field.name
     end)
     |> assign_new(:value, fn -> field.value end)
-    |> assign_new(:label, fn -> Phoenix.HTML.Form.humanize(field.field) end)
+    |> assign_new(:label, fn -> PhoenixHTMLHelpers.Form.humanize(field.field) end)
     |> assign(class: [assigns.class, get_class_for_type(assigns.type)])
     |> input()
   end
 
   def input(%{type: "select"} = assigns) do
     ~H"""
-    <select id={@id} name={@name} class="pc-text-input" multiple={@multiple} {@rest}>
+    <select id={@id} name={@name} class={[@class, "pc-text-input"]} multiple={@multiple} {@rest}>
       <option :if={@prompt} value=""><%= @prompt %></option>
       <%= Phoenix.HTML.Form.options_for_select(@options, @value) %>
     </select>
@@ -52,7 +52,7 @@ defmodule PetalComponents.Input do
 
   def input(%{type: "textarea"} = assigns) do
     ~H"""
-    <textarea id={@id} name={@name} class="pc-text-input" {@rest}><%= Phoenix.HTML.Form.normalize_value("textarea", @value) %></textarea>
+    <textarea id={@id} name={@name} class={[@class, "pc-text-input"]} {@rest}><%= Phoenix.HTML.Form.normalize_value("textarea", @value) %></textarea>
     """
   end
 

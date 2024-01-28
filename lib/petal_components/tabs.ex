@@ -3,28 +3,14 @@ defmodule PetalComponents.Tabs do
 
   alias PetalComponents.Link
 
-  import PetalComponents.Helpers
-
   attr(:underline, :boolean, default: false, doc: "underlines your tabs")
-  attr(:class, :string, default: "", doc: "CSS class")
+  attr(:class, :any, default: "", doc: "CSS class")
   attr(:rest, :global)
   slot(:inner_block, required: false)
 
   def tabs(assigns) do
     ~H"""
-    <div
-      {@rest}
-      class={
-        build_class(
-          [
-            "pc-tabs",
-            if(@underline, do: "pc-tabs--underline", else: ""),
-            @class
-          ],
-          " "
-        )
-      }
-    >
+    <div {@rest} class={["pc-tabs", @underline && "pc-tabs--underline", @class]}>
       <%= render_slot(@inner_block) %>
     </div>
     """
@@ -40,8 +26,9 @@ defmodule PetalComponents.Tabs do
 
   attr(:to, :string, default: nil, doc: "link path")
   attr(:number, :integer, default: nil, doc: "indicates a number next to your tab")
-  attr(:underline, :boolean, default: false, doc: "underlines your your tab")
+  attr(:underline, :boolean, default: false, doc: "underlines your tab")
   attr(:is_active, :boolean, default: false, doc: "indicates the current tab")
+  attr(:disabled, :boolean, default: false, doc: "disables your tab")
   attr(:rest, :global, include: ~w(method download hreflang ping referrerpolicy rel target type))
   slot(:inner_block, required: false)
 
@@ -51,7 +38,8 @@ defmodule PetalComponents.Tabs do
       link_type={@link_type}
       label={@label}
       to={@to}
-      class={"#{get_tab_class(@is_active, @underline)} #{@class}"}
+      class={get_tab_class(@is_active, @underline) ++ [@class]}
+      disabled={@disabled}
       {@rest}
     >
       <%= if @number do %>
@@ -76,7 +64,7 @@ defmodule PetalComponents.Tabs do
         do: "pc-tab__pill--is-active",
         else: "pc-tab__pill--is-not-active"
 
-    build_class([base_classes, active_classes])
+    [base_classes, active_classes]
   end
 
   # Underline CSS
@@ -93,7 +81,7 @@ defmodule PetalComponents.Tabs do
         do: "pc-tab__underline--with-underline-and-is-active",
         else: "pc-tab__underline--with-underline-and-is-not-active"
 
-    build_class([base_classes, active_classes, underline_classes])
+    [base_classes, active_classes, underline_classes]
   end
 
   # Underline
@@ -110,7 +98,7 @@ defmodule PetalComponents.Tabs do
         do: "pc-tab__number__underline--with-underline-and-is-active",
         else: "pc-tab__number__underline--with-underline-and-is-not-active"
 
-    build_class([base_classes, active_classes, underline_classes])
+    [base_classes, active_classes, underline_classes]
   end
 
   # Pill
@@ -122,6 +110,6 @@ defmodule PetalComponents.Tabs do
         do: "pc-tab__number__pill--is-active",
         else: "pc-tab__number__pill--is-not-active"
 
-    build_class([base_classes, active_classes])
+    [base_classes, active_classes]
   end
 end

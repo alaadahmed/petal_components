@@ -1,4 +1,177 @@
 # Changelog
+### 1.9.0 - 2024-01-27 23:11:33
+
+- <.vertical_menu> - add support for liveview JS (thanks to @mrdotb)
+- <.table> - now supports dynamic data and col slots
+
+### 1.8.0 - 2024-01-15 04:38:46
+
+- Updated deps
+- Use new PhoenixHTMLHelpers lib
+- Fix bug where the close_modal event gets sent twice to the LiveView if you push_patch from the close_modal handle_event in the LiveView - thanks @axelclark
+
+
+### 1.7.1 - 2023-11-06 23:11:51
+
+- Fix form_field switch class bug [#275]
+- Vertical menu items no longer require an icon
+
+### 1.7.0 - 2023-10-14 00:57:34
+
+- Added close_on_click_away to `<.slide_over>` (thx @samuelpordeus)
+- Added close_on_escape to `<.slide_over>` (thx @samuelpordeus)
+- Added fade in transition to `<.slide_over>`
+- Cleaned up classes in codebase (deprecated build_class)
+
+### 1.6.2 - 2023-10-03 18:39:33
+
+- Default loading spinner to shrink-0 to enforce its size
+
+### 1.6.1 - 2023-10-02 19:24:14
+
+- Add pagination attribute allowing always shown prev and next buttons
+- Pagination support encoded path
+- icon-support-to-breadcrumb-link
+
+### 1.6.0 - 2023-09-23 07:55:44
+
+- Fix: <.button disabled> where link_type not "button" now shows proper cursor and isn't clickable
+- Fix: <.a> now uses <.link> underneath to avoid warnings with live_view 0.20.0
+- Update: live_view bumped to 0.20.0
+
+### 1.5.5 - 2023-09-18 02:15:19
+
+- adds an attribute to `hide_close_button` in the modal header
+
+### 1.5.4 - 2023-09-13 04:05:32
+
+- Changed close icon svg to Heroicons
+
+### 1.5.3 - 2023-09-11 03:53:22
+
+- Allow configurability of menu icons active/inactive state + test
+
+### 1.5.2 - 2023-09-09 01:04:37
+
+- Added BEM classnames for menu components
+
+### 1.5.1 - 2023-09-06 04:55:54
+
+- Add `disabled` attribute to Tab component
+
+### 1.5.0 - 2023-09-05 04:05:44
+
+- New high-contrast `dark` button color
+- Breaking change: please update Tailwind in config.exs to `3.3.3` then run `mix tailwind.install`
+
+### 1.4.9 - 2023-09-04 03:03:18
+
+- Add target attribute for sending pagination events to LiveComponents
+
+### 1.4.8 - 2023-08-24 02:56:03
+
+- Add `close_on_click_away` attr on modal [Issue 253)[https://github.com/petalframework/petal_components/pull/253]
+- Add `close_on_escape` on modal
+
+### 1.4.7 - 2023-08-24 02:18:04
+
+- Added type=button to close modal button
+
+### 1.4.6 - 2023-08-20 22:12:28
+
+- Added support for disabled attribute on dropdown menu items
+
+### 1.4.5 - 2023-08-13 22:23:12
+
+- Added type=button to close slide over button
+
+### 1.4.4 - 2023-08-08 02:02:15
+
+- Fix: Icon button setting info to primary + test
+
+### 1.4.3 - 2023-08-04 02:12:44
+
+- input can now be passed a class attribute
+
+### 1.4.2 - 2023-08-04 01:45:24
+
+- Add option to send events in pagination component
+
+### 1.4.1 - 2023-07-28 10:32:02
+
+- Added support for styling last accordion item
+- Added checked_value and unchecked_value to switch global rest
+
+### 1.4.0 - 2023-07-26 03:14:50
+
+- Updated accordion class name from "pc-accordion-item--last" to "pc-accordion-item--all-except-last"
+
+### 1.3.0 - 2023-07-21 08:00:47
+
+- New: <.vertical_menu> component
+- New: <.user_dropdown_menu> component
+
+### 1.2.14 - 2023-07-16 02:42:07
+
+- Fix: Modal phx-remove call to hide_modal
+- New: form fields now show a red asterisk for required fields
+
+### 1.2.13 - 2023-06-30 03:32:59
+
+- Updated: button can accept a "form" attribute
+
+### 1.2.12 - 2023-06-26 23:24:23
+
+- Improvement: file input looks better in dark mode
+
+### 1.2.11 - 2023-06-07 00:18:05
+
+- Fix: allow checkbox/radio labels to support links. eg. `<.field type="checkbox" field={@form[:checkbox]} label={raw(~s|Please accept these <a href="#" class="text-blue-500">Terms and Conditions</a> before continuing|)} />`
+
+### 1.2.10 - 2023-06-05 02:06:55
+
+- Bumped phoenix_live_view dep to 0.19
+
+### 1.2.9 - 2023-06-01 02:35:12
+
+- Updated: add empty_message attr to `<.field>` (`<.field type="checkbox-group|radio_group" empty_message="No options">`)
+- Fixed: `<.field type="switch">` not providing a `false` value when unchecked
+
+### 1.2.8 - 2023-05-27 05:03:40
+
+- Add light button variant for dark mode friendliness
+
+### 1.2.7 - 2023-05-27 03:34:33
+
+- Fixed radio-group value not being checked for integers
+
+### 1.2.6 - 2023-05-26 01:45:26
+
+- Fix radio-group checked options for <.field>
+- Fix select selected options
+
+### 1.2.5 - 2023-05-20 00:34:56
+
+- Fix: <.field type="textarea" rows="1"> - rows for textarea are now overridable
+
+### 1.2.4 - 2023-05-17 04:38:50
+
+- Fixed button with icon (reverted tooltip)
+
+### 1.2.3 - 2023-05-17 03:52:29
+
+- Updated: Move custom css classes to last so they can potentially override default ones (button, loading)
+- Added: `tooltip` option to `<.button>`
+
+### 1.2.2 - 2023-05-17 02:26:44
+
+- Updated: checkbox_group now supports `disabled_options` attr
+
+### 1.2.1 - 2023-05-16 02:56:56
+
+- Fixed transitions on modal
+- Updated `<.field>` to take a `label_class` attr
+
 ### 1.2.0 - 2023-05-11 10:15:53
 
 - Breaking change: `<.field type="checkbox_group">` is now `<.field type="checkbox-group">` (to match `datetime-local`)

@@ -15,6 +15,7 @@ defmodule PetalComponents.FieldTest do
           itemid="something"
           value="John"
           help_text="Help text"
+          label_class="label-class"
         />
       </.form>
       """)
@@ -32,6 +33,7 @@ defmodule PetalComponents.FieldTest do
     assert html =~ "!w-max"
     assert html =~ ~s|value="John"|
     assert html =~ "Help text"
+    assert html =~ "label-class"
   end
 
   test "field as text with field errors" do
@@ -157,6 +159,9 @@ defmodule PetalComponents.FieldTest do
     assert html =~ "user[read_terms]"
     assert html =~ "phx-feedback-for"
     assert html =~ "itemid"
+
+    # It includes a hidden field for when the switch is not checked
+    assert html =~ ~s|<input type="hidden" name="user[read_terms]" value="false">|
   end
 
   test "field select" do
@@ -185,6 +190,26 @@ defmodule PetalComponents.FieldTest do
     assert html =~ "custom-class"
   end
 
+  test "field select selected attributes" do
+    assigns = %{form: to_form(%{}, as: :user)}
+
+    html =
+      rendered_to_string(~H"""
+      <.form for={@form}>
+        <.field
+          type="select"
+          class="custom-class"
+          field={@form[:role]}
+          options={[Admin: "admin", User: "user"]}
+          itemid="something"
+          selected="admin"
+        />
+      </.form>
+      """)
+
+    assert html =~ "option selected"
+  end
+
   test "field textarea" do
     assigns = %{form: to_form(%{}, as: :user)}
 
@@ -197,6 +222,7 @@ defmodule PetalComponents.FieldTest do
           field={@form[:description]}
           itemid="something"
           placeholder="dummy text"
+          rows="8"
         />
       </.form>
       """)
@@ -208,6 +234,7 @@ defmodule PetalComponents.FieldTest do
     assert html =~ "phx-feedback-for"
     assert html =~ "dummy text"
     assert html =~ "custom-class"
+    assert html =~ "rows=\"8\""
   end
 
   test "field checkbox-group" do
@@ -234,6 +261,26 @@ defmodule PetalComponents.FieldTest do
     refute html =~ " checked "
     assert html =~ "hidden"
     assert html =~ "custom-class"
+  end
+
+  test "field checkbox-group disabled_options" do
+    assigns = %{form: to_form(%{}, as: :user)}
+
+    html =
+      rendered_to_string(~H"""
+      <.form for={@form}>
+        <.field
+          type="checkbox-group"
+          field={@form[:roles]}
+          options={[{"Option 1", "1"}, {"Option 2", "2"}, {"Option 3", "3"}]}
+          disabled_options={["1", "3"]}
+        />
+      </.form>
+      """)
+
+    assert html =~ "disabled"
+    count_disabled = length(String.split(html, "disabled")) - 1
+    assert count_disabled == 2
   end
 
   test "field checkbox-group checked" do
@@ -304,6 +351,42 @@ defmodule PetalComponents.FieldTest do
     assert html =~ "pc-checkbox-group--row"
   end
 
+  test "field checkbox-group empty options" do
+    assigns = %{form: to_form(%{}, as: :user)}
+
+    html =
+      rendered_to_string(~H"""
+      <.form for={@form}>
+        <.field
+          type="checkbox-group"
+          checked={["read"]}
+          field={@form[:roles]}
+          options={[]}
+          empty_message="No options"
+        />
+      </.form>
+      """)
+
+    assert html =~ "No options"
+
+    assigns = %{form: to_form(%{}, as: :user)}
+
+    html =
+      rendered_to_string(~H"""
+      <.form for={@form}>
+        <.field
+          type="checkbox-group"
+          checked={["read"]}
+          field={@form[:roles]}
+          options={[{"Read", "read"}, {"Write", "write"}]}
+          empty_message="No options"
+        />
+      </.form>
+      """)
+
+    refute html =~ "No options"
+  end
+
   test "field radio-group" do
     assigns = %{form: to_form(%{}, as: :user)}
 
@@ -330,6 +413,96 @@ defmodule PetalComponents.FieldTest do
     assert html =~ "custom-class"
   end
 
+  test "field radio-group checked on form field" do
+    assigns = %{form: to_form(%{"roles" => "write"}, as: :user)}
+
+    html =
+      rendered_to_string(~H"""
+      <.form for={@form}>
+        <.field
+          class="custom-class"
+          type="radio-group"
+          field={@form[:roles]}
+          options={[{"Read", "read"}, {"Write", "write"}]}
+        />
+      </.form>
+      """)
+
+    assert html =~ ~s|value="write" checked|
+
+    # Test when value is an integer
+    assigns = %{form: to_form(%{"roles" => 2}, as: :user)}
+
+    html =
+      rendered_to_string(~H"""
+      <.form for={@form}>
+        <.field
+          class="custom-class"
+          type="radio-group"
+          field={@form[:roles]}
+          options={[{"Read", "1"}, {"Write", "2"}]}
+        />
+      </.form>
+      """)
+
+    assert html =~ ~s|value="2" checked|
+  end
+
+  test "field radio-group checked attr" do
+    assigns = %{form: to_form(%{}, as: :user)}
+
+    html =
+      rendered_to_string(~H"""
+      <.form for={@form}>
+        <.field
+          class="custom-class"
+          type="radio-group"
+          field={@form[:roles]}
+          checked="write"
+          options={[{"Read", "read"}, {"Write", "write"}]}
+        />
+      </.form>
+      """)
+
+    assert html =~ ~s|value="write" checked|
+  end
+
+  test "field radio-group empty options" do
+    assigns = %{form: to_form(%{}, as: :user)}
+
+    html =
+      rendered_to_string(~H"""
+      <.form for={@form}>
+        <.field
+          class="custom-class"
+          type="radio-group"
+          field={@form[:roles]}
+          options={[]}
+          empty_message="No options"
+        />
+      </.form>
+      """)
+
+    assert html =~ "No options"
+
+    assigns = %{form: to_form(%{}, as: :user)}
+
+    html =
+      rendered_to_string(~H"""
+      <.form for={@form}>
+        <.field
+          class="custom-class"
+          type="radio-group"
+          field={@form[:roles]}
+          options={[{"Read", "read"}, {"Write", "write"}]}
+          empty_message="No options"
+        />
+      </.form>
+      """)
+
+    refute html =~ "No options"
+  end
+
   test "field switch" do
     assigns = %{form: to_form(%{}, as: :user)}
 
@@ -344,6 +517,9 @@ defmodule PetalComponents.FieldTest do
     assert html =~ "user[read_terms]"
     assert html =~ "phx-feedback-for"
     assert html =~ "data-extra"
+
+    # It includes a hidden field for when the switch is not checked
+    assert html =~ ~s|<input type="hidden" name="user[read_terms]" value="false">|
   end
 
   test "field radio group" do
@@ -398,5 +574,72 @@ defmodule PetalComponents.FieldTest do
       """)
 
     refute html =~ "pc-form-help-text"
+  end
+
+  test "required fields" do
+    assigns = %{form: to_form(%{}, as: :user)}
+
+    html =
+      rendered_to_string(~H"""
+      <.form for={@form}>
+        <.field required type="textarea" field={@form[:textarea]} />
+        <.field required type="text" field={@form[:text]} />
+        <.field required type="switch" field={@form[:switch]} />
+        <.field required type="checkbox" field={@form[:checkbox]} />
+        <.field required type="color" field={@form[:color]} />
+        <.field required type="date" field={@form[:date]} />
+        <.field required type="datetime-local" field={@form[:datetime_local]} />
+        <.field required type="email" field={@form[:email]} />
+        <.field required type="file" field={@form[:file]} />
+        <.field required type="month" field={@form[:month]} />
+        <.field required type="number" field={@form[:number]} />
+        <.field required type="password" field={@form[:password]} />
+        <.field required type="range" field={@form[:range]} />
+        <.field required type="search" field={@form[:search]} />
+        <.field required type="tel" field={@form[:tel]} />
+        <.field required type="time" field={@form[:time]} />
+        <.field required type="url" field={@form[:url]} />
+        <.field required type="week" field={@form[:week]} />
+        <.field required type="select" field={@form[:select]} options={["1"]} />
+        <.field required type="checkbox-group" field={@form[:checkbox_group]} options={["1"]} />
+        <.field required type="radio-group" field={@form[:radio_group]} options={["1"]} />
+      </.form>
+      """)
+
+    assert count_substring(html, "pc-label--required") == 21
+
+    # Check for setting the `required` attribute on the element
+    # We check for 19 because `checkbox-group` and `radio-group` have multiple inputs so we don't put `required` on any of them
+    assert count_substring(html, " required") == 19
+
+    html =
+      rendered_to_string(~H"""
+      <.form for={@form}>
+        <.field type="textarea" field={@form[:textarea]} />
+        <.field type="text" field={@form[:text]} />
+        <.field type="switch" field={@form[:switch]} />
+        <.field type="checkbox" field={@form[:checkbox]} />
+        <.field type="color" field={@form[:color]} />
+        <.field type="date" field={@form[:date]} />
+        <.field type="datetime-local" field={@form[:datetime_local]} />
+        <.field type="email" field={@form[:email]} />
+        <.field type="file" field={@form[:file]} />
+        <.field type="month" field={@form[:month]} />
+        <.field type="number" field={@form[:number]} />
+        <.field type="password" field={@form[:password]} />
+        <.field type="range" field={@form[:range]} />
+        <.field type="search" field={@form[:search]} />
+        <.field type="tel" field={@form[:tel]} />
+        <.field type="time" field={@form[:time]} />
+        <.field type="url" field={@form[:url]} />
+        <.field type="week" field={@form[:week]} />
+        <.field type="select" field={@form[:select]} options={["1"]} />
+        <.field type="checkbox-group" field={@form[:checkbox_group]} options={["1"]} />
+        <.field type="radio-group" field={@form[:radio_group]} options={["1"]} />
+      </.form>
+      """)
+
+    assert count_substring(html, "pc-label--required") == 0
+    assert count_substring(html, " required") == 0
   end
 end

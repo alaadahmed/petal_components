@@ -133,6 +133,23 @@ defmodule PetalComponents.ButtonTest do
     refute html =~ "tooltip"
   end
 
+  test "icon button with color" do
+    colors = ~w(primary secondary success danger warning info gray)
+
+    Enum.each(colors, fn color ->
+      assigns = %{color: color}
+
+      html =
+        rendered_to_string(~H"""
+        <.icon_button color={@color}>
+          <Heroicons.clock />
+        </.icon_button>
+        """)
+
+      assert html =~ "pc-icon-button-bg--#{color}"
+    end)
+  end
+
   test "icon button with tooltip" do
     assigns = %{}
 
@@ -189,8 +206,32 @@ defmodule PetalComponents.ButtonTest do
       <.button disabled link_type="live_redirect" label="Home" />
       """)
 
-    assert html =~ ~s{href="#"}
     assert html =~ " disabled"
+    refute html =~ "href"
     refute html =~ " phx-"
+  end
+
+  test "rest attrs" do
+    assigns = %{}
+
+    html =
+      rendered_to_string(~H"""
+      <.button
+        label="Home"
+        method="x"
+        download="x"
+        hreflang="x"
+        ping="x"
+        referrerpolicy="x"
+        rel="x"
+        target="x"
+        type="x"
+        value="x"
+        name="x"
+        form="x"
+      />
+      """)
+
+    assert html =~ ~s{method="x"}
   end
 end
