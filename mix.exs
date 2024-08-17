@@ -2,7 +2,7 @@ defmodule PetalComponents.MixProject do
   use Mix.Project
 
   @source_url "https://github.com/petalframework/petal_components"
-  @version "1.9.1"
+  @version "1.9.3"
 
   def project do
     [
@@ -20,6 +20,7 @@ defmodule PetalComponents.MixProject do
       ],
       test_coverage: [tool: ExCoveralls],
       preferred_cli_env: [
+        wallaby: :test,
         coveralls: :test,
         "coveralls.detail": :test,
         "coveralls.post": :test,
@@ -42,6 +43,10 @@ defmodule PetalComponents.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
+      {:a11y_audit, "~> 0.1.0", only: :test},
+      {:phoenix_playground, "~> 0.1.4", only: [:dev, :test]},
+      {:websock_adapter, "~> 0.5.6"},
+      {:wallaby, "~> 0.30.9", runtime: false, only: :test},
       {:phoenix, "~> 1.7"},
       {:phoenix_live_view, "~> 0.20"},
       {:phoenix_html, "~> 4.0"},
@@ -49,7 +54,7 @@ defmodule PetalComponents.MixProject do
       {:jason, "~> 1.0", only: [:dev, :test]},
       {:ex_doc, "~> 0.24", only: :dev, runtime: false},
       {:phoenix_ecto, "~> 4.4"},
-      {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
+      {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
       {:excoveralls, "~> 0.10", only: :test},
       {:heroicons, "~> 0.5.3"}
     ]
