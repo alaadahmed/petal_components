@@ -64,6 +64,10 @@ We have a fresh [Phoenix boilerplate template](https://github.com/petalframework
 
 Install our [VSCode extension](https://marketplace.visualstudio.com/items?itemName=petalframework.vscode-petal-components-snippets&ssr=false#overview) to gain access to 65+ snippets for all of the components.
 
+## Official Figma UI kit
+
+We’ve released an [official Figma UI kit for Petal](https://www.figma.com/community/file/1374192831096114078/official-petal-ui-kit). This kit includes all the open source and pro components you need to design your app in Figma.
+
 ## Roadmap
 
 ### Layout
@@ -110,7 +114,6 @@ Install our [VSCode extension](https://marketplace.visualstudio.com/items?itemNa
 - [x] badges
 - [x] progress
 - [x] links
-- [ ] tooltips
 
 ## FAQ
 
@@ -176,3 +179,6 @@ A: Yes! You can customize the components by overriding the CSS classes. For exam
 
 If you'd like to help out we've got a [Phoenix umbrella app](https://github.com/petalframework/petal_development) that allows you to easily contribute to Petal Components (which is installed as a git submodule). If you create a new component then feel free to submit a PR. Ideally one from the roadmap but we're open to any new components that would benefit others!
 
+## Community, Updates & Support
+
+Looking to talk Petal with fellow devs? [Join our great community](https://discord.com/invite/exbwVbjAct) over at our discord. For regular updates, consider signing up to [petal.build](https://petal.build/) and if you have any questions feel free to reach out to us at <support@petal.build>.
