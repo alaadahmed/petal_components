@@ -1,4 +1,192 @@
 # Changelog
+### 3.0.1 - 2025-03-27 01:06:01
+
+- Bumps deps
+
+### 3.0.0 - 2025-03-16 07:38:08
+
+* Release for Tailwind 4
+
+Tailwind 4 introduces breaking changes - the `2.9.x` releases have been deprecated in favour of `v3.0.0`
+
+### 2.9.2 - 2025-03-14 06:46:59
+
+* Correct light button active colour by @mitkins in https://github.com/petalframework/petal_components/pull/418
+
+### 2.9.1 - 2025-03-14 06:16:15
+
+* Tailwind instructions for upgrade guide and README by @mitkins in https://github.com/petalframework/petal_components/pull/416
+* Address CSS anomolies after Tailwind 4 upgrade by @mitkins in https://github.com/petalframework/petal_components/pull/417
+
+### 2.9.0 - 2025-03-11 03:36:55
+
+* Prepare Petal Components for Tailwind 4 by @mitkins in https://github.com/petalframework/petal_components/pull/415
+* Bump phoenix from 1.7.19 to 1.7.20 by @dependabot in https://github.com/petalframework/petal_components/pull/407
+* Bump phoenix_live_view from 1.0.4 to 1.0.5 by @dependabot in https://github.com/petalframework/petal_components/pull/413
+* Bump a11y_audit from 0.2.2 to 0.2.3 by @dependabot in https://github.com/petalframework/petal_components/pull/412
+* Bump ex_doc from 0.37.1 to 0.37.3 by @dependabot in https://github.com/petalframework/petal_components/pull/414
+* Hide the calendar icon in inputs in Firefox. by @r38y in https://github.com/petalframework/petal_components/pull/394
+* Fix hidden `checkbox-group` input name by @IdoLeshkowitz in https://github.com/petalframework/petal_components/pull/405
+
+### 2.8.4 - 2025-02-22 22:04:15
+
+- User Dropdown Menu - `avatar_src` and `current_user_name` are optional by @mitkins in https://github.com/petalframework/petal_components/pull/406
+
+### 2.8.3 - 2025-02-21 22:12:41
+
+- Allow for multiple instances of the `slide_over` component by @mitkins in https://github.com/petalframework/petal_components/pull/404
+- Bump ex_doc from 0.37.0 to 0.37.1 by @dependabot in https://github.com/petalframework/petal_components/pull/403
+
+### 2.8.2 - 2025-02-17 05:41:23
+
+- Workaround for Slide Over and Modal with LiveView 1.0.4
+- Bump to Phoenix LiveView 1.0.4
+
+### 2.8.1 - 2024-12-17 01:12:12
+
+- Bumped LiveView to 1.0.1
+- Bumped Phoenix to 1.7.18
+
+### 2.8.0 - 2024-12-11 00:28:11
+
+- Update for forms V1 and V2 to support LiveView 1.0 - https://github.com/petalframework/petal_components/pull/382 (thanks @joepstender for your contribution
+
+### 2.7.4 - 2024-12-04 20:57:07
+
+- Bumped LiveView to 1.0
+- Bumped other deps
+
+### 2.7.3 - 2024-11-29 02:37:33
+
+- fix icon backgrounds on disabled input (finally fixed, whoops)
+
+### 2.7.2 - 2024-11-29 02:26:37
+
+- fix icon backgrounds on disabled input
+
+### 2.7.1 - 2024-11-27 21:34:32
+
+- Add trigger_class prop to target dropdown_with_label base classes
+- Change default dropdown_with_label base classes for dark mode
+
+### 2.7.0 - 2024-11-27 07:50:55
+
+- Add ghost and light color variants to buttons
+- Adds radius opts to buttons and icon_buttons
+- Adds no_margin prop to field_wrapper
+- Fixes custom datetime and time icons bg color on error state
+
+### 2.6.1 - 2024-11-18 02:16:57
+
+- Squashes button_group warnings
+- Fix the date inputs icon overlap in safari
+
+### 2.6.0 - 2024-11-12 02:47:23
+
+- Added Marquee component
+- Added review_card
+- add no_margin to p tags
+- add tests and a11y checks pass
+
+### 2.5.2 - 2024-11-01 02:58:45
+
+- style icon better for cross browser support
+
+### 2.5.1 - 2024-10-31 05:48:51
+
+- update stepper with better responsiveness across vertical and horizontal orientations
+- update input to accept clearable, copyable and viewable
+
+### 2.5.0 - 2024-10-30 02:04:14
+
+- New Stepper component
+- New Radio Card field
+- Adds viewable icon to password field and upgrades date and time icons to heroicons for cleaner look and to facilitate dark mode better
+- Adds copyable and clearable functionality to respective fields
+
+### 2.4.3 - 2024-10-24 00:45:20
+
+- bump default switch size to md
+- fix rendering .alert with HTML fails #361
+
+### 2.4.2 - 2024-10-24 00:08:31
+
+- missing w-full and adds test for pc-accordion--ghost
+
+### 2.4.1 - 2024-10-24 00:00:03
+
+- fix, variant classes not passing through correctly
+
+### 2.4.0 - 2024-10-23 04:13:40
+
+- Allow for different switch sizes and fix some error state colors
+
+### 2.3.0 - 2024-10-21 23:37:49
+
+- Provide more variants for alert and badge (soft) to allow better support for dark mode
+- Bump a11y_audit from 0.2.0 to 0.2.1
+
+### 2.2.1 - 2024-10-18 01:12:17
+
+- Fixes slide over opening animation
+
+### 2.2.0 - 2024-10-07 09:55:16
+
+- Update accordion so that you can set a particular item to be open at render
+
+### 2.1.2 - 2024-10-07 01:52:01
+
+- update button_group to support custom bg and border style props
+
+### 2.1.1 - 2024-10-07 01:08:01
+
+- move button_group classes into default css file
+- update button_group classes
+
+### 2.1.0 - 2024-10-02 03:12:09
+
+- Adds new ghost table variant for extremely clean look
+
+### 2.0.6 - 2024-09-26 04:23:16
+
+- Items center correctly for the Icon Button by @mitkins in https://github.com/petalframework/petal_components/pull/352
+
+### 2.0.5 - 2024-09-25 23:42:23
+
+- implement button_group/1 component by @tylerbarker in https://github.com/petalframework/petal_components/pull/351
+
+### 2.0.4 - 2024-09-23 04:31:51
+
+- Add skeleton css classes to default css to allow for configurability
+
+### 2.0.3 - 2024-09-20 23:45:16
+
+- Fixed margin and dark mode for Avatar placeholder
+
+### 2.0.2 - 2024-09-20 04:06:05
+
+- Fixed: heroicon pattern matching is based on deps folder - rather than dependencies listed for petal_components 
+- Improved error messages for incorrect heroicon names
+
+### 2.0.1 - 2024-09-20 01:48:10
+
+- Ensure css transitions don't cause flaky tests
+- Remove text placeholder from image skeleton to match video skeleton
+
+### 2.0.0 - 2024-09-17 06:59:11
+
+- a11y improvements by @tylerbarker in https://github.com/petalframework/petal_components/pull/331
+- Make Petal Components Accessible by @tylerbarker in https://github.com/petalframework/petal_components/pull/326
+- Aligns .icon with latest heroicon method by @mitkins in https://github.com/petalframework/petal_components/pull/340
+- Generate list of heroicons if the dependency exists by @mitkins in https://github.com/petalframework/petal_components/pull/345
+- Skeleton placeholder to be shown when loading content by @GraphiteSprite in https://github.com/petalframework/petal_components/pull/319
+- Hide dropdown when pressing escape by @RobinBoers in https://github.com/petalframework/petal_components/pull/334
+- Remove `for` attribute in `radio-group` label by @tegon in https://github.com/petalframework/petal_components/pull/333
+- Remove for attribute in checkbox-group label by @mitkins in https://github.com/petalframework/petal_components/pull/336
+- Use `spans` instead of `labels` if there is no `for` attribute by @mitkins in https://github.com/petalframework/petal_components/pull/344
+- Cleanup type of class attrs by @nallwhy in https://github.com/petalframework/petal_components/pull/329
+- Add default_js_lib config by @nallwhy in https://github.com/petalframework/petal_components/pull/335
+
 ### 1.9.3 - 2024-05-27 04:03:39
 
 - Rounds the width of the progress component to 2 decimal places

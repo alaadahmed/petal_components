@@ -2,6 +2,7 @@ defmodule PetalComponents.Dropdown do
   use Phoenix.Component
   alias Phoenix.LiveView.JS
   alias PetalComponents.Link
+  import PetalComponents.Icon
 
   @transition_in_base "transition transform ease-out duration-100"
   @transition_in_start "transform opacity-0 scale-95"
@@ -13,14 +14,18 @@ defmodule PetalComponents.Dropdown do
 
   attr :options_container_id, :string
   attr :label, :string, default: nil, doc: "labels your dropdown option"
-  attr :class, :string, default: "", doc: "any extra CSS class for the parent container"
+  attr :class, :any, default: nil, doc: "any extra CSS class for the parent container"
 
-  attr :menu_items_wrapper_class, :string,
-    default: "",
+  attr :trigger_class, :string,
+    default: nil,
+    doc: "additional classes for the trigger button"
+
+  attr :menu_items_wrapper_class, :any,
+    default: nil,
     doc: "any extra CSS class for menu item wrapper container"
 
   attr :js_lib, :string,
-    default: "alpine_js",
+    default: PetalComponents.default_js_lib(),
     values: ["alpine_js", "live_view_js"],
     doc: "javascript library used for toggling"
 
@@ -33,7 +38,7 @@ defmodule PetalComponents.Dropdown do
   @doc """
     <.dropdown label="Dropdown" js_lib="alpine_js|live_view_js">
       <.dropdown_menu_item link_type="button">
-        <Heroicons.home class="w-5 h-5 text-gray-500" />
+        <.icon name="hero-home" class="w-5 h-5 text-gray-500" />
         Button item with icon
       </.dropdown_menu_item>
       <.dropdown_menu_item link_type="a" to="/" label="a item" />
@@ -56,36 +61,43 @@ defmodule PetalComponents.Dropdown do
       <div>
         <button
           type="button"
-          class={trigger_button_classes(@label, @trigger_element)}
+          class={[
+            trigger_button_classes(@label, @trigger_element),
+            @trigger_class
+          ]}
           {js_attributes("button", @js_lib, @options_container_id)}
           aria-haspopup="true"
         >
           <span class="sr-only">Open options</span>
 
           <%= if @label do %>
-            <%= @label %>
-            <Heroicons.chevron_down solid class="pc-dropdown__chevron" />
+            {@label}
+            <.icon name="hero-chevron-down-solid" class="w-5 h-5 pc-dropdown__chevron" />
           <% end %>
 
           <%= if @trigger_element do %>
-            <%= render_slot(@trigger_element) %>
+            {render_slot(@trigger_element)}
           <% end %>
 
           <%= if !@label && @trigger_element == [] do %>
-            <Heroicons.ellipsis_vertical solid class="pc-dropdown__ellipsis" />
+            <.icon name="hero-ellipsis-vertical-solid" class="w-5 h-5 pc-dropdown__ellipsis" />
           <% end %>
         </button>
       </div>
       <div
         {js_attributes("options_container", @js_lib, @options_container_id)}
-        class={"#{placement_class(@placement)} #{@menu_items_wrapper_class} pc-dropdown__menu-items-wrapper"}
+        class={[
+          placement_class(@placement),
+          @menu_items_wrapper_class,
+          "pc-dropdown__menu-items-wrapper"
+        ]}
         role="menu"
         id={@options_container_id}
         aria-orientation="vertical"
         aria-labelledby="options-menu"
       >
         <div class="py-1" role="none">
-          <%= render_slot(@inner_block) %>
+          {render_slot(@inner_block)}
         </div>
       </div>
     </div>
@@ -94,7 +106,7 @@ defmodule PetalComponents.Dropdown do
 
   attr :to, :string, default: nil, doc: "link path"
   attr :label, :string, doc: "link label"
-  attr :class, :string, default: "", doc: "any additional CSS classes"
+  attr :class, :any, default: nil, doc: "any additional CSS classes"
   attr :disabled, :boolean, default: false
 
   attr :link_type, :string,
@@ -111,9 +123,10 @@ defmodule PetalComponents.Dropdown do
       to={@to}
       class={[@class, "pc-dropdown__menu-item", get_disabled_classes(@disabled)]}
       disabled={@disabled}
+      role="menuitem"
       {@rest}
     >
-      <%= render_slot(@inner_block) || @label %>
+      {render_slot(@inner_block) || @label}
     </Link.a>
     """
   end
@@ -157,12 +170,16 @@ defmodule PetalComponents.Dropdown do
   end
 
   defp js_attributes("container", "live_view_js", options_container_id) do
+    hide =
+      JS.hide(
+        to: "##{options_container_id}",
+        transition: {@transition_out_base, @transition_out_start, @transition_out_end}
+      )
+
     %{
-      "phx-click-away":
-        JS.hide(
-          to: "##{options_container_id}",
-          transition: {@transition_out_base, @transition_out_start, @transition_out_end}
-        )
+      "phx-click-away": hide,
+      "phx-window-keydown": hide,
+      "phx-key": "Escape"
     }
   end
 

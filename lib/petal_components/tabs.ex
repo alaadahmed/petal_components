@@ -4,19 +4,19 @@ defmodule PetalComponents.Tabs do
   alias PetalComponents.Link
 
   attr(:underline, :boolean, default: false, doc: "underlines your tabs")
-  attr(:class, :any, default: "", doc: "CSS class")
+  attr(:class, :any, default: nil, doc: "CSS class")
   attr(:rest, :global)
   slot(:inner_block, required: false)
 
   def tabs(assigns) do
     ~H"""
-    <div {@rest} class={["pc-tabs", @underline && "pc-tabs--underline", @class]}>
-      <%= render_slot(@inner_block) %>
-    </div>
+    <nav {@rest} class={["pc-tabs", @underline && "pc-tabs--underline", @class]} role="tablist">
+      {render_slot(@inner_block)}
+    </nav>
     """
   end
 
-  attr(:class, :string, default: "", doc: "CSS class")
+  attr(:class, :any, default: nil, doc: "CSS class")
   attr(:label, :string, default: nil, doc: "labels your tab")
 
   attr(:link_type, :string,
@@ -40,16 +40,18 @@ defmodule PetalComponents.Tabs do
       to={@to}
       class={get_tab_class(@is_active, @underline) ++ [@class]}
       disabled={@disabled}
+      role="tab"
+      aria-selected={@is_active}
       {@rest}
     >
       <%= if @number do %>
-        <%= render_slot(@inner_block) || @label %>
+        {render_slot(@inner_block) || @label}
 
         <span class={get_tab_number_class(@is_active, @underline)}>
-          <%= @number %>
+          {@number}
         </span>
       <% else %>
-        <%= render_slot(@inner_block) || @label %>
+        {render_slot(@inner_block) || @label}
       <% end %>
     </Link.a>
     """

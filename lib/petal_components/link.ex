@@ -1,7 +1,7 @@
 defmodule PetalComponents.Link do
   use Phoenix.Component
 
-  attr :class, :any, default: "", doc: "CSS class for link (either a string or list)"
+  attr :class, :any, default: nil, doc: "CSS class for link (either a string or list)"
   attr :link_type, :string, default: "a", values: ["a", "live_patch", "live_redirect", "button"]
   attr :label, :string, default: nil, doc: "label your link"
   attr :to, :string, default: nil, doc: "link path"
@@ -18,7 +18,7 @@ defmodule PetalComponents.Link do
 
     ~H"""
     <button class={@class} disabled={@disabled} {@rest}>
-      <%= if @label, do: @label, else: render_slot(@inner_block) %>
+      {if @label, do: @label, else: render_slot(@inner_block)}
     </button>
     """
   end
@@ -31,7 +31,7 @@ defmodule PetalComponents.Link do
   def a(%{link_type: "a"} = assigns) do
     ~H"""
     <.link href={@to} class={@class} {@rest}>
-      <%= if(@label, do: @label, else: render_slot(@inner_block)) %>
+      {if(@label, do: @label, else: render_slot(@inner_block))}
     </.link>
     """
   end
@@ -39,7 +39,7 @@ defmodule PetalComponents.Link do
   def a(%{link_type: "live_patch"} = assigns) do
     ~H"""
     <.link patch={@to} class={@class} {@rest}>
-      <%= if(@label, do: @label, else: render_slot(@inner_block)) %>
+      {if(@label, do: @label, else: render_slot(@inner_block))}
     </.link>
     """
   end
@@ -47,7 +47,7 @@ defmodule PetalComponents.Link do
   def a(%{link_type: "live_redirect"} = assigns) do
     ~H"""
     <.link navigate={@to} class={@class} {@rest}>
-      <%= if(@label, do: @label, else: render_slot(@inner_block)) %>
+      {if(@label, do: @label, else: render_slot(@inner_block))}
     </.link>
     """
   end
@@ -55,7 +55,7 @@ defmodule PetalComponents.Link do
   def a(%{link_type: "button"} = assigns) do
     ~H"""
     <button class={@class} disabled={@disabled} {@rest}>
-      <%= if @label, do: @label, else: render_slot(@inner_block) %>
+      {if @label, do: @label, else: render_slot(@inner_block)}
     </button>
     """
   end

@@ -1,10 +1,12 @@
 defmodule PetalComponents.Avatar do
   use Phoenix.Component
 
+  import PetalComponents.Icon
+
   attr(:src, :string, default: nil, doc: "hosted avatar URL")
   attr(:alt, :string, default: nil, doc: "alt text for avatar image")
   attr(:size, :string, default: "md", values: ["xs", "sm", "md", "lg", "xl"])
-  attr(:class, :string, default: "", doc: "CSS class")
+  attr(:class, :any, default: nil, doc: "CSS class")
   attr(:name, :string, default: nil, doc: "name for placeholder initials")
 
   attr(:random_color, :boolean,
@@ -19,26 +21,30 @@ defmodule PetalComponents.Avatar do
     <%= if src_blank?(@src) && !@name do %>
       <div
         {@rest}
+        role="img"
+        aria-label="user avatar"
         class={[
           "pc-avatar--with-placeholder-icon",
           "pc-avatar--#{@size}",
           @class
         ]}
       >
-        <Heroicons.user solid class="pc-avatar__placeholder-icon" />
+        <.icon name="hero-user-solid" class="pc-avatar__placeholder-icon" />
       </div>
     <% else %>
       <%= if src_blank?(@src) && @name do %>
         <div
           {@rest}
           style={maybe_generate_random_color(@random_color, @name)}
+          role="img"
+          aria-label="user avatar"
           class={[
             "pc-avatar--with-placeholder-initials",
             "pc-avatar--#{@size}",
             @class
           ]}
         >
-          <%= generate_initials(@name) %>
+          {generate_initials(@name)}
         </div>
       <% else %>
         <img
@@ -57,7 +63,7 @@ defmodule PetalComponents.Avatar do
   end
 
   attr(:size, :string, default: "md", values: ["xs", "sm", "md", "lg", "xl"])
-  attr(:class, :string, default: "", doc: "CSS class")
+  attr(:class, :any, default: nil, doc: "CSS class")
   attr(:avatars, :list, default: [], doc: "list of your hosted avatar URLs")
   attr(:rest, :global)
 

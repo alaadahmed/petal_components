@@ -17,7 +17,6 @@ defmodule PetalComponents.FormTest do
     assert html =~ "user[name]"
     assert html =~ "itemid"
     assert html =~ "something"
-    assert html =~ "phx-feedback-for"
     refute html =~ " disabled "
     assert html =~ "pc-text-input"
     assert html =~ "!w-max"
@@ -56,7 +55,6 @@ defmodule PetalComponents.FormTest do
     assert html =~ "user[description]"
     assert html =~ "itemid"
     assert html =~ "placeholder"
-    assert html =~ "phx-feedback-for"
     assert html =~ "dummy text"
   end
 
@@ -75,7 +73,6 @@ defmodule PetalComponents.FormTest do
     assert html =~ "itemid"
     assert html =~ "<option"
     assert html =~ "admin"
-    assert html =~ "phx-feedback-for"
     assert html =~ "Admin"
   end
 
@@ -91,7 +88,6 @@ defmodule PetalComponents.FormTest do
 
     assert html =~ "checkbox"
     assert html =~ "user[read_terms]"
-    assert html =~ "phx-feedback-for"
     assert html =~ "itemid"
   end
 
@@ -111,7 +107,6 @@ defmodule PetalComponents.FormTest do
     assert html =~ "user_roles_write"
     assert html =~ "user[roles][]"
     assert html =~ "Read"
-    assert html =~ "phx-feedback-for"
     assert html =~ "Write"
     refute html =~ "checked"
 
@@ -143,7 +138,6 @@ defmodule PetalComponents.FormTest do
 
     assert html =~ "checkbox"
     assert html =~ "user[read_terms]"
-    assert html =~ "phx-feedback-for"
     assert html =~ "itemid"
     assert html =~ "sr-only"
     assert html =~ "peer"
@@ -163,7 +157,6 @@ defmodule PetalComponents.FormTest do
     assert html =~ "user[eye_color]"
     assert html =~ "green"
     assert html =~ "itemid"
-    assert html =~ "phx-feedback-for"
   end
 
   test "form_label" do
@@ -178,7 +171,6 @@ defmodule PetalComponents.FormTest do
 
     assert html =~ "label"
     assert html =~ "Name"
-    assert html =~ "phx-feedback-for"
     assert html =~ "text-pink-500"
 
     html =
@@ -222,7 +214,8 @@ defmodule PetalComponents.FormTest do
             errors: [
               name: {"can't be blank", [validation: :required]},
               name: {"too long", [validation: :required]}
-            ]
+            ],
+            params: %{"name" => ""}
           }
         }
       >
@@ -231,9 +224,70 @@ defmodule PetalComponents.FormTest do
       """)
 
     assert html =~ "pc-form-field-error"
-    assert html =~ "phx-feedback-for"
     assert html =~ "blank"
     assert html =~ "too long"
+  end
+
+  test "Unedited form_field with error does not show errors" do
+    assigns = %{}
+
+    html =
+      rendered_to_string(~H"""
+      <.form
+        :let={f}
+        as={:user}
+        for={
+          %Ecto.Changeset{
+            action: :update,
+            data: %{password: ""},
+            errors: [
+              password: {"can't be blank", [validation: :required]}
+            ],
+            # Simulate user only interacted with email field
+            params: %{
+              "_unused_password" => ""
+            }
+          }
+        }
+      >
+        <.form_field type="password_input" form={f} field={:password} />
+      </.form>
+      """)
+
+    # Password field (unused) should not show error
+    refute html =~ "has-error"
+    refute html =~ "can&#39;t be blank"
+  end
+
+  test "Edited form_field with error shows errors" do
+    assigns = %{}
+
+    html =
+      rendered_to_string(~H"""
+      <.form
+        :let={f}
+        as={:user}
+        for={
+          %Ecto.Changeset{
+            action: :update,
+            data: %{password: ""},
+            errors: [
+              password: {"can't be blank", [validation: :required]}
+            ],
+            # Simulate user only interacted with email field
+            params: %{
+              "password" => ""
+            }
+          }
+        }
+      >
+        <.form_field type="password_input" form={f} field={:password} />
+      </.form>
+      """)
+
+    # Password field (unused) should not show error
+    assert html =~ "has-error"
+    assert html =~ "can&#39;t be blank"
   end
 
   test "form_help_text" do
@@ -284,7 +338,8 @@ defmodule PetalComponents.FormTest do
             errors: [
               name: {"can't be blank", [validation: :required]},
               name: {"too long", [validation: :required]}
-            ]
+            ],
+            params: %{"name" => ""}
           }
         }
       >
@@ -305,7 +360,7 @@ defmodule PetalComponents.FormTest do
     assert html =~ "John"
     assert html =~ "too long"
     assert html =~ "blank"
-    assert html =~ "<div class=\"wrapper-test\" phx-feedback-for=\"user[name]\">"
+    assert html =~ "<div class=\"wrapper-test\">"
     assert html =~ "Help!"
   end
 
@@ -315,14 +370,7 @@ defmodule PetalComponents.FormTest do
     html =
       rendered_to_string(~H"""
       <.form :let={f} as={:user} for={%Ecto.Changeset{action: :update, data: %{name: ""}}}>
-        <.form_field
-          type="text_input"
-          form={f}
-          field={:name}
-          placeholder="eg. John"
-          label_class="label-class-test"
-          help_text="Help!"
-        />
+        <.form_field type="text_input" form={f} field={:name} label_class="label-class-test" />
       </.form>
       """)
 
@@ -344,7 +392,8 @@ defmodule PetalComponents.FormTest do
             errors: [
               name: {"can't be blank", [validation: :required]},
               name: {"too long", [validation: :required]}
-            ]
+            ],
+            params: %{"name" => ""}
           }
         }
       >
@@ -361,6 +410,145 @@ defmodule PetalComponents.FormTest do
     assert html =~ "pc-form-field-wrapper"
     assert html =~ "pc-text-input"
     assert html =~ "w-max"
+  end
+
+  test "form_fields generate appropriate label and inputs" do
+    assigns = %{}
+
+    html =
+      rendered_to_string(~H"""
+      <.form :let={f} as={:user} for={%{}}>
+        <.form_field type="text_input" form={f} field={:name} />
+      </.form>
+      """)
+
+    assert Floki.find(html, "label.pc-label") != []
+    assert Floki.find(html, "input[type='text']") != []
+
+    html =
+      rendered_to_string(~H"""
+      <.form :let={f} for={%{}} as={:user}>
+        <.form_field type="time_input" form={f} field={:name} />
+      </.form>
+      """)
+
+    assert Floki.find(html, "label.pc-label") != []
+    assert Floki.find(html, "input[type='time']") != []
+
+    html =
+      rendered_to_string(~H"""
+      <.form :let={f} for={%{}} as={:user}>
+        <.form_field
+          type="checkbox_group"
+          form={f}
+          field={:roles}
+          options={[{"Read", "read"}, {"Write", "write"}]}
+        />
+      </.form>
+      """)
+
+    assert Floki.find(html, "span.pc-label") != []
+    assert Floki.find(html, "input[type='checkbox']") != []
+
+    html =
+      rendered_to_string(~H"""
+      <.form :let={f} for={%{}} as={:user}>
+        <.form_field
+          type="radio_group"
+          form={f}
+          field={:roles}
+          options={[{"Read", "read"}, {"Write", "write"}]}
+        />
+      </.form>
+      """)
+
+    assert Floki.find(html, "span.pc-label") != []
+    assert Floki.find(html, "input[type='radio']") != []
+
+    html =
+      rendered_to_string(~H"""
+      <.form :let={f} for={%{}} as={:user}>
+        <.form_field type="time_select" form={f} field={:time} />
+      </.form>
+      """)
+
+    assert Floki.find(html, "span.pc-label") != []
+    html =~ "<select"
+
+    html =
+      rendered_to_string(~H"""
+      <.form :let={f} for={%{}} as={:user}>
+        <.form_field type="datetime_select" form={f} field={:date_time} />
+      </.form>
+      """)
+
+    assert Floki.find(html, "span.pc-label") != []
+    html =~ "<select"
+
+    html =
+      rendered_to_string(~H"""
+      <.form :let={f} for={%{}} as={:user}>
+        <.form_field type="datetime_local_input" form={f} field={:date_time} />
+      </.form>
+      """)
+
+    assert Floki.find(html, "label.pc-label") != []
+    assert Floki.find(html, "input[type='datetime-local']") != []
+
+    html =
+      rendered_to_string(~H"""
+      <.form :let={f} for={%{}} as={:user}>
+        <.form_field type="date_select" form={f} field={:date} />
+      </.form>
+      """)
+
+    assert Floki.find(html, "span.pc-label") != []
+    html =~ "<select"
+
+    # Date input
+    html =
+      rendered_to_string(~H"""
+      <.form :let={f} for={%{}} as={:user}>
+        <.form_field type="date_input" form={f} field={:date} />
+      </.form>
+      """)
+
+    assert Floki.find(html, "label.pc-label") != []
+    assert Floki.find(html, "input[type='date']") != []
+  end
+
+  test "form_field checkbox_group label" do
+    assigns = %{}
+
+    html =
+      rendered_to_string(~H"""
+      <.form :let={f} for={%{}} as={:user}>
+        <.form_field
+          type="checkbox_group"
+          form={f}
+          field={:roles}
+          options={[{"Read", "read"}, {"Write", "write"}]}
+        />
+      </.form>
+      """)
+
+    assert html =~ "span"
+    assert html =~ "Roles"
+
+    html =
+      rendered_to_string(~H"""
+      <.form :let={f} for={%{}} as={:user}>
+        <.form_field
+          type="checkbox_group"
+          form={f}
+          field={:roles}
+          label="Something else"
+          options={[{"Read", "read"}, {"Write", "write"}]}
+        />
+      </.form>
+      """)
+
+    assert html =~ "Something else"
   end
 
   test "form_field checkbox label" do
@@ -400,7 +588,6 @@ defmodule PetalComponents.FormTest do
     assert html =~ "user[name]"
     assert html =~ "itemid"
     assert html =~ "something"
-    assert html =~ "phx-feedback-for"
   end
 
   test "email_input" do
@@ -418,7 +605,6 @@ defmodule PetalComponents.FormTest do
     assert html =~ "user[name]"
     assert html =~ "itemid"
     assert html =~ "something"
-    assert html =~ "phx-feedback-for"
   end
 
   test "password_input" do
@@ -436,7 +622,6 @@ defmodule PetalComponents.FormTest do
     assert html =~ "user[name]"
     assert html =~ "itemid"
     assert html =~ "something"
-    assert html =~ "phx-feedback-for"
   end
 
   test "search_input" do
@@ -454,7 +639,6 @@ defmodule PetalComponents.FormTest do
     assert html =~ "user[name]"
     assert html =~ "itemid"
     assert html =~ "something"
-    assert html =~ "phx-feedback-for"
   end
 
   test "telephone_input" do
@@ -472,7 +656,6 @@ defmodule PetalComponents.FormTest do
     assert html =~ "user[name]"
     assert html =~ "itemid"
     assert html =~ "something"
-    assert html =~ "phx-feedback-for"
   end
 
   test "url_input" do
@@ -490,7 +673,6 @@ defmodule PetalComponents.FormTest do
     assert html =~ "user[name]"
     assert html =~ "itemid"
     assert html =~ "something"
-    assert html =~ "phx-feedback-for"
   end
 
   test "time_input" do
@@ -508,7 +690,6 @@ defmodule PetalComponents.FormTest do
     assert html =~ "user[name]"
     assert html =~ "itemid"
     assert html =~ "something"
-    assert html =~ "phx-feedback-for"
   end
 
   test "time_select" do
@@ -540,7 +721,6 @@ defmodule PetalComponents.FormTest do
     assert html =~ "user[name]"
     assert html =~ "itemid"
     assert html =~ "something"
-    assert html =~ "phx-feedback-for"
   end
 
   test "datetime_select" do
@@ -586,7 +766,6 @@ defmodule PetalComponents.FormTest do
     assert html =~ "user[name]"
     assert html =~ "itemid"
     assert html =~ "something"
-    assert html =~ "phx-feedback-for"
   end
 
   test "color_input" do
@@ -604,7 +783,6 @@ defmodule PetalComponents.FormTest do
     assert html =~ "user[name]"
     assert html =~ "itemid"
     assert html =~ "something"
-    assert html =~ "phx-feedback-for"
   end
 
   test "file_input" do
@@ -623,7 +801,6 @@ defmodule PetalComponents.FormTest do
     assert html =~ "itemid"
     assert html =~ "something"
     assert html =~ "pc-file-input"
-    assert html =~ "phx-feedback-for"
   end
 
   test "range_input" do
@@ -641,7 +818,6 @@ defmodule PetalComponents.FormTest do
     assert html =~ "user[name]"
     assert html =~ "itemid"
     assert html =~ "something"
-    assert html =~ "phx-feedback-for"
   end
 
   test "hidden_input" do

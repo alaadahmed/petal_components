@@ -99,14 +99,14 @@ defmodule PetalComponents.ModalTest do
       <.modal></.modal>
       """)
 
-    assert html =~ "<svg"
+    assert find_icon(html)
 
     html =
       rendered_to_string(~H"""
       <.modal hide_close_button></.modal>
       """)
 
-    refute html =~ "<svg"
+    refute find_icon(html)
   end
 
   test "class" do
@@ -117,13 +117,13 @@ defmodule PetalComponents.ModalTest do
       <.modal class="h-full"></.modal>
       """)
 
-    assert html =~ "\"pc-modal__box--md pc-modal__box h-full\""
+    assert html =~ "\"hidden pc-modal__box pc-modal__box--md h-full\""
 
     html =
       rendered_to_string(~H"""
       <.modal></.modal>
       """)
 
-    assert html =~ "\"pc-modal__box--md pc-modal__box \""
+    assert html =~ "\"hidden pc-modal__box pc-modal__box--md \""
   end
 end

@@ -22,9 +22,6 @@
   <a href="https://opensource.org/licenses/MIT" alt="MIT">
     <img src="https://img.shields.io/badge/license-MIT-green" />
   </a>
-  <a href="https://codecov.io/gh/petalframework/petal_components" >
-    <img src="https://codecov.io/gh/petalframework/petal_components/branch/main/graph/badge.svg?token=47KQGJOT1G"/>
-  </a>
 </p>
 
 <p align="center">
@@ -97,7 +94,7 @@ We’ve released an [official Figma UI kit for Petal](https://www.figma.com/comm
 - [x] change color
 - [x] loading state (with spinner)
 - [x] filled vs outline
-- [ ] button group
+- [x] button group
 
 ### Misc
 - [x] menu dropdown
@@ -137,43 +134,43 @@ alias PetalComponents.Button
 ```
 
 **Q: Does this increase my CSS filesize?**
-A: Tailwind will scan any folders you specify and hoover up CSS classes from files to include in your final CSS file. You specify the folders in `tailwind.config.js`. By default, we instruct you to just scan the whole Petal Components library:
+A: Tailwind will scan any folders you specify and hoover up CSS classes from files to include in your final CSS file. You specify the folders in `assets/app.css`. By default, we instruct you to just scan the whole Petal Components library:
 
-```js
-const colors = require("tailwindcss/colors");
+```css
+@import "tailwindcss";
 
-module.exports = {
-  purge: [
-    "../lib/*_web/**/*.*ex",
-    "./js/**/*.js",
+@source "../deps/petal_components/**/*.*ex";
+@import "../deps/petal_components/assets/default.css";
 
-    // We need to include the Petal dependency so the classes get picked up by JIT.
-    "../deps/petal_components/**/*.*ex"
-  ],
-
-  ... rest of file omitted
+... rest of file omitted
 ```
 
 You might be worried that if you don't use every component you'll have unused CSS classes. But we believe it's so small it won't matter. Our petal.build site's CSS file totals just 25kb.
 
 If you really want to you can instruct Tailwind to just scan the components you use:
 
-```
-"../deps/petal_components/lib/button.ex",
-"../deps/petal_components/lib/alert.ex",
+```css
+@source "../deps/petal_components/lib/button.ex",
+@source "../deps/petal_components/lib/alert.ex",
 ```
 
 **Q: Can I customize the components?**
 A: Yes! You can customize the components by overriding the CSS classes. For example, if you want to change the color of the button you can do this:
 
 ```css
-.pc-button {
-  @apply inline-flex items-center justify-center font-semibold tracking-wider uppercase transition duration-150 ease-in-out border-2 rounded-none focus:outline-none;
-}
-.pc-button--primary {
-  @apply text-black border-black bg-primary-400 hover:bg-primary-700 focus:bg-primary-700 active:bg-primary-800 focus:shadow-primary-500/50;
+@layer components {
+  .pc-button {
+    @apply inline-flex items-center justify-center font-semibold tracking-wider uppercase transition duration-150 ease-in-out border-2 rounded-none focus:outline-hidden;
+  }
+  .pc-button--primary {
+    @apply text-black border-black bg-primary-400 hover:bg-primary-700 focus:bg-primary-700 active:bg-primary-800 focus:shadow-primary-500/50;
+  }
 }
 ```
+
+## Suggestions
+
+If you have a suggestion for a new component, you can add it here on [our roadmap](https://petal.build/components/roadmap).
 
 ## Contributing
 

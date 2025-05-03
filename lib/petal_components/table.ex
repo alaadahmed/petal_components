@@ -15,7 +15,8 @@ defmodule PetalComponents.Table do
       </.table>
   """
   attr :id, :string
-  attr :class, :string, default: "", doc: "CSS class"
+  attr :class, :any, default: nil, doc: "CSS class"
+  attr :variant, :string, default: "basic", values: ["ghost", "basic"]
   attr :rows, :list, default: [], doc: "the list of rows to render"
   attr :row_id, :any, default: nil, doc: "the function for generating the row id"
   attr :row_click, :any, default: nil, doc: "the function for handling phx-click on each row"
@@ -26,13 +27,13 @@ defmodule PetalComponents.Table do
 
   slot :col do
     attr :label, :string
-    attr :class, :string
-    attr :row_class, :string
+    attr :class, :any
+    attr :row_class, :any
   end
 
   slot :empty_state,
     doc: "A message to show when the table is empty, to be used together with :col" do
-    attr :row_class, :string
+    attr :row_class, :any
   end
 
   attr :rest, :global, include: ~w(colspan rowspan)
@@ -46,83 +47,85 @@ defmodule PetalComponents.Table do
     assigns = assign_new(assigns, :id, fn -> "table_#{Ecto.UUID.generate()}" end)
 
     ~H"""
-    <table class={["pc-table", @class]} {@rest}>
-      <%= if length(@col) > 0 do %>
+    <table class={["pc-table--#{@variant}", @class]} {@rest}>
+      <%= if @col != [] do %>
         <thead>
           <.tr>
-            <.th :for={col <- @col} class={col[:class]}><%= col[:label] %></.th>
+            <.th :for={col <- @col} class={col[:class]}>{col[:label]}</.th>
           </.tr>
         </thead>
         <tbody id={@id} phx-update={match?(%Phoenix.LiveView.LiveStream{}, @rows) && "stream"}>
-          <%= if length(@empty_state) > 0 do %>
-            <.tr class="hidden only:table-row">
-              <.td
-                :for={empty_state <- @empty_state}
-                colspan={length(@col)}
-                class={empty_state[:row_class]}
-              >
-                <%= render_slot(empty_state) %>
-              </.td>
-            </.tr>
-          <% end %>
+          <.tr :if={@empty_state != []} id={@id <> "-empty"} class="hidden only:table-row">
+            <.td
+              :for={empty_state <- @empty_state}
+              colspan={length(@col)}
+              class={empty_state[:row_class]}
+            >
+              {render_slot(empty_state)}
+            </.td>
+          </.tr>
           <.tr
             :for={row <- @rows}
             id={@row_id && @row_id.(row)}
-            class={"group #{if @row_click, do: "pc-table__tr--row-click", else: ""}"}
+            class={["group", @row_click && "pc-table__tr--row-click"]}
           >
             <.td
               :for={{col, i} <- Enum.with_index(@col)}
               phx-click={@row_click && @row_click.(row)}
-              class={"#{if @row_click, do: "pc-table__td--row-click", else: ""} #{if i == 0, do: "pc-table__td--first-col", else: ""} #{if col[:row_class], do: col[:row_class], else: ""}"}
+              class={[
+                @row_click && "pc-table__td--row-click",
+                i == 0 && "pc-table__td--first-col",
+                col[:row_class] && col[:row_class]
+              ]}
             >
-              <%= render_slot(col, @row_item.(row)) %>
+              {render_slot(col, @row_item.(row))}
             </.td>
           </.tr>
         </tbody>
       <% else %>
-        <%= render_slot(@inner_block) %>
+        {render_slot(@inner_block)}
       <% end %>
     </table>
     """
   end
 
-  attr(:class, :string, default: "", doc: "CSS class")
+  attr(:class, :any, default: nil, doc: "CSS class")
   attr(:rest, :global, include: ~w(colspan rowspan))
   slot(:inner_block, required: false)
 
   def th(assigns) do
     ~H"""
     <th class={["pc-table__th", @class]} {@rest}>
-      <%= render_slot(@inner_block) %>
+      {render_slot(@inner_block)}
     </th>
     """
   end
 
-  attr(:class, :string, default: "", doc: "CSS class")
+  attr(:class, :any, default: nil, doc: "CSS class")
   attr(:rest, :global)
   slot(:inner_block, required: false)
 
   def tr(assigns) do
     ~H"""
     <tr class={["pc-table__tr", @class]} {@rest}>
-      <%= render_slot(@inner_block) %>
+      {render_slot(@inner_block)}
     </tr>
     """
   end
 
-  attr(:class, :string, default: "", doc: "CSS class")
+  attr(:class, :any, default: nil, doc: "CSS class")
   attr(:rest, :global, include: ~w(colspan headers rowspan))
   slot(:inner_block, required: false)
 
   def td(assigns) do
     ~H"""
     <td class={["pc-table__td", @class]} {@rest}>
-      <%= render_slot(@inner_block) %>
+      {render_slot(@inner_block)}
     </td>
     """
   end
 
-  attr(:class, :any, default: "", doc: "CSS class")
+  attr(:class, :any, default: nil, doc: "CSS class")
   attr(:label, :string, default: nil, doc: "Adds a label your user, e.g name")
   attr(:sub_label, :string, default: nil, doc: "Adds a sub-label your to your user, e.g title")
   attr(:rest, :global)
@@ -142,10 +145,10 @@ defmodule PetalComponents.Table do
 
         <div class="pc-table__user-inner-td__inner">
           <div class="pc-table__user-inner-td__label">
-            <%= @label %>
+            {@label}
           </div>
           <div class="pc-table__user-inner-td__sub-label">
-            <%= @sub_label %>
+            {@sub_label}
           </div>
         </div>
       </div>

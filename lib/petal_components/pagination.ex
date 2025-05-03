@@ -7,9 +7,10 @@ defmodule PetalComponents.Pagination do
   import PetalComponents.PaginationInternal
 
   alias PetalComponents.Link
+  import PetalComponents.Icon
 
   attr :path, :string, default: "/:page", doc: "page path"
-  attr :class, :string, default: "", doc: "parent div CSS class"
+  attr :class, :any, default: nil, doc: "parent div CSS class"
 
   attr :link_type, :string,
     default: "a",
@@ -43,7 +44,7 @@ defmodule PetalComponents.Pagination do
 
   def pagination(assigns) do
     ~H"""
-    <div {@rest} class={"#{@class} pc-pagination"}>
+    <div {@rest} class={["pc-pagination", @class]}>
       <ul class="pc-pagination__inner">
         <%= for item <- get_pagination_items(@total_pages, @current_page, @sibling_count, @boundary_count) do %>
           <%= if item.type == "prev" and (item.enabled? or @show_boundary_chevrons) do %>
@@ -57,7 +58,7 @@ defmodule PetalComponents.Pagination do
                 class="pc-pagination__item__previous"
                 disabled={!item.enabled?}
               >
-                <Heroicons.chevron_left solid class="pc-pagination__item__previous__chevron" />
+                <.icon name="hero-chevron-left-solid" class="pc-pagination__item__previous__chevron" />
               </Link.a>
             </div>
           <% end %>
@@ -65,7 +66,7 @@ defmodule PetalComponents.Pagination do
           <%= if item.type == "page" do %>
             <li>
               <%= if item.current? do %>
-                <span class={get_box_class(item)}><%= item.number %></span>
+                <span class={get_box_class(item)}>{item.number}</span>
               <% else %>
                 <Link.a
                   phx-click={if @event, do: "goto-page"}
@@ -75,7 +76,7 @@ defmodule PetalComponents.Pagination do
                   to={if not @event, do: get_path(@path, item.number, @current_page)}
                   class={get_box_class(item)}
                 >
-                  <%= item.number %>
+                  {item.number}
                 </Link.a>
               <% end %>
             </li>
@@ -100,7 +101,7 @@ defmodule PetalComponents.Pagination do
                 class="pc-pagination__item__next"
                 disabled={!item.enabled?}
               >
-                <Heroicons.chevron_right solid class="pc-pagination__item__next__chevron" />
+                <.icon name="hero-chevron-right-solid" class="pc-pagination__item__next__chevron" />
               </Link.a>
             </div>
           <% end %>

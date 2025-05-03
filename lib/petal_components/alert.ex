@@ -1,13 +1,21 @@
 defmodule PetalComponents.Alert do
   use Phoenix.Component
+  alias PetalComponents.Helpers
+  import PetalComponents.Icon
 
   attr(:color, :string,
     default: "info",
     values: ["info", "success", "warning", "danger"]
   )
 
+  attr(:variant, :string,
+    default: "light",
+    values: ["light", "soft", "dark", "outline"],
+    doc: "The variant of the alert"
+  )
+
   attr(:with_icon, :boolean, default: false, doc: "adds some icon base classes")
-  attr(:class, :any, default: "", doc: "CSS class for parent div")
+  attr(:class, :any, default: nil, doc: "CSS class for parent div")
   attr(:heading, :string, default: nil, doc: "label your heading")
   attr(:label, :string, default: nil, doc: "label your alert")
   attr(:rest, :global)
@@ -23,10 +31,18 @@ defmodule PetalComponents.Alert do
     assigns =
       assigns
       |> assign(:classes, alert_classes(assigns))
+      |> assign(:heading_id, Helpers.uniq_id(assigns.heading || "alert-heading"))
+      |> assign(:label_id, Helpers.uniq_id(assigns.label || "alert-label"))
 
     ~H"""
     <%= unless label_blank?(@label, @inner_block) do %>
-      <div {@rest} class={@classes}>
+      <div
+        {@rest}
+        class={@classes}
+        role="dialog"
+        aria-labelledby={(@heading && @heading_id) || @label_id}
+        aria-describedby={@label_id}
+      >
         <%= if @with_icon do %>
           <div class="pc-alert__icon-container">
             <.get_icon color={@color} />
@@ -37,22 +53,22 @@ defmodule PetalComponents.Alert do
           <div class="pc-alert__inner">
             <div>
               <%= if @heading do %>
-                <div class="pc-alert__heading">
-                  <%= @heading %>
-                </div>
+                <h2 id={@heading_id} class="pc-alert__heading">
+                  {@heading}
+                </h2>
               <% end %>
 
-              <div class="pc-alert__label">
-                <%= render_slot(@inner_block) || @label %>
+              <div id={@label_id} class="pc-alert__label">
+                {render_slot(@inner_block) || @label}
               </div>
             </div>
 
             <%= if @close_button_properties do %>
               <button
-                class={["pc-alert__dismiss-button", get_dismiss_icon_classes(@color)]}
+                class={["pc-alert__dismiss-button", get_dismiss_icon_classes(@color, @variant)]}
                 {@close_button_properties}
               >
-                <Heroicons.x_mark solid class="self-start w-4 h-4" />
+                <.icon name="hero-x-mark-solid" class="self-start w-4 h-4" />
               </button>
             <% end %>
           </div>
@@ -65,61 +81,46 @@ defmodule PetalComponents.Alert do
   defp alert_classes(opts) do
     opts = %{
       color: opts[:color] || "info",
+      variant: opts[:variant] || "light",
       class: opts[:class] || ""
     }
 
     base_classes = "pc-alert-base-classes"
-    color_css = get_color_classes(opts.color)
+    color_css = get_color_classes(opts.color, opts.variant)
     custom_classes = opts.class
 
     [base_classes, color_css, custom_classes]
   end
 
-  defp get_color_classes("info"),
-    do: "pc-alert--info"
+  defp get_color_classes(color, variant) do
+    "pc-alert--#{color}-#{variant}"
+  end
 
-  defp get_color_classes("success"),
-    do: "pc-alert--success"
-
-  defp get_color_classes("warning"),
-    do: "pc-alert--warning"
-
-  defp get_color_classes("danger"),
-    do: "pc-alert--danger"
-
-  defp get_dismiss_icon_classes("info"),
-    do: "pc-alert__dismiss-button--info"
-
-  defp get_dismiss_icon_classes("success"),
-    do: "pc-alert__dismiss-button--success"
-
-  defp get_dismiss_icon_classes("warning"),
-    do: "pc-alert__dismiss-button--warning"
-
-  defp get_dismiss_icon_classes("danger"),
-    do: "pc-alert__dismiss-button--danger"
+  defp get_dismiss_icon_classes(color, variant) do
+    "pc-alert__dismiss-button--#{color}-#{variant}"
+  end
 
   defp get_icon(%{color: "info"} = assigns) do
     ~H"""
-    <Heroicons.information_circle />
+    <.icon name="hero-information-circle" />
     """
   end
 
   defp get_icon(%{color: "success"} = assigns) do
     ~H"""
-    <Heroicons.check_circle />
+    <.icon name="hero-check-circle" />
     """
   end
 
   defp get_icon(%{color: "warning"} = assigns) do
     ~H"""
-    <Heroicons.exclamation_circle />
+    <.icon name="hero-exclamation-circle" />
     """
   end
 
   defp get_icon(%{color: "danger"} = assigns) do
     ~H"""
-    <Heroicons.x_circle />
+    <.icon name="hero-x-circle" />
     """
   end
 
